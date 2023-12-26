@@ -1,0 +1,6 @@
+@NutriApp.Server_HostAddress = http://localhost:5269
+
+GET {{NutriApp.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

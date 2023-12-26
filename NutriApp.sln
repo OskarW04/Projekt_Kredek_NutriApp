@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NutriApp.Server", "NutriApp.Server\NutriApp.Server.csproj", "{DC17E4FC-B2F1-46E2-91D4-34323A41DCDB}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "nutriapp.client", "nutriapp.client\nutriapp.client.esproj", "{A93E5753-A4C1-4BFC-89F9-A2EF60020716}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DC17E4FC-B2F1-46E2-91D4-34323A41DCDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC17E4FC-B2F1-46E2-91D4-34323A41DCDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC17E4FC-B2F1-46E2-91D4-34323A41DCDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC17E4FC-B2F1-46E2-91D4-34323A41DCDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A93E5753-A4C1-4BFC-89F9-A2EF60020716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A93E5753-A4C1-4BFC-89F9-A2EF60020716}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A93E5753-A4C1-4BFC-89F9-A2EF60020716}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A93E5753-A4C1-4BFC-89F9-A2EF60020716}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A93E5753-A4C1-4BFC-89F9-A2EF60020716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A93E5753-A4C1-4BFC-89F9-A2EF60020716}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {89C51EB6-8775-4926-8DC6-4C7F4EF90BEB}
+	EndGlobalSection
+EndGlobal
