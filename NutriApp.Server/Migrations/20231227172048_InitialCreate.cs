@@ -282,8 +282,7 @@ namespace NutriApp.Server.Migrations
                         name: "FK_DishApiProducts_Dishes_DishId",
                         column: x => x.DishId,
                         principalTable: "Dishes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_DishApiProducts_ProductApiUrls_ApiProductInfoId",
                         column: x => x.ApiProductInfoId,
@@ -333,8 +332,7 @@ namespace NutriApp.Server.Migrations
                         name: "FK_DishProducts_Dishes_DishId",
                         column: x => x.DishId,
                         principalTable: "Dishes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_DishProducts_Products_ProductId",
                         column: x => x.ProductId,

@@ -551,7 +551,7 @@ namespace NutriApp.Server.Migrations
                     b.HasOne("NutriApp.Server.DataAccess.Entities.Dishes.Dish", "Dish")
                         .WithMany("DishApiProducts")
                         .HasForeignKey("DishId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("ApiProductInfo");
@@ -564,7 +564,7 @@ namespace NutriApp.Server.Migrations
                     b.HasOne("NutriApp.Server.DataAccess.Entities.Dishes.Dish", "Dish")
                         .WithMany("DishProducts")
                         .HasForeignKey("DishId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("NutriApp.Server.DataAccess.Entities.Products.Product", "Product")

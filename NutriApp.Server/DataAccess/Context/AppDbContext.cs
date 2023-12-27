@@ -44,11 +44,6 @@ namespace NutriApp.Server.DataAccess.Context
                 .WithOne(x => x.DailyMealPlan)
                 .HasForeignKey(x => x.DailyMealPlanId);
 
-            // builder.Entity<Meal>()
-            //     .HasOne(x => x.DailyMealPlan)
-            //     .WithMany(x => x.Meals)
-            //     .HasForeignKey(x => x.DailyMealPlanId);
-
             builder.Entity<Meal>()
                 .HasOne(x => x.Dish)
                 .WithMany(x => x.Meals)
@@ -64,20 +59,17 @@ namespace NutriApp.Server.DataAccess.Context
                 .WithMany(x => x.Dishes)
                 .HasForeignKey(x => x.UserId);
 
-            // builder.Entity<Dish>()
-            //     .HasMany(x => x.Meals)
-            //     .WithOne(x => x.Dish)
-            //     .HasForeignKey(x => x.DishId);
-
             builder.Entity<Dish>()
                 .HasMany(x => x.DishProducts)
                 .WithOne(x => x.Dish)
-                .HasForeignKey(x => x.DishId);
+                .HasForeignKey(x => x.DishId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Dish>()
                 .HasMany(x => x.DishApiProducts)
                 .WithOne(x => x.Dish)
-                .HasForeignKey(x => x.DishId);
+                .HasForeignKey(x => x.DishId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Product>()
                 .HasMany(x => x.DishProducts)
@@ -89,30 +81,10 @@ namespace NutriApp.Server.DataAccess.Context
                 .WithMany(x => x.Products)
                 .HasForeignKey(x => x.UserId);
 
-            // builder.Entity<DishProducts>()
-            //     .HasOne(x => x.Dish)
-            //     .WithMany(x => x.DishProducts)
-            //     .HasForeignKey(x => x.DishId);
-            //
-            // builder.Entity<DishProducts>()
-            //     .HasOne(x => x.Product)
-            //     .WithMany(x => x.DishProducts)
-            //     .HasForeignKey(x => x.ProductId);
-
             builder.Entity<ApiProductInfo>()
                 .HasMany(x => x.DishApiProducts)
                 .WithOne(x => x.ApiProductInfo)
                 .HasForeignKey(x => x.ApiProductInfoId);
-
-            // builder.Entity<DishApiProducts>()
-            //     .HasOne(x => x.Dish)
-            //     .WithMany(x => x.DishApiProducts)
-            //     .HasForeignKey(x => x.DishId);
-            //
-            // builder.Entity<DishApiProducts>()
-            //     .HasOne(x => x.ApiProductInfo)
-            //     .WithMany(x => x.DishApiProducts)
-            //     .HasForeignKey(x => x.ApiProductInfoId);
 
 
             base.OnModelCreating(builder);
