@@ -1,3 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using NutriApp.Server.DataAccess.Context;
+using NutriApp.Server.DataAccess.Entities.User;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +12,27 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// app db context
+builder.Services.AddDbContext<AppDbContext>(
+    opt => opt.UseSqlServer(
+        builder.Configuration.GetConnectionString("AppDbConnection")
+    )
+);
+
+builder.Services.AddIdentityCore<User>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddApiEndpoints();
+
+// auth
+// builder.Services.AddAuthentication(IdentityConstants.BearerScheme).AddBearerToken();
+builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+    .AddIdentityCookies();
+builder.Services.AddAuthorizationBuilder();
+
 var app = builder.Build();
+
+// identity endpoints
+app.MapIdentityApi<User>();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
