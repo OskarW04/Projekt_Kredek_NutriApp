@@ -8,8 +8,8 @@ namespace NutriApp.Server.DataAccess.Entities.User
 {
     public class User : IdentityUser
     {
-        [MaxLength(256)] public string Name { get; set; } = default!;
-        [MaxLength(256)] public string LastName { get; set; } = default!;
+        [MaxLength(256)] public string? Name { get; set; } = default!;
+        [MaxLength(256)] public string? LastName { get; set; } = default!;
         public DateTime AccountCreationDate { get; set; } = DateTime.Now;
 
         public virtual UserDetails? UserDetails { get; set; }

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NutriApp.Server.DataAccess.Context;
@@ -24,10 +25,12 @@ builder.Services.AddIdentityCore<User>()
     .AddApiEndpoints();
 
 // auth
-// builder.Services.AddAuthentication(IdentityConstants.BearerScheme).AddBearerToken();
-builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
-    .AddIdentityCookies();
+builder.Services.AddAuthentication()
+    .AddBearerToken(IdentityConstants.BearerScheme);
+
 builder.Services.AddAuthorizationBuilder();
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -45,6 +48,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
