@@ -1,8 +1,13 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NutriApp.Server.DataAccess.Context;
 using NutriApp.Server.DataAccess.Entities.User;
+using NutriApp.Server.Middleware;
+using NutriApp.Server.Repositories;
+using NutriApp.Server.Repositories.Interfaces;
+using NutriApp.Server.Services;
+using NutriApp.Server.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +37,39 @@ builder.Services.AddAuthorizationBuilder();
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddHttpContextAccessor();
+
+// Middleware
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
+builder.Services.AddScoped<RequestTimeMiddleware>();
+
+// CORS
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("FrontEndClient", corsPolicyBuilder =>
+    {
+        corsPolicyBuilder
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .WithOrigins(
+                builder.Configuration["AllowedOrigins"] ??
+                throw new InvalidOperationException(
+                    "Allowed Origins in appsettings.json not found"
+                )
+            );
+    });
+});
+
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+
+// Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// Services
+builder.Services.AddScoped<IUserContextService, UserContextService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+
 var app = builder.Build();
 
 // identity endpoints
@@ -40,6 +78,9 @@ app.MapIdentityApi<User>();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
+app.UseResponseCaching();
+app.UseCors("FrontEndClient");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -47,12 +88,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Middleware
+app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseMiddleware<RequestTimeMiddleware>();
 
 app.UseAuthentication();
 
+app.UseHttpsRedirection();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.MapFallbackToFile("/index.html");
