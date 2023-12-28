@@ -26,6 +26,8 @@ namespace NutriApp.Server.Controllers
         {
             ClaimsPrincipal user = HttpContext.User;
             Console.WriteLine($"{user.Identity.Name}");
+            var value = user?.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            Console.WriteLine($"{value}");
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
                 {

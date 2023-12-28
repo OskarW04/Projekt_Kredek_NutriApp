@@ -15,28 +15,15 @@ namespace NutriApp.Server.Services
         public ClaimsPrincipal? UserClaimsPrincipal => _httpContext.HttpContext?.User;
 
 
-        public Guid? UserId
+        public string? UserId
         {
             get
             {
-                var value = UserClaimsPrincipal?.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-                if (value == null) return null;
-                if (!Guid.TryParse(value, out var userId))
-                {
-                    return null;
-                }
-
-                return userId;
+                return UserClaimsPrincipal?
+                    .FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             }
         }
 
-        public string? Email
-        {
-            get
-            {
-                var value = UserClaimsPrincipal?.FindFirst(c => c.Type == ClaimTypes.Email)?.Value;
-                return value;
-            }
-        }
+        public string? Email => UserClaimsPrincipal?.Identity?.Name;
     }
 }

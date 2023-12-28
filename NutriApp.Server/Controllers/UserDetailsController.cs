@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NutriApp.Server.Models;
+using NutriApp.Server.Models.User;
 using NutriApp.Server.Services.Interfaces;
 
 namespace NutriApp.Server.Controllers
@@ -25,14 +25,14 @@ namespace NutriApp.Server.Controllers
         }
 
         [HttpPost(Name = "AddUserDetails")]
-        public ActionResult<UserDto> AddUserDetails(AddUserDetailsRequest addUserDetailsRequest)
+        public ActionResult<UserDto> AddUserDetails(UserDetailsRequest addUserDetailsRequest)
         {
             _userService.AddUserDetails(addUserDetailsRequest);
             return Created();
         }
 
         [HttpPut(Name = "UpdateUserDetails")]
-        public ActionResult<UserDto> UpdateUserDetails(UpdateUserRequest updateUserRequest)
+        public ActionResult<UserDto> UpdateUserDetails(UserDetailsRequest updateUserRequest)
         {
             var userDto = _userService.UpdateUserDetails(updateUserRequest);
             return Ok(userDto);

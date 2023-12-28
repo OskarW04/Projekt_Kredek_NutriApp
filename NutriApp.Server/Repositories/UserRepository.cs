@@ -2,7 +2,7 @@
 using NutriApp.Server.DataAccess.Context;
 using NutriApp.Server.DataAccess.Entities.User;
 using NutriApp.Server.Exceptions;
-using NutriApp.Server.Models;
+using NutriApp.Server.Models.User;
 using NutriApp.Server.Repositories.Interfaces;
 
 namespace NutriApp.Server.Repositories
@@ -16,14 +16,20 @@ namespace NutriApp.Server.Repositories
             _appDbContext = appDbContext;
         }
 
-        public void AddUserDetails(string email, AddUserDetailsRequest userDetailsRequest)
+        public void AddUserDetails(string email, UserDetailsRequest userDetailsRequest)
         {
             var userByEmail = _appDbContext.Users
+                .Include(x => x.UserDetails)
                 .FirstOrDefault(x => x.Email == email);
 
-            if (userByEmail == null)
+            if (userByEmail is null)
             {
                 throw new ResourceNotFoundException($"User with email {email} not found");
+            }
+
+            if (userByEmail.UserDetails is not null)
+            {
+                throw new ResourceAlreadyExistsException($"User with email {email} already has details");
             }
 
             userByEmail.Name = userDetailsRequest.Name;
@@ -49,7 +55,7 @@ namespace NutriApp.Server.Repositories
                 .Include(x => x.UserDetails)
                 .FirstOrDefault(x => x.Email == email);
 
-            if (userByEmail is null || userByEmail.UserDetails is null)
+            if (userByEmail?.UserDetails is null)
             {
                 throw new ResourceNotFoundException($"User with email {email} not found");
             }
@@ -66,13 +72,13 @@ namespace NutriApp.Server.Repositories
             };
         }
 
-        public UserDto UpdateUserDetails(string email, UpdateUserRequest updateUserDetailsRequest)
+        public UserDto UpdateUserDetails(string email, UserDetailsRequest updateUserDetailsRequest)
         {
             var userByEmail = _appDbContext.Users
                 .Include(x => x.UserDetails)
                 .FirstOrDefault(x => x.Email == email);
 
-            if (userByEmail is null || userByEmail.UserDetails is null)
+            if (userByEmail?.UserDetails is null)
             {
                 throw new ResourceNotFoundException($"User with email {email} not found");
             }
@@ -96,6 +102,12 @@ namespace NutriApp.Server.Repositories
                 Height = userByEmail.UserDetails.Height,
                 NutritionGoal = userByEmail.UserDetails.NutritionGoalType.ToString(),
             };
+        }
+
+        public User? GetByEmail(string email)
+        {
+            return _appDbContext.Users
+                .FirstOrDefault(x => x.Email == email);
         }
     }
 }

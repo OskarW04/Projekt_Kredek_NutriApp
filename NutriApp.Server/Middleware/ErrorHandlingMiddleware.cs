@@ -27,6 +27,11 @@ namespace NutriApp.Server.Middleware
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsJsonAsync(badHttpRequest.Message);
             }
+            catch (ResourceAlreadyExistsException resourceAlreadyExists)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsJsonAsync(resourceAlreadyExists.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);

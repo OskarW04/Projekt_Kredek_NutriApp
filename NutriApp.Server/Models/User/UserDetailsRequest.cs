@@ -1,8 +1,8 @@
 ﻿using NutriApp.Server.DataAccess.Entities.User;
 
-namespace NutriApp.Server.Models
+namespace NutriApp.Server.Models.User
 {
-    public class AddUserDetailsRequest
+    public class UserDetailsRequest
     {
         public string Name { get; set; } = default!;
         public string LastName { get; set; } = default!;

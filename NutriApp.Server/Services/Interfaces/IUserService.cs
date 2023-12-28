@@ -1,11 +1,11 @@
-﻿using NutriApp.Server.Models;
+﻿using NutriApp.Server.Models.User;
 
 namespace NutriApp.Server.Services.Interfaces
 {
     public interface IUserService
     {
         UserDto GetUserDetails();
-        void AddUserDetails(AddUserDetailsRequest addUserDetailsRequest);
-        UserDto UpdateUserDetails(UpdateUserRequest updateUserRequest);
+        void AddUserDetails(UserDetailsRequest addUserDetailsRequest);
+        UserDto UpdateUserDetails(UserDetailsRequest updateUserRequest);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using NutriApp.Server.Exceptions;
-using NutriApp.Server.Models;
+using NutriApp.Server.Models.User;
 using NutriApp.Server.Repositories.Interfaces;
 using NutriApp.Server.Services.Interfaces;
 
@@ -28,7 +28,7 @@ namespace NutriApp.Server.Services
             return _userRepository.GetUserDetails(userEmail);
         }
 
-        public void AddUserDetails(AddUserDetailsRequest addUserDetailsRequest)
+        public void AddUserDetails(UserDetailsRequest addUserDetailsRequest)
         {
             var userEmail = _userContextService.Email;
             if (userEmail is null)
@@ -39,7 +39,7 @@ namespace NutriApp.Server.Services
             _userRepository.AddUserDetails(userEmail, addUserDetailsRequest);
         }
 
-        public UserDto UpdateUserDetails(UpdateUserRequest updateUserRequest)
+        public UserDto UpdateUserDetails(UserDetailsRequest updateUserRequest)
         {
             var userEmail = _userContextService.Email;
             if (userEmail is null)
