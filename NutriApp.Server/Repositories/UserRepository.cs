@@ -65,5 +65,37 @@ namespace NutriApp.Server.Repositories
                 NutritionGoal = userByEmail.UserDetails.NutritionGoalType.ToString(),
             };
         }
+
+        public UserDto UpdateUserDetails(string email, UpdateUserRequest updateUserDetailsRequest)
+        {
+            var userByEmail = _appDbContext.Users
+                .Include(x => x.UserDetails)
+                .FirstOrDefault(x => x.Email == email);
+
+            if (userByEmail is null || userByEmail.UserDetails is null)
+            {
+                throw new ResourceNotFoundException($"User with email {email} not found");
+            }
+
+            userByEmail.Name = updateUserDetailsRequest.Name;
+            userByEmail.LastName = updateUserDetailsRequest.LastName;
+            userByEmail.UserDetails.Age = updateUserDetailsRequest.Age;
+            userByEmail.UserDetails.Weight = updateUserDetailsRequest.Weight;
+            userByEmail.UserDetails.Height = updateUserDetailsRequest.Height;
+            userByEmail.UserDetails.NutritionGoalType = updateUserDetailsRequest.NutritionGoal;
+
+            _appDbContext.SaveChanges();
+
+            return new UserDto()
+            {
+                Email = userByEmail.Email,
+                Name = userByEmail.Name,
+                LastName = userByEmail.LastName,
+                Age = userByEmail.UserDetails.Age,
+                Weight = userByEmail.UserDetails.Weight,
+                Height = userByEmail.UserDetails.Height,
+                NutritionGoal = userByEmail.UserDetails.NutritionGoalType.ToString(),
+            };
+        }
     }
 }

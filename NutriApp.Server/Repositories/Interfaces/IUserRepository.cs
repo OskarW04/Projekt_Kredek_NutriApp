@@ -6,5 +6,6 @@ namespace NutriApp.Server.Repositories.Interfaces
     {
         void AddUserDetails(string email, AddUserDetailsRequest userDetailsRequest);
         UserDto GetUserDetails(string email);
+        UserDto UpdateUserDetails(string email, UpdateUserRequest updateUserDetailsRequest);
     }
 }

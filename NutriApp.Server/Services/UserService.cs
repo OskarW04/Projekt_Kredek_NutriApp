@@ -28,7 +28,7 @@ namespace NutriApp.Server.Services
             return _userRepository.GetUserDetails(userEmail);
         }
 
-        public void UpdateUserDetails(AddUserDetailsRequest addUserDetailsRequest)
+        public void AddUserDetails(AddUserDetailsRequest addUserDetailsRequest)
         {
             var userEmail = _userContextService.Email;
             if (userEmail is null)
@@ -37,6 +37,17 @@ namespace NutriApp.Server.Services
             }
 
             _userRepository.AddUserDetails(userEmail, addUserDetailsRequest);
+        }
+
+        public UserDto UpdateUserDetails(UpdateUserRequest updateUserRequest)
+        {
+            var userEmail = _userContextService.Email;
+            if (userEmail is null)
+            {
+                throw new ForbidException("User claims invalid");
+            }
+
+            return _userRepository.UpdateUserDetails(userEmail, updateUserRequest);
         }
     }
 }

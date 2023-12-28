@@ -22,6 +22,11 @@ namespace NutriApp.Server.Middleware
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsJsonAsync(resourceNotFound.Message);
             }
+            catch (BadHttpRequestException badHttpRequest)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsJsonAsync(badHttpRequest.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);

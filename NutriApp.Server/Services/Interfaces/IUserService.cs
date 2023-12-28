@@ -5,6 +5,7 @@ namespace NutriApp.Server.Services.Interfaces
     public interface IUserService
     {
         UserDto GetUserDetails();
-        void UpdateUserDetails(AddUserDetailsRequest addUserDetailsRequest);
+        void AddUserDetails(AddUserDetailsRequest addUserDetailsRequest);
+        UserDto UpdateUserDetails(UpdateUserRequest updateUserRequest);
     }
 }

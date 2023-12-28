@@ -24,11 +24,18 @@ namespace NutriApp.Server.Controllers
             return Ok(userDetails);
         }
 
-        [HttpPut(Name = "AddUserDetails")]
+        [HttpPost(Name = "AddUserDetails")]
         public ActionResult<UserDto> AddUserDetails(AddUserDetailsRequest addUserDetailsRequest)
         {
-            _userService.UpdateUserDetails(addUserDetailsRequest);
+            _userService.AddUserDetails(addUserDetailsRequest);
             return Created();
+        }
+
+        [HttpPut(Name = "UpdateUserDetails")]
+        public ActionResult<UserDto> UpdateUserDetails(UpdateUserRequest updateUserRequest)
+        {
+            var userDto = _userService.UpdateUserDetails(updateUserRequest);
+            return Ok(userDto);
         }
     }
 }
