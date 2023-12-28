@@ -1,12 +1,9 @@
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NutriApp.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -24,10 +21,10 @@ namespace NutriApp.Server.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            ClaimsPrincipal user = HttpContext.User;
-            Console.WriteLine($"{user.Identity.Name}");
-            var value = user?.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            Console.WriteLine($"{value}");
+            // ClaimsPrincipal user = HttpContext.User;
+            // Console.WriteLine($"{user.Identity.Name}");
+            // var value = user?.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            // Console.WriteLine($"{value}");
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
                 {

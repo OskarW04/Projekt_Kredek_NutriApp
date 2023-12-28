@@ -37,8 +37,4 @@
 		</ProjectReference>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Models\Validators\" />
-	</ItemGroup>
-
 </Project>

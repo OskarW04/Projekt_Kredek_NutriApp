@@ -1,9 +1,13 @@
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NutriApp.Server.DataAccess.Context;
 using NutriApp.Server.DataAccess.Entities.User;
 using NutriApp.Server.Middleware;
+using NutriApp.Server.Models.Product;
+using NutriApp.Server.Models.User;
+using NutriApp.Server.Models.Validators;
 using NutriApp.Server.Repositories;
 using NutriApp.Server.Repositories.Interfaces;
 using NutriApp.Server.Services;
@@ -60,8 +64,6 @@ builder.Services.AddCors(opt =>
     });
 });
 
-builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -70,6 +72,11 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+
+// fluent validation
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+builder.Services.AddScoped<IValidator<UserDetailsRequest>, UserDetailsRequestValidator>();
+builder.Services.AddScoped<IValidator<ProductRequest>, ProductRequestValidator>();
 
 
 var app = builder.Build();
