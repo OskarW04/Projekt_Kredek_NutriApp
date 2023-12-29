@@ -5,15 +5,33 @@
     text-align: center;
 }
 
-tr:nth-child(even) {
-    background: #F2F2F2;
+label {
+    font-weight: bold;
+    display: flex;
+    margin-bottom: 5px;
 }
 
-tr:nth-child(odd) {
-    background: #FFF;
+input[type="password"],
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"] {
+    display: block;
+    width: 400px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-th, td {
-    padding-left: 1rem;
-    padding-right: 1rem;
+.error {
+    color: red;
+    font-size: 12px;
+    text-align: left;
+}
+
+.form-control {
+    margin-bottom: 20px;
 }
