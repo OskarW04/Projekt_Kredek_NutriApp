@@ -1,8 +1,8 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import { DevTool } from '@hookform/devtools';
-
-function Register() {
+import { Link } from 'react-router-dom';
+export function Register() {
 
     const form = useForm();
     const { register, control } = form;
@@ -11,12 +11,6 @@ function Register() {
         <div>
             <h1>Zarejestruj sie:</h1>
             <form>
-                <label htmlFor="name">Imie</label>
-                <input type="text" id="name" {...register("name")} />
-
-                <label htmlFor="surname">Nazwisko</label>
-                <input type="text" id="surname" {...register("surname")} />
-
                 <label htmlFor="email">E-mail</label>
                 <input type="text" id="email" {...register("email")} />
 
@@ -24,7 +18,7 @@ function Register() {
                 <input type="password" id="password" {...register("password")} />
 
                 <button>Submit</button>
-                <p>Masz juz konto? Zaloguj sie</p>
+                <p>Masz juz konto? <Link to="/Login">Zaloguj sie</Link></p>
             </form>
             <DevTool control={control} />
         </div>

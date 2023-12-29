@@ -2,9 +2,10 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import { DevTool } from '@hookform/devtools';
 import { Link } from 'react-router-dom';
+import "../App.css"
 
 
-function Login() {
+export function Login() {
 
     const form = useForm();
     const { register, control } = form;
