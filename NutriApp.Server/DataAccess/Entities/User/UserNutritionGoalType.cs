@@ -2,8 +2,8 @@
 {
     public enum UserNutritionGoalType
     {
-        LoseWeight,
-        MaintainWeight,
-        GainWeight
+        LoseWeight = 1,
+        MaintainWeight = 2,
+        GainWeight = 3
     }
 }
