@@ -2,6 +2,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NutriApp.Server.ApiContract;
 using NutriApp.Server.DataAccess.Context;
 using NutriApp.Server.DataAccess.Entities.User;
 using NutriApp.Server.Middleware;
@@ -108,5 +109,10 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapFallbackToFile("/index.html");
+
+////////////////////////
+Test test = new();
+test.test();
+////////////////////////
 
 app.Run();
