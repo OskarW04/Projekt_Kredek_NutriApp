@@ -8,7 +8,7 @@ namespace NutriApp.Server.Services.Interfaces
         Guid AddProduct(ProductRequest addProductRequest);
         void DeleteProduct(Guid productId);
         ProductDto GetProduct(Guid productId);
-        IEnumerable<ProductDto> GetProducts();
+        PageResult<ProductDto> GetProducts(PaginationParams paginationParams);
         void UpdateProduct(Guid productId, ProductRequest updateProductRequest);
         Task<PageResult<ApiProductDto>> GetApiProducts(int pageNumber, int pageSize, string search);
     }

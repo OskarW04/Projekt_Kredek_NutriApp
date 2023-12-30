@@ -81,6 +81,7 @@ builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsi
 builder.Services.AddScoped<IValidator<UserDetailsRequest>, UserDetailsRequestValidator>();
 builder.Services.AddScoped<IValidator<ProductRequest>, ProductRequestValidator>();
 builder.Services.AddScoped<IValidator<SearchQuery>, SearchQueryValidator>();
+builder.Services.AddScoped<IValidator<PaginationParams>, PaginationParamsValidator>();
 
 // food database api
 builder.Services.AddSingleton<AuthenticationKeys>();

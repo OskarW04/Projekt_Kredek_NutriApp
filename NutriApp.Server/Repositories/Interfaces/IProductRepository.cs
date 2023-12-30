@@ -1,4 +1,5 @@
-﻿using NutriApp.Server.Models.Product;
+﻿using NutriApp.Server.Models;
+using NutriApp.Server.Models.Product;
 
 namespace NutriApp.Server.Repositories.Interfaces
 {
@@ -7,7 +8,7 @@ namespace NutriApp.Server.Repositories.Interfaces
         Guid AddProduct(string userId, ProductRequest addProductRequest);
         void DeleteProduct(string userId, Guid productId);
         ProductDto GetProductById(string userId, Guid productId);
-        IEnumerable<ProductDto> GetUsersProducts(string userId);
+        PageResult<ProductDto> GetUsersProducts(string userId, int pageSize, int pageNumber);
         void UpdateProduct(string userId, Guid productId, ProductRequest updateProductRequest);
     }
 }

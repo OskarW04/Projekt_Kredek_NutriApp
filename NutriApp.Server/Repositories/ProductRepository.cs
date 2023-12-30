@@ -1,6 +1,7 @@
 ﻿using NutriApp.Server.DataAccess.Context;
 using NutriApp.Server.DataAccess.Entities.Dishes;
 using NutriApp.Server.Exceptions;
+using NutriApp.Server.Models;
 using NutriApp.Server.Models.Product;
 using NutriApp.Server.Repositories.Interfaces;
 
@@ -85,13 +86,15 @@ namespace NutriApp.Server.Repositories
             };
         }
 
-        public IEnumerable<ProductDto> GetUsersProducts(string userId)
+        public PageResult<ProductDto> GetUsersProducts(string userId, int pageSize, int pageNumber)
         {
             var products = _appDbContext.Products
                 .Where(x => x.UserId == userId)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
                 .ToList();
 
-            return products
+            var results = products
                 .Select(product => new ProductDto()
                 {
                     Id = product.Id,
@@ -104,6 +107,12 @@ namespace NutriApp.Server.Repositories
                     Ingredients = product.Ingredients,
                     GramsInPortion = product.GramsInPortion,
                 }).ToList();
+
+            return new PageResult<ProductDto>(
+                results,
+                results.Count,
+                pageSize,
+                pageNumber);
         }
 
         public void UpdateProduct(string userId, Guid productId, ProductRequest updateProductRequest)

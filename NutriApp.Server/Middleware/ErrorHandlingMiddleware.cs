@@ -32,6 +32,16 @@ namespace NutriApp.Server.Middleware
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsJsonAsync(resourceAlreadyExists.Message);
             }
+            catch (ForbidException forbid)
+            {
+                context.Response.StatusCode = 403;
+                await context.Response.WriteAsJsonAsync(forbid.Message);
+            }
+            catch (FoodDatabaseApiErrorException foodDatabaseApiError)
+            {
+                context.Response.StatusCode = 404;
+                await context.Response.WriteAsJsonAsync(foodDatabaseApiError.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);

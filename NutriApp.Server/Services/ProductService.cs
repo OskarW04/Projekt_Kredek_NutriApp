@@ -39,10 +39,10 @@ namespace NutriApp.Server.Services
             return _productRepository.GetProductById(userId, productId);
         }
 
-        public IEnumerable<ProductDto> GetProducts()
+        public PageResult<ProductDto> GetProducts(PaginationParams paginationParams)
         {
             var userId = VerifyUserClaims();
-            return _productRepository.GetUsersProducts(userId);
+            return _productRepository.GetUsersProducts(userId, paginationParams.PageSize, paginationParams.PageNumber);
         }
 
         public void UpdateProduct(Guid productId, ProductRequest updateProductRequest)
