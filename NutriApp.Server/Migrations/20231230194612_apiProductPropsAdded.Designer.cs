@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NutriApp.Server.DataAccess.Context;
 
@@ -11,9 +12,11 @@ using NutriApp.Server.DataAccess.Context;
 namespace NutriApp.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231230194612_apiProductPropsAdded")]
+    partial class apiProductPropsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,9 +192,6 @@ namespace NutriApp.Server.Migrations
                     b.Property<int>("Fats")
                         .HasColumnType("int");
 
-                    b.Property<int>("GramsInPortion")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -259,9 +259,6 @@ namespace NutriApp.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
                     b.Property<Guid>("ApiProductInfoId")
                         .HasColumnType("uniqueidentifier");
 
@@ -282,9 +279,6 @@ namespace NutriApp.Server.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
 
                     b.Property<Guid>("DishId")
                         .HasColumnType("uniqueidentifier");

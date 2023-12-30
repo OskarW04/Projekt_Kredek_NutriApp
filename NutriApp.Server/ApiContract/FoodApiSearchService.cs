@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using NutriApp.Server.ApiContract.Models;
 using NutriApp.Server.Exceptions;
 using RestSharp.Authenticators.OAuth2;
 using RestSharp;
 using static NutriApp.Server.ApiContract.Models.FoodApiPageResult;
+using static NutriApp.Server.ApiContract.Models.FoodByIdResult;
 
 namespace NutriApp.Server.ApiContract
 {
@@ -64,6 +66,56 @@ namespace NutriApp.Server.ApiContract
             }
 
             return deserializedContent.foods;
+        }
+
+        public async Task<FoodById> FetchFoodByApiId(string apiId, int pageNumber, int pageSize)
+        {
+            var token = _oAuthTokenManager.OAuthToken;
+            if (string.IsNullOrEmpty(token) ||
+                DateTimeOffset.Now.ToUnixTimeMilliseconds() >= _oAuthTokenManager.OAuthTokenExpiration)
+            {
+                token = await _oAuthTokenManager.FetchAuthenticationToken();
+            }
+
+            var options = new RestClientOptions(BaseSearchUrl)
+            {
+                Authenticator = new OAuth2UriQueryParameterAuthenticator(token ??
+                                                                         throw new FoodDatabaseApiErrorException(
+                                                                             "Could not fetch external API OAuth"
+                                                                         ))
+            };
+
+            var client = new RestClient(options);
+            var request = new RestRequest();
+            request.AddParameter("method", "food.get.v3");
+            request.AddParameter("food_id", apiId);
+            request.AddParameter("format", "json");
+
+            request.AddHeader("Authorization", "Bearer " + token);
+
+            var response = await client.PostAsync(request);
+
+            if (!response.IsSuccessful)
+            {
+                throw new FoodDatabaseApiErrorException("Could not fetch food By Id");
+            }
+
+            var deserializedContent =
+                JsonConvert.DeserializeObject<FoodByIdResultRoot>(response.Content ??
+                                                                  throw new FoodDatabaseApiErrorException(
+                                                                      "Could not fetch food By Id"));
+            if (deserializedContent is null)
+            {
+                return new FoodById()
+                {
+                    servings = new Servings()
+                    {
+                        serving = []
+                    }
+                };
+            }
+
+            return deserializedContent.FoodById;
         }
     }
 }
