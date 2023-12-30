@@ -1,4 +1,6 @@
-﻿using NutriApp.Server.Exceptions;
+﻿using NutriApp.Server.ApiContract;
+using NutriApp.Server.Exceptions;
+using NutriApp.Server.Models;
 using NutriApp.Server.Models.Product;
 using NutriApp.Server.Repositories.Interfaces;
 using NutriApp.Server.Services.Interfaces;
@@ -7,13 +9,16 @@ namespace NutriApp.Server.Services
 {
     public class ProductService : IProductService
     {
-        IProductRepository _productRepository;
-        IUserContextService _userContextService;
+        private readonly FoodApiSearchService _foodApiSearchService;
+        private readonly IProductRepository _productRepository;
+        private readonly IUserContextService _userContextService;
 
-        public ProductService(IProductRepository productRepository, IUserContextService userContextService)
+        public ProductService(IProductRepository productRepository, IUserContextService userContextService,
+            FoodApiSearchService foodApiSearchService)
         {
             _productRepository = productRepository;
             _userContextService = userContextService;
+            _foodApiSearchService = foodApiSearchService;
         }
 
         public Guid AddProduct(ProductRequest addProductRequest)
@@ -46,6 +51,42 @@ namespace NutriApp.Server.Services
             _productRepository.UpdateProduct(userId, productId, updateProductRequest);
         }
 
+        public async Task<PageResult<ApiProductDto>> GetApiProducts(int pageNumber, int pageSize, string search)
+        {
+            VerifyUserClaims();
+            var result = await _foodApiSearchService.FetchFoodSearch(search, pageNumber, pageSize);
+
+            return new PageResult<ApiProductDto>(
+                result.food.Select(x =>
+                {
+                    var portionSplit = x.food_description.Split("-");
+                    var portionInfo = portionSplit[0].Remove(portionSplit[0].Length - 1);
+
+                    return new ApiProductDto
+                    {
+                        ApiUrl = x.food_url,
+                        ApiId = x.food_id,
+                        Name = x.food_name,
+                        Brand = x.brand_name,
+                        Description = x.food_description,
+                        FoodType = x.food_type,
+                        Portion = portionInfo,
+                        Calories = (int)decimal.Parse(
+                            GetValueFromApiProductDescription(x.food_description, "Calories: ", "kcal")),
+                        Proteins = (int)decimal.Parse(
+                            GetValueFromApiProductDescription(x.food_description, "Protein: ", "g")),
+                        Carbohydrates = (int)decimal.Parse(
+                            GetValueFromApiProductDescription(x.food_description, "Carbs: ", "g")),
+                        Fats = (int)decimal.Parse(
+                            GetValueFromApiProductDescription(x.food_description, "Fat: ", "g"))
+                    };
+                }),
+                result.food.Count,
+                pageSize,
+                pageNumber
+            );
+        }
+
         private string VerifyUserClaims()
         {
             var userId = _userContextService.UserId;
@@ -55,6 +96,14 @@ namespace NutriApp.Server.Services
             }
 
             return userId;
+        }
+
+        private string GetValueFromApiProductDescription(string text, string firstSeparator, string secondSeparator)
+        {
+            return text.Split([firstSeparator], StringSplitOptions.None)[1]
+                .Split(secondSeparator)[0]
+                .Trim()
+                .Replace(".", ",");
         }
     }
 }

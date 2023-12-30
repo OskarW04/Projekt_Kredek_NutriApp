@@ -1,5 +1,5 @@
 ﻿using NutriApp.Server.DataAccess.Context;
-using NutriApp.Server.DataAccess.Entities.Products;
+using NutriApp.Server.DataAccess.Entities.Dishes;
 using NutriApp.Server.Exceptions;
 using NutriApp.Server.Models.Product;
 using NutriApp.Server.Repositories.Interfaces;

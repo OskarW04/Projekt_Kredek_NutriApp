@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using NutriApp.Server.DataAccess.Entities.Dishes;
 using NutriApp.Server.DataAccess.Entities.MealPlan;
 using NutriApp.Server.DataAccess.Entities.Meals;
-using NutriApp.Server.DataAccess.Entities.Products;
 using NutriApp.Server.DataAccess.Entities.User;
 
 namespace NutriApp.Server.DataAccess.Context

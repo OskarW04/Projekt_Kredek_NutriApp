@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NutriApp.Server.Models;
 using NutriApp.Server.Models.Product;
 using NutriApp.Server.Services.Interfaces;
 
@@ -50,6 +51,17 @@ namespace NutriApp.Server.Controllers
         {
             _productService.DeleteProduct(id);
             return NoContent();
+        }
+
+        [HttpGet("apiProducts")]
+        public async Task<ActionResult<PageResult<ApiProductDto>>> GetApiProducts(
+            [FromBody] SearchQuery searchQuery)
+        {
+            var result = await _productService.GetApiProducts(
+                searchQuery.PageNumber,
+                searchQuery.PageSize,
+                searchQuery.SearchPhrase);
+            return Ok(result);
         }
     }
 }

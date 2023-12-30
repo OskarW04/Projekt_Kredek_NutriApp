@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using NutriApp.Server.DataAccess.Entities.Products;
 
 namespace NutriApp.Server.DataAccess.Entities.Dishes
 {

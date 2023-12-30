@@ -1,4 +1,5 @@
-﻿using NutriApp.Server.Models.Product;
+﻿using NutriApp.Server.Models;
+using NutriApp.Server.Models.Product;
 
 namespace NutriApp.Server.Services.Interfaces
 {
@@ -9,5 +10,6 @@ namespace NutriApp.Server.Services.Interfaces
         ProductDto GetProduct(Guid productId);
         IEnumerable<ProductDto> GetProducts();
         void UpdateProduct(Guid productId, ProductRequest updateProductRequest);
+        Task<PageResult<ApiProductDto>> GetApiProducts(int pageNumber, int pageSize, string search);
     }
 }

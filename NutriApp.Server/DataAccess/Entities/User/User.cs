@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using NutriApp.Server.DataAccess.Entities.Dishes;
 using NutriApp.Server.DataAccess.Entities.MealPlan;
-using NutriApp.Server.DataAccess.Entities.Products;
 
 namespace NutriApp.Server.DataAccess.Entities.User
 {

@@ -3,9 +3,11 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NutriApp.Server.ApiContract;
+using NutriApp.Server.ApiContract.Settings;
 using NutriApp.Server.DataAccess.Context;
 using NutriApp.Server.DataAccess.Entities.User;
 using NutriApp.Server.Middleware;
+using NutriApp.Server.Models;
 using NutriApp.Server.Models.Product;
 using NutriApp.Server.Models.User;
 using NutriApp.Server.Models.Validators;
@@ -78,6 +80,12 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddScoped<IValidator<UserDetailsRequest>, UserDetailsRequestValidator>();
 builder.Services.AddScoped<IValidator<ProductRequest>, ProductRequestValidator>();
+builder.Services.AddScoped<IValidator<SearchQuery>, SearchQueryValidator>();
+
+// food database api
+builder.Services.AddSingleton<AuthenticationKeys>();
+builder.Services.AddSingleton<OAuthTokenManager>();
+builder.Services.AddScoped<FoodApiSearchService>();
 
 
 var app = builder.Build();
@@ -109,11 +117,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapFallbackToFile("/index.html");
-
-////////////////////////
-Test test = new();
-test.test();
-// test.test2();
-////////////////////////
 
 app.Run();
