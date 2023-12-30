@@ -19,7 +19,8 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '100vh',
+        height: screen.availHeight / 2,
+        
     },
     buttonsContainer: {
         marginTop: 20,

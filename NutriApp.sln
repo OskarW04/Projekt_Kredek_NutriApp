@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NutriApp.Server", "NutriApp.Server\NutriApp.Server.csproj", "{DC17E4FC-B2F1-46E2-91D4-34323A41DCDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NutriApp.Server", "NutriApp.Server\NutriApp.Server.csproj", "{DC17E4FC-B2F1-46E2-91D4-34323A41DCDB}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "nutriapp.client", "nutriapp.client\nutriapp.client.esproj", "{A93E5753-A4C1-4BFC-89F9-A2EF60020716}"
 EndProject

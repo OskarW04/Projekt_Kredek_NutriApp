@@ -12,7 +12,7 @@ export function Login() {
 
     return (
         <div>
-        <h1>Zaloguj sie:</h1>
+        <h1>Zaloguj siê:</h1>
             <form>
                 <label htmlFor="email">E-mail</label>
                 <input type="text" id="email" {...register("email")} />
