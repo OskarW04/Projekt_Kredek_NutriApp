@@ -14,7 +14,7 @@ namespace NutriApp.Server.DataAccess.Context
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<ApiProductInfo> ProductApiUrls { get; set; }
+        public DbSet<ApiProductInfo> ApiProductInfos { get; set; }
         public DbSet<DishProducts> DishProducts { get; set; }
         public DbSet<DishApiProducts> DishApiProducts { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using NutriApp.Server.Models;
+﻿using NutriApp.Server.ApiContract.Models;
+using NutriApp.Server.Models;
 using NutriApp.Server.Models.Product;
 
 namespace NutriApp.Server.Repositories.Interfaces
@@ -10,5 +11,6 @@ namespace NutriApp.Server.Repositories.Interfaces
         ProductDto GetProductById(string userId, Guid productId);
         PageResult<ProductDto> GetUsersProducts(string userId, int pageSize, int pageNumber);
         void UpdateProduct(string userId, Guid productId, ProductRequest updateProductRequest);
+        Guid AddApiProduct(FoodByIdResult.FoodById product);
     }
 }

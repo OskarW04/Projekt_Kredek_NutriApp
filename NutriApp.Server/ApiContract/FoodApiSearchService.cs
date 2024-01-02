@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Net;
+using Newtonsoft.Json;
 using NutriApp.Server.ApiContract.Models;
 using NutriApp.Server.Exceptions;
 using RestSharp.Authenticators.OAuth2;
@@ -48,7 +49,7 @@ namespace NutriApp.Server.ApiContract
 
             var response = await client.PostAsync(request);
 
-            if (!response.IsSuccessful)
+            if (response.Content != null && (!response.IsSuccessful || response.Content.Contains("error")))
             {
                 throw new FoodDatabaseApiErrorException("Could not fetch foods");
             }
@@ -68,7 +69,7 @@ namespace NutriApp.Server.ApiContract
             return deserializedContent.foods;
         }
 
-        public async Task<FoodById> FetchFoodByApiId(string apiId, int pageNumber, int pageSize)
+        public async Task<FoodById> FetchFoodByApiId(string apiId)
         {
             var token = _oAuthTokenManager.OAuthToken;
             if (string.IsNullOrEmpty(token) ||
@@ -95,7 +96,7 @@ namespace NutriApp.Server.ApiContract
 
             var response = await client.PostAsync(request);
 
-            if (!response.IsSuccessful)
+            if (response.Content != null && (!response.IsSuccessful || response.Content.Contains("error")))
             {
                 throw new FoodDatabaseApiErrorException("Could not fetch food By Id");
             }
@@ -104,7 +105,7 @@ namespace NutriApp.Server.ApiContract
                 JsonConvert.DeserializeObject<FoodByIdResultRoot>(response.Content ??
                                                                   throw new FoodDatabaseApiErrorException(
                                                                       "Could not fetch food By Id"));
-            if (deserializedContent is null)
+            if (deserializedContent?.food is null)
             {
                 return new FoodById()
                 {
@@ -115,7 +116,7 @@ namespace NutriApp.Server.ApiContract
                 };
             }
 
-            return deserializedContent.FoodById;
+            return deserializedContent.food;
         }
     }
 }

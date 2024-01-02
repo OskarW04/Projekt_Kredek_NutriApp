@@ -1,4 +1,5 @@
-﻿using NutriApp.Server.DataAccess.Context;
+﻿using NutriApp.Server.ApiContract.Models;
+using NutriApp.Server.DataAccess.Context;
 using NutriApp.Server.DataAccess.Entities.Dishes;
 using NutriApp.Server.Exceptions;
 using NutriApp.Server.Models;
@@ -140,6 +141,55 @@ namespace NutriApp.Server.Repositories
             product.GramsInPortion = updateProductRequest.GramsInPortion;
 
             _appDbContext.SaveChanges();
+        }
+
+        public Guid AddApiProduct(FoodByIdResult.FoodById product)
+        {
+            var found = _appDbContext.ApiProductInfos
+                .FirstOrDefault(x => x.ApiId == product.food_id);
+
+            if (found is not null)
+            {
+                return found.Id;
+            }
+
+            var serving = product.servings.serving
+                .FirstOrDefault(x => (x.metric_serving_amount is not null));
+
+            if (serving is not null)
+            {
+                serving = product.servings.serving
+                    .First();
+            }
+
+            var portion = 100;
+            if (serving?.metric_serving_amount is not null)
+            {
+                portion = (int)decimal.Parse(serving.metric_serving_amount
+                    .Replace(".", ",")
+                );
+            }
+
+            var productApiUrl = new ApiProductInfo()
+            {
+                Id = Guid.NewGuid(),
+                ApiId = product.food_id,
+                Name = product.food_name,
+                Brand = product.brand_name,
+                Description = serving?.serving_description,
+                Portion = serving?.metric_serving_amount,
+                Calories = GetValueFromApiParam(serving.calories),
+                Proteins = GetValueFromApiParam(serving.protein),
+                Carbohydrates = GetValueFromApiParam(serving.carbohydrate),
+                Fats = GetValueFromApiParam(serving.fat),
+                GramsInPortion = portion,
+            };
+            return productApiUrl.Id;
+        }
+
+        private int GetValueFromApiParam(string text)
+        {
+            return (int)decimal.Parse(text.Replace(".", ","));
         }
     }
 }

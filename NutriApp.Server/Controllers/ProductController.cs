@@ -19,7 +19,7 @@ namespace NutriApp.Server.Controllers
         }
 
         [HttpGet("userProducts")]
-        public ActionResult<IEnumerable<ProductDto>> GetUsersProducts([FromBody] PaginationParams paginationParams)
+        public ActionResult<PageResult<ProductDto>> GetUsersProducts([FromBody] PaginationParams paginationParams)
         {
             var products = _productService.GetProducts(paginationParams);
             return Ok(products);
@@ -36,7 +36,7 @@ namespace NutriApp.Server.Controllers
         public ActionResult AddProduct([FromBody] ProductRequest addProductRequest)
         {
             var productId = _productService.AddProduct(addProductRequest);
-            return Created($"/api/product/{productId}", null);
+            return Created($"/api/Product/{productId}", null);
         }
 
         [HttpPut("{id}")]

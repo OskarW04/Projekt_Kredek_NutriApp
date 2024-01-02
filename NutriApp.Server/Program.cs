@@ -70,11 +70,13 @@ builder.Services.AddCors(opt =>
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IDishRepository, DishRepository>();
 
 // Services
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IDishService, DishService>();
 
 // fluent validation
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();

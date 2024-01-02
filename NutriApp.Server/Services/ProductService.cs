@@ -69,7 +69,6 @@ namespace NutriApp.Server.Services
                         Name = x.food_name,
                         Brand = x.brand_name,
                         Description = x.food_description,
-                        FoodType = x.food_type,
                         Portion = portionInfo,
                         Calories = (int)decimal.Parse(
                             GetValueFromApiProductDescription(x.food_description, "Calories: ", "kcal")),
