@@ -24,7 +24,7 @@ export function Login() {
         
         localStorage.setItem('token', token)
         window.alert('Zalogowano pomyślnie');
-        navigate()
+        navigate('/Main')
       }catch (error){
         window.alert('Błąd logowania');
       }
