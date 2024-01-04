@@ -1,27 +1,95 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate, Link } from "react-router-dom";
 import { DevTool } from "@hookform/devtools";
-import { Link } from "react-router-dom";
-export function Register() {
+import  axios  from "axios"
+
+const Register = ({onRegister}) => {
   const form = useForm();
-  const { register, control } = form;
+  const navigate = useNavigate();
+  const { register, control, handleSubmit, watch, formState } = form;
+  const { errors } = formState;
+  const password = useRef({});
+  password.current = watch("password", "");
+
+    const onSubmit = async ({repeatPassword,...data}) => {
+      const json = JSON.stringify(data)
+      console.log(json);
+        try{
+          const response = await axios.post('https://localhost:7130/register', json, {
+            headers:{
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          });
+          
+          navigate("/login")
+          window.alert("Pomyślnie zarejestrowano");
+          
+        }catch (error){
+          window.alert("Błąd rejestracji");
+        }
+    }
 
   return (
     <div>
       <h1>Zarejestruj sie:</h1>
-      <form>
+        <form onSubmit={handleSubmit(onSubmit) } noValidate>
+        <div className="form-control">
         <label htmlFor="email">E-mail</label>
-        <input type="text" id="email" {...register("email")} />
+        <input type="text" id="email" {...register("email", {
+          required: {
+            value: true,
+            message: 'Email jest wymagany.'},
+          pattern: {
+          value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+          message: "Niepoprawny format adresu email"
+        }
+        })} />
+        <p className="error">{errors.email?.message}</p>
+        </div>
 
+        <div className="form-control">
         <label htmlFor="password">Hasło</label>
-        <input type="password" id="password" {...register("password")} />
-
+        <input type="password" id="password" {...register("password", {
+          
+          required: {
+            value: true,
+            message: 'Hasło jest wymagane.'},
+          minLength:{
+            value:6,
+            message: "Twoje hasło musi składać się z conajmniej 6 znaków."
+          },
+          validate:{
+            hasLower: (value) => /[a-z]/.test(value) || 'Twoje hasło musi posiadać minimum jedną mała literę (a-z)',
+            hasUpper: (value) => /[A-Z]/.test(value) || 'Twoje hasło musi posiadać minimum jedną wielką literę (A-Z)',
+            hasNumber: (value) => /[0-9]/.test(value) || 'Twoje hasło musi zawierać cyfrę',
+            hasSpecialChar: (value) => /[$&+,:;=?@#|'<>.^*()%!-]/.test(value) || 'Twoje hasło musi zawierać znak specjalny'
+            },
+          }
+        )} />
+        <p className="error">{errors.password?.message}</p>
+        </div>
+        
+        <div className="form-control">
+        <label htmlFor="repeatPassword">Powtórz hasło</label>
+        <input type="password" id="repeatPassword" {...register("repeatPassword", {
+          validateCriteriaMode: "all",
+          required: {
+            value: true,
+            message: "Powtórz hasło."},
+          validate: value => 
+          value === password.current || "Hasła nie są takie same."
+        })}/>
+        <p className="error">{errors.repeatPassword?.message}</p>
+        </div>
+      
         <button>Submit</button>
         <p>
           Masz juz konto? <Link to="/Login">Zaloguj się</Link>
         </p>
       </form>
-      <DevTool control={control} />
+      <DevTool control={control}/>
     </div>
   );
 }
