@@ -71,12 +71,14 @@ builder.Services.AddCors(opt =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IDishRepository, DishRepository>();
+builder.Services.AddScoped<IMealPlanRepository, MealPlanRepository>();
 
 // Services
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IDishService, DishService>();
+builder.Services.AddScoped<IMealPlanService, MealPlanService>();
 
 // fluent validation
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();

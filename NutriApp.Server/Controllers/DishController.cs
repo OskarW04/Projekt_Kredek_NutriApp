@@ -11,8 +11,6 @@ namespace NutriApp.Server.Controllers
     [Authorize]
     public class DishController : ControllerBase
     {
-        // TODO: Dodac mozliwosc dodawania samych produktow do meals -> nowa tabela MealProducts oraz MealApiProducts
-
         private readonly IDishService _dishService;
 
         public DishController(IDishService dishService)
@@ -21,42 +19,50 @@ namespace NutriApp.Server.Controllers
         }
 
         [HttpGet("userDishes")]
-        public ActionResult<PageResult<DishDto>> GetUsersDishes([FromBody] PaginationParams paginationParams)
+        public ActionResult<PageResult<DishDto>> GetUsersDishes(
+            [FromBody] PaginationParams paginationParams)
         {
             var dishes = _dishService.GetDishes(paginationParams);
             return Ok(dishes);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<DishDto> GetDish([FromRoute] Guid id)
+        public ActionResult<DishDto> GetDish(
+            [FromRoute] Guid id)
         {
             var dish = _dishService.GetDish(id);
             return Ok(dish);
         }
 
         [HttpPost]
-        public ActionResult AddDish([FromBody] DishRequest addDishRequest)
+        public ActionResult AddDish(
+            [FromBody] DishRequest addDishRequest)
         {
             var dishId = _dishService.AddDish(addDishRequest);
             return Created($"/api/Dish/{dishId}", null);
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete([FromRoute] Guid id)
+        public ActionResult Delete(
+            [FromRoute] Guid id)
         {
             _dishService.DeleteDish(id);
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateDish([FromRoute] Guid id, [FromBody] DishRequest updateDishRequest)
+        public ActionResult UpdateDish(
+            [FromRoute] Guid id,
+            [FromBody] DishRequest updateDishRequest)
         {
             _dishService.UpdateDish(id, updateDishRequest);
             return Ok();
         }
 
         [HttpPut("{dishId}/addProduct")]
-        public async Task<ActionResult> AddDishProduct([FromRoute] Guid dishId, [FromQuery] string productId,
+        public async Task<ActionResult> AddDishProduct(
+            [FromRoute] Guid dishId,
+            [FromQuery] string productId,
             [FromQuery] uint grams)
         {
             await _dishService.AddProduct(dishId, productId, grams);
@@ -64,7 +70,9 @@ namespace NutriApp.Server.Controllers
         }
 
         [HttpPut("{dishId}/updateProduct")]
-        public ActionResult UpdateDishProductPortion([FromRoute] Guid dishId, [FromQuery] string productId,
+        public ActionResult UpdateDishProductPortion(
+            [FromRoute] Guid dishId,
+            [FromQuery] string productId,
             [FromQuery] uint grams)
         {
             _dishService.UpdatePortion(dishId, productId, grams);
@@ -72,7 +80,9 @@ namespace NutriApp.Server.Controllers
         }
 
         [HttpDelete("{dishId}/removeProduct")]
-        public ActionResult RemoveDishProduct([FromRoute] Guid dishId, [FromQuery] string productId)
+        public ActionResult RemoveDishProduct(
+            [FromRoute] Guid dishId,
+            [FromQuery] string productId)
         {
             _dishService.RemoveProduct(dishId, productId);
             return NoContent();
