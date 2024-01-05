@@ -78,12 +78,27 @@ namespace NutriApp.Server.Services
 
         public void UpdatePortion(Guid dishId, string productId, uint grams)
         {
-            throw new NotImplementedException();
+            var userId = VerifyUserClaims();
+            var result = Guid.TryParse(productId, out var parsedId);
+            if (!result)
+            {
+                _dishRepository.UpdateApiProductPortion(userId, dishId, productId, grams);
+            }
+
+            _dishRepository.UpdateUserProductPortion(userId, dishId, parsedId, grams);
         }
 
         public void RemoveProduct(Guid dishId, string productId)
         {
-            throw new NotImplementedException();
+            var userId = VerifyUserClaims();
+
+            var result = Guid.TryParse(productId, out var parsedId);
+            if (!result)
+            {
+                _dishRepository.RemoveApiProduct(userId, dishId, productId);
+            }
+
+            _dishRepository.RemoveUserProduct(userId, dishId, parsedId);
         }
 
         private string VerifyUserClaims()

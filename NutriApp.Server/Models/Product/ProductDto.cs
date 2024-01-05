@@ -11,5 +11,6 @@
         public int Fats { get; set; }
         public string? Ingredients { get; set; }
         public int GramsInPortion { get; set; } = 100;
+        public int? Amount { get; set; }
     }
 }

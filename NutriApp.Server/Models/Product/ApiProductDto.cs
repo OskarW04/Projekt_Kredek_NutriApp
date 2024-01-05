@@ -14,5 +14,6 @@
         public int Carbohydrates { get; set; }
         public int Fats { get; set; }
         public int GramsInPortion { get; set; } = 100;
+        public int? Amount { get; set; }
     }
 }

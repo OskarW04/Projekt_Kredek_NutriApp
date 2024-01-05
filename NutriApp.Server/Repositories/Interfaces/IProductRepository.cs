@@ -11,6 +11,6 @@ namespace NutriApp.Server.Repositories.Interfaces
         ProductDto GetProductById(string userId, Guid productId);
         PageResult<ProductDto> GetUsersProducts(string userId, int pageSize, int pageNumber);
         void UpdateProduct(string userId, Guid productId, ProductRequest updateProductRequest);
-        Guid AddApiProduct(FoodByIdResult.FoodById product);
+        Guid AddApiProduct(FoodById product);
     }
 }

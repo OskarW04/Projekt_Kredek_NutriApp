@@ -57,30 +57,30 @@ namespace NutriApp.Server.Services
             var result = await _foodApiSearchService.FetchFoodSearch(search, pageNumber, pageSize);
 
             return new PageResult<ApiProductDto>(
-                result.food.Select(x =>
+                result.Food.Select(x =>
                 {
-                    var portionSplit = x.food_description.Split("-");
+                    var portionSplit = x.FoodDescription.Split("-");
                     var portionInfo = portionSplit[0].Remove(portionSplit[0].Length - 1);
 
                     return new ApiProductDto
                     {
-                        ApiUrl = x.food_url,
-                        ApiId = x.food_id,
-                        Name = x.food_name,
-                        Brand = x.brand_name,
-                        Description = x.food_description,
+                        ApiUrl = x.FoodUrl,
+                        ApiId = x.FoodId,
+                        Name = x.FoodName,
+                        Brand = x.BrandName,
+                        Description = x.FoodDescription,
                         Portion = portionInfo,
                         Calories = (int)decimal.Parse(
-                            GetValueFromApiProductDescription(x.food_description, "Calories: ", "kcal")),
+                            GetValueFromApiProductDescription(x.FoodDescription, "Calories: ", "kcal")),
                         Proteins = (int)decimal.Parse(
-                            GetValueFromApiProductDescription(x.food_description, "Protein: ", "g")),
+                            GetValueFromApiProductDescription(x.FoodDescription, "Protein: ", "g")),
                         Carbohydrates = (int)decimal.Parse(
-                            GetValueFromApiProductDescription(x.food_description, "Carbs: ", "g")),
+                            GetValueFromApiProductDescription(x.FoodDescription, "Carbs: ", "g")),
                         Fats = (int)decimal.Parse(
-                            GetValueFromApiProductDescription(x.food_description, "Fat: ", "g"))
+                            GetValueFromApiProductDescription(x.FoodDescription, "Fat: ", "g"))
                     };
                 }),
-                result.food.Count,
+                result.Food.Count,
                 pageSize,
                 pageNumber
             );

@@ -1,38 +1,63 @@
 ﻿namespace NutriApp.Server.ApiContract.Models
 {
-    public class FoodByIdResult
+    public class FoodById
     {
-        public class FoodById
-        {
-            public string food_id { get; set; }
-            public string food_name { get; set; }
-            public string? food_type { get; set; }
-            public string? brand_name { get; set; }
-            public Servings servings { get; set; }
-        }
+        [Newtonsoft.Json.JsonProperty("food_id")]
+        public string FoodId { get; set; }
 
-        public class FoodByIdResultRoot
-        {
-            public FoodById food { get; set; }
-        }
+        [Newtonsoft.Json.JsonProperty("food_name")]
+        public string FoodName { get; set; }
 
-        public class Serving
-        {
-            public string calories { get; set; }
-            public string fat { get; set; }
-            public string protein { get; set; }
-            public string carbohydrate { get; set; }
+        [Newtonsoft.Json.JsonProperty("food_type")]
+        public string? FoodType { get; set; }
 
-            public string? number_of_units { get; set; }
-            public string? serving_description { get; set; }
-            public string? measurement_description { get; set; }
-            public string? metric_serving_amount { get; set; }
-            public string? metric_serving_unit { get; set; }
-        }
+        [Newtonsoft.Json.JsonProperty("food_url")]
+        public string FoodUrl { get; set; }
 
-        public class Servings
-        {
-            public List<Serving> serving { get; set; }
-        }
+        [Newtonsoft.Json.JsonProperty("brand_name")]
+        public string? BrandName { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("servings")]
+        public Servings Servings { get; set; }
+    }
+
+    public class FoodByIdResultRoot
+    {
+        [Newtonsoft.Json.JsonProperty("food")] public FoodById Food { get; set; }
+    }
+
+    public class Serving
+    {
+        [Newtonsoft.Json.JsonProperty("calories")]
+        public string Calories { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("fat")] public string Fat { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("protein")]
+        public string Protein { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("carbohydrate")]
+        public string Carbohydrate { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("number_of_units")]
+        public string? NumberOfUnits { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("serving_description")]
+        public string? ServingDescription { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("measurement_description")]
+        public string? MeasurementDescription { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("metric_serving_amount")]
+        public string? MetricServingAmount { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("metric_serving_unit")]
+        public string? MetricServingUnit { get; set; }
+    }
+
+    public class Servings
+    {
+        [Newtonsoft.Json.JsonProperty("serving")]
+        public List<Serving> Serving { get; set; }
     }
 }

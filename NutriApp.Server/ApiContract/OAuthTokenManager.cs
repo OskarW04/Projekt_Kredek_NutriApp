@@ -20,7 +20,7 @@ namespace NutriApp.Server.ApiContract
 
         public async Task<string?> FetchAuthenticationToken()
         {
-            var client = new HttpClient();
+            using var client = new HttpClient();
             var byteArray =
                 Encoding.ASCII.GetBytes(_authenticationKeys.ClientId + ":" + _authenticationKeys.ClientSecret);
 

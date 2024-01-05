@@ -54,6 +54,7 @@ namespace NutriApp.Server.Repositories
                         Fats = dishProducts.Product.Fats,
                         Ingredients = dishProducts.Product.Ingredients,
                         GramsInPortion = dishProducts.Product.GramsInPortion,
+                        Amount = dishProducts.Amount,
                     }).ToList(),
                     DishApiProducts = dish.DishApiProducts.Select(apiProducts => new ApiProductDto()
                     {
@@ -68,6 +69,7 @@ namespace NutriApp.Server.Repositories
                         Carbohydrates = apiProducts.ApiProductInfo.Carbohydrates,
                         Fats = apiProducts.ApiProductInfo.Fats,
                         GramsInPortion = apiProducts.ApiProductInfo.GramsInPortion,
+                        Amount = apiProducts.Amount,
                     }).ToList(),
                 };
             }).ToList();
@@ -108,32 +110,36 @@ namespace NutriApp.Server.Repositories
                 Proteins = dish.Proteins,
                 Carbohydrates = dish.Carbohydrates,
                 Fats = dish.Fats,
-                DishProducts = dish.DishProducts.Select(dishProducts => new ProductDto()
-                {
-                    Id = dishProducts.Product.Id,
-                    Name = dishProducts.Product.Name,
-                    Brand = dishProducts.Product.Brand,
-                    Calories = dishProducts.Product.Calories,
-                    Proteins = dishProducts.Product.Proteins,
-                    Carbohydrates = dishProducts.Product.Carbohydrates,
-                    Fats = dishProducts.Product.Fats,
-                    Ingredients = dishProducts.Product.Ingredients,
-                    GramsInPortion = dishProducts.Product.GramsInPortion,
-                }).ToList(),
-                DishApiProducts = dish.DishApiProducts.Select(apiProducts => new ApiProductDto()
-                {
-                    ApiUrl = apiProducts.ApiProductInfo.ApiUrl,
-                    ApiId = apiProducts.ApiProductInfo.ApiId,
-                    Name = apiProducts.ApiProductInfo.Name,
-                    Brand = apiProducts.ApiProductInfo.Brand,
-                    Description = apiProducts.ApiProductInfo.Description,
-                    Portion = apiProducts.ApiProductInfo.Portion,
-                    Calories = apiProducts.ApiProductInfo.Calories,
-                    Proteins = apiProducts.ApiProductInfo.Proteins,
-                    Carbohydrates = apiProducts.ApiProductInfo.Carbohydrates,
-                    Fats = apiProducts.ApiProductInfo.Fats,
-                    GramsInPortion = apiProducts.ApiProductInfo.GramsInPortion,
-                }).ToList(),
+                DishProducts = dish.DishProducts
+                    .Select(dishProducts => new ProductDto()
+                    {
+                        Id = dishProducts.Product.Id,
+                        Name = dishProducts.Product.Name,
+                        Brand = dishProducts.Product.Brand,
+                        Calories = dishProducts.Product.Calories,
+                        Proteins = dishProducts.Product.Proteins,
+                        Carbohydrates = dishProducts.Product.Carbohydrates,
+                        Fats = dishProducts.Product.Fats,
+                        Ingredients = dishProducts.Product.Ingredients,
+                        GramsInPortion = dishProducts.Product.GramsInPortion,
+                        Amount = dishProducts.Amount,
+                    }).ToList(),
+                DishApiProducts = dish.DishApiProducts
+                    .Select(apiProducts => new ApiProductDto()
+                    {
+                        ApiUrl = apiProducts.ApiProductInfo.ApiUrl,
+                        ApiId = apiProducts.ApiProductInfo.ApiId,
+                        Name = apiProducts.ApiProductInfo.Name,
+                        Brand = apiProducts.ApiProductInfo.Brand,
+                        Description = apiProducts.ApiProductInfo.Description,
+                        Portion = apiProducts.ApiProductInfo.Portion,
+                        Calories = apiProducts.ApiProductInfo.Calories,
+                        Proteins = apiProducts.ApiProductInfo.Proteins,
+                        Carbohydrates = apiProducts.ApiProductInfo.Carbohydrates,
+                        Fats = apiProducts.ApiProductInfo.Fats,
+                        GramsInPortion = apiProducts.ApiProductInfo.GramsInPortion,
+                        Amount = apiProducts.Amount,
+                    }).ToList(),
             };
         }
 
@@ -207,11 +213,6 @@ namespace NutriApp.Server.Repositories
                 throw new ResourceNotFoundException($"Dish with id: {dishId} not found");
             }
 
-            if (dish.UserId != userId)
-            {
-                throw new ForbidException("User claims invalid");
-            }
-
             var product = _dbContext.Products
                 .FirstOrDefault(x => x.Id == productId);
 
@@ -220,7 +221,7 @@ namespace NutriApp.Server.Repositories
                 throw new ResourceNotFoundException($"Product with id: {productId} not found");
             }
 
-            if (product.UserId != userId)
+            if (dish.UserId != userId || product.UserId != userId)
             {
                 throw new ForbidException("User claims invalid");
             }
@@ -248,7 +249,7 @@ namespace NutriApp.Server.Repositories
         public Guid AddApiProductToDish(string userId, Guid dishId, Guid productId, uint grams)
         {
             var dish = _dbContext.Dishes
-                .Include(x => x.DishProducts)
+                .Include(x => x.DishApiProducts)
                 .FirstOrDefault(x => x.Id == dishId);
 
             if (dish is null)
@@ -273,7 +274,7 @@ namespace NutriApp.Server.Repositories
             {
                 Id = Guid.NewGuid(),
                 DishId = dishId,
-                ApiProductInfoId = productId,
+                ApiProductInfoId = product.Id,
                 Amount = (int)grams,
             };
 
@@ -283,10 +284,188 @@ namespace NutriApp.Server.Repositories
             dish.Carbohydrates += (int)(product.Carbohydrates * grams / product.GramsInPortion);
             dish.Fats += (int)(product.Fats * grams / product.GramsInPortion);
 
-            _dbContext.DishApiProducts?.Add(dishProduct);
+            _dbContext.DishApiProducts.Add(dishProduct);
             _dbContext.SaveChanges();
 
             return dishProduct.Id;
+        }
+
+        public void RemoveUserProduct(string userId, Guid dishId, Guid productId)
+        {
+            var dish = _dbContext.Dishes
+                .Include(x => x.DishProducts)!
+                .ThenInclude(x => x.Product)
+                .FirstOrDefault(x => x.Id == dishId);
+
+            if (dish?.DishProducts is null)
+            {
+                throw new ResourceNotFoundException($"Dish with id: {dishId} not found or has no products");
+            }
+
+            var product = dish.DishProducts
+                .FirstOrDefault(x => x.ProductId == productId)
+                ?.Product;
+
+            if (product is null)
+            {
+                throw new ResourceNotFoundException($"Product with id: {productId} not found");
+            }
+
+            if (dish.UserId != userId || product.UserId != userId)
+            {
+                throw new ForbidException("User claims invalid");
+            }
+
+            var firstOrDefault = dish.DishProducts?
+                .FirstOrDefault(x => x.ProductId == productId);
+            if (firstOrDefault != null)
+            {
+                dish.GramsTotal -= firstOrDefault.Amount;
+                dish.Calories -= (int)(product.Calories * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Proteins -= (int)(product.Proteins * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Carbohydrates -= (int)(product.Carbohydrates * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Fats -= (int)(product.Fats * firstOrDefault.Amount / product.GramsInPortion);
+
+                _dbContext.DishProducts.Remove(firstOrDefault);
+                _dbContext.SaveChanges();
+            }
+        }
+
+        public void RemoveApiProduct(string userId, Guid dishId, string productApiId)
+        {
+            var dish = _dbContext.Dishes
+                .Include(x => x.DishApiProducts)!
+                .ThenInclude(x => x.ApiProductInfo)
+                .FirstOrDefault(x => x.Id == dishId);
+
+            if (dish?.DishApiProducts is null)
+            {
+                throw new ResourceNotFoundException($"Dish with id: {dishId} not found or has no products");
+            }
+
+            var product = dish.DishApiProducts
+                .FirstOrDefault(x => x.ApiProductInfo?.ApiId == productApiId)
+                ?.ApiProductInfo;
+
+            if (product is null)
+            {
+                throw new ResourceNotFoundException($"Product with id: {productApiId} not found");
+            }
+
+            if (dish.UserId != userId)
+            {
+                throw new ForbidException("User claims invalid");
+            }
+
+            var firstOrDefault = dish.DishApiProducts?
+                .FirstOrDefault(x => x.ApiProductInfo?.ApiId == productApiId);
+            if (firstOrDefault != null)
+            {
+                dish.GramsTotal -= firstOrDefault.Amount;
+                dish.Calories -= (int)(product.Calories * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Proteins -= (int)(product.Proteins * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Carbohydrates -= (int)(product.Carbohydrates * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Fats -= (int)(product.Fats * firstOrDefault.Amount / product.GramsInPortion);
+
+                _dbContext.DishApiProducts.Remove(firstOrDefault);
+                _dbContext.SaveChanges();
+            }
+        }
+
+        public void UpdateUserProductPortion(string userId, Guid dishId, Guid productId, uint grams)
+        {
+            var dish = _dbContext.Dishes
+                .Include(x => x.DishProducts)!
+                .ThenInclude(x => x.Product)
+                .FirstOrDefault(x => x.Id == dishId);
+
+            if (dish?.DishProducts is null)
+            {
+                throw new ResourceNotFoundException($"Dish with id: {dishId} not found or has no products");
+            }
+
+            var product = dish.DishProducts
+                .FirstOrDefault(x => x.ProductId == productId)
+                ?.Product;
+
+            if (product is null)
+            {
+                throw new ResourceNotFoundException($"Product with id: {productId} not found");
+            }
+
+            if (dish.UserId != userId || product.UserId != userId)
+            {
+                throw new ForbidException("User claims invalid");
+            }
+
+            var firstOrDefault = dish.DishProducts?
+                .FirstOrDefault(x => x.ProductId == productId);
+            if (firstOrDefault is not null)
+            {
+                dish.GramsTotal -= firstOrDefault.Amount;
+                dish.Calories -= (int)(product.Calories * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Proteins -= (int)(product.Proteins * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Carbohydrates -= (int)(product.Carbohydrates * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Fats -= (int)(product.Fats * firstOrDefault.Amount / product.GramsInPortion);
+
+                firstOrDefault.Amount = (int)grams;
+
+                dish.GramsTotal += (int)grams;
+                dish.Calories += (int)(product.Calories * grams / product.GramsInPortion);
+                dish.Proteins += (int)(product.Proteins * grams / product.GramsInPortion);
+                dish.Carbohydrates += (int)(product.Carbohydrates * grams / product.GramsInPortion);
+                dish.Fats += (int)(product.Fats * grams / product.GramsInPortion);
+
+                _dbContext.SaveChanges();
+            }
+        }
+
+        public void UpdateApiProductPortion(string userId, Guid dishId, string productApiId, uint grams)
+        {
+            var dish = _dbContext.Dishes
+                .Include(x => x.DishApiProducts)!
+                .ThenInclude(x => x.ApiProductInfo)
+                .FirstOrDefault(x => x.Id == dishId);
+
+            if (dish?.DishApiProducts is null)
+            {
+                throw new ResourceNotFoundException($"Dish with id: {dishId} not found or has no products");
+            }
+
+            var product = dish.DishApiProducts
+                .FirstOrDefault(x => x.ApiProductInfo?.ApiId == productApiId)
+                ?.ApiProductInfo;
+
+            if (product is null)
+            {
+                throw new ResourceNotFoundException($"Product with id: {productApiId} not found");
+            }
+
+            if (dish.UserId != userId)
+            {
+                throw new ForbidException("User claims invalid");
+            }
+
+            var firstOrDefault = dish.DishApiProducts?
+                .FirstOrDefault(x => x.ApiProductInfo?.ApiId == productApiId);
+            if (firstOrDefault is not null)
+            {
+                dish.GramsTotal -= firstOrDefault.Amount;
+                dish.Calories -= (int)(product.Calories * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Proteins -= (int)(product.Proteins * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Carbohydrates -= (int)(product.Carbohydrates * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Fats -= (int)(product.Fats * firstOrDefault.Amount / product.GramsInPortion);
+
+                firstOrDefault.Amount = (int)grams;
+
+                dish.GramsTotal += (int)grams;
+                dish.Calories += (int)(product.Calories * grams / product.GramsInPortion);
+                dish.Proteins += (int)(product.Proteins * grams / product.GramsInPortion);
+                dish.Carbohydrates += (int)(product.Carbohydrates * grams / product.GramsInPortion);
+                dish.Fats += (int)(product.Fats * grams / product.GramsInPortion);
+
+                _dbContext.SaveChanges();
+            }
         }
     }
 }

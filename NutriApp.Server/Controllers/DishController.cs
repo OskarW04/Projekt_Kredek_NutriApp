@@ -55,7 +55,6 @@ namespace NutriApp.Server.Controllers
             return Ok();
         }
 
-        // todo: dodawanie produktu z dania
         [HttpPut("{dishId}/addProduct")]
         public async Task<ActionResult> AddDishProduct([FromRoute] Guid dishId, [FromQuery] string productId,
             [FromQuery] uint grams)
@@ -72,12 +71,11 @@ namespace NutriApp.Server.Controllers
             return Ok();
         }
 
-        // todo: usuwanie produktu z dania
-        [HttpPut("{dishId}/removeProduct")]
+        [HttpDelete("{dishId}/removeProduct")]
         public ActionResult RemoveDishProduct([FromRoute] Guid dishId, [FromQuery] string productId)
         {
             _dishService.RemoveProduct(dishId, productId);
-            return Ok();
+            return NoContent();
         }
     }
 }
