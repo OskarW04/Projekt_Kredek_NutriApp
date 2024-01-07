@@ -12,19 +12,37 @@ export function Login() {
 
   const onSubmit = async ({repeatPassword,...data}) => {
     const json = JSON.stringify(data)
-      try{
+      try {
+        
         const response = await axios.post('https://localhost:7130/login', json, {
           headers:{
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           }
         });
+
+
+          const token = response.data.accessToken
+          localStorage.setItem('token', token);
+          localStorage.setItem('email', data.email);
+
+          var areDetails = true;
+          try {
+              const details = await axios.get('https://localhost:7130/api/UserDetails', {
+                  headers: { 'Authorization': `Bearer ${token}` },
+                  params: { 'email': data.email }
+              })
+          } catch (error) {
+              areDetails = false;
+              console.log('dupa')
+              navigate('/Details')
+              
+          }
         
-        const token = response.data.accessToken
-        
-        localStorage.setItem('token', token)
-        window.alert('Zalogowano pomyślnie');
-        navigate('/Main')
+          if (areDetails) {
+              window.alert('Zalogowano pomyślnie');
+              navigate('/Main')
+          }
       }catch (error){
         window.alert('Błąd logowania');
       }

@@ -1,51 +1,157 @@
 import React from 'react';
-import { useForm, useController } from 'react-hook-form';
+import { useForm, useController, Controller } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
+import { Link, useNavigate } from "react-router-dom";
 import "../App.css"
-import Select from 'react-select';
 
-const Goals = [
-    { value: 1, label: 'Redukcja' },
-    { value: 2, label: 'Trzymanie wagi' },
-    { value: 3, label: 'Masa' }
-];
+import axios from 'axios'
+
+
 
 export function UserDetails() {
-
     const form = useForm();
-    const { register, control } = form;
-    const { field: { value: goalValue, onChange: goalOnChange, ...restgoalField } } = useController({ name: 'goal', control });
+    const { register, control, handleSubmit, formState } = form;
+    const {errors} = formState;
+    const navigate = useNavigate();
+
+    const onSubmit = async (data) => {
+        const json = JSON.stringify(data, (key, value) => {
+            if (!isNaN(value) && value !== '') {
+                return parseInt(value, 10); 
+              }
+              return value;
+        }) 
+        
+        const token = localStorage.getItem('token')
+        try {
+            const postdetails = await axios.post('https://localhost:7130/api/UserDetails', json, {
+                 headers: { 'Authorization': `Bearer ${token}`,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json' },
+                 params: { 'email': localStorage.getItem('email') }
+                
+            })
+            navigate('/main')
+            
+        } catch (error) {
+            window.alert(error)
+        }
+
+    }
+
+
+
     return (
         <div>
-            <h1>Powiedz nam cos o sobie:</h1>
-            <form>
-                <label htmlFor="name">Imie</label>
-                <input type="text" id="name" {...register("name")} />
+            <h1>Powiedz nam coś o sobie:</h1>
+            <form onSubmit={handleSubmit(onSubmit) }>
 
-                <label htmlFor="surname">Nazwisko</label>
-                <input type="text" id="surname" {...register("surname")} />
+                <div className="form-control">
+                    <label htmlFor="name">Imie</label>
+                    <input type="text" id="name" {...register("name", {
+                        required:{
+                            value: true,
+                            message: "Pole jest wymagane",
+                        },
+                        pattern:{
+                            value: /[a-zA-Z]/,
+                            message: "Niepoprawny format imienia"
+                        }
+                    })} />
+                    <p className="error">{errors.name?.message}</p>
+                </div>
+                
+                <div className="form-control">
+                    <label htmlFor="lastName">Nazwisko</label>
+                    <input type="text" id="lastName" {...register("lastName", {
+                        required:{
+                            value: true,
+                            message: "Pole jest wymagane",
+                        },
+                        pattern:{
+                            value: /[a-zA-Z]/,
+                            message: "Niepoprawny format imienia"
+                        },
+                        
+                    } )} />
+                    <p className="error">{errors.lastName?.message}</p>
+                </div>
 
-                <label htmlFor="age">Wiek</label>
-                <input type="number" id="age" {...register("age")} />
+                <div className="form-control">
+                    <label htmlFor="age">Wiek</label>
+                    <input type="number" id="age" {...register("age", {
+                        required:{
+                            value: true,
+                            message: "Pole jest wymagane",
+                        },
+                       
+                        min: {
+                            value: 1,
+                            message: "Niepoprawny format wieku"
+                        },
+                        
+                        
+                    })} />
+                    <p className="error">{errors.age?.message}</p>
+                </div>
 
+                <div className="form-control">
                 <label htmlFor="height">Wzrost</label>
-                <input type="number" id="height" {...register("height")} />
+                <input type="number" id="height" {...register("height",{
+                        required:{
+                            value: true,
+                            message: "Pole jest wymagane",
+                        },
+                        min: {
+                            value: 1,
+                            message: "Niepoprawny format wzrostu"
+                        },
+                    })} />
+                    <p className="error">{errors.height?.message}</p>
+                </div>
 
+                <div className="form-control">
                 <label htmlFor="weight">Waga</label>
-                <input type="number" id="weight" {...register("weight")} />
+                <input type="number" id="weight" {...register("weight", {
+                        required:{
+                            value: true,
+                            message: "Pole jest wymagane",
+                        },
+                        min: {
+                            value: 1,
+                            message: "Niepoprawny format wagi"
+                        },
+                    })} />
+                    <p className="error">{errors.weight?.message}</p>
+                </div>
 
-                <label htmlFor="email">Cel</label>
-                <Select
-                    className='select-input'
-                    placeholder="Wybierz cel"
-                    isClearable
-                    options={Goals}
-                    value={goalValue ? Goals.find(x => x.value === goalValue) : goalValue}
-                    onChange={option => goalOnChange(option ? option.value : option)}
-                    {...restgoalField}
-                />
-
-           
+                <div className="form-control">
+                <label htmlFor="nutritionGoal">Cel</label>
+                <Controller
+                    name="nutritionGoal"
+                    control={control}
+                    defaultValue=""
+                    rules={{
+                        required: {
+                            value:true,
+                            message:"Pole jest wymagane"},
+                      }}
+                    render={({ field }) => (
+                    <>
+                        <select {...field}>
+                        <option value="" disabled>
+                            Wybierz opcję
+                        </option>
+                        <option value="1">Redukcja</option>
+                        <option value="2">Trzymanie Wagi</option>
+                        <option value="3">Masa</option>
+                        </select>
+                        <p className="error">{errors.nutritionGoal?.message}</p>
+                    </>
+                    )}
+                    />
+                    
+                </div>
                 <button>Submit</button>
                 
             </form>
