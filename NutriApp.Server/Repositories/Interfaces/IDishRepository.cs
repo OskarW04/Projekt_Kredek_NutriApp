@@ -12,5 +12,9 @@ namespace NutriApp.Server.Repositories.Interfaces
         void UpdateDish(string userId, Guid dishId, DishRequest updateDishRequest);
         Guid AddUserProductToDish(string userId, Guid dishId, Guid productId, uint grams);
         Guid AddApiProductToDish(string userId, Guid dishId, Guid productId, uint grams);
+        void RemoveUserProduct(string userId, Guid dishId, Guid productId);
+        void RemoveApiProduct(string userId, Guid dishId, string productApiId);
+        void UpdateUserProductPortion(string userId, Guid dishId, Guid productId, uint grams);
+        void UpdateApiProductPortion(string userId, Guid dishId, string productApiId, uint grams);
     }
 }

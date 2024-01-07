@@ -1,28 +1,43 @@
 ﻿namespace NutriApp.Server.ApiContract.Models
 {
-    public class FoodApiPageResult
+    public class Food
     {
-        public class Food
-        {
-            public string food_description { get; set; }
-            public string food_id { get; set; }
-            public string food_name { get; set; }
-            public string food_type { get; set; }
-            public string food_url { get; set; }
-            public string? brand_name { get; set; }
-        }
+        [Newtonsoft.Json.JsonProperty("food_description")]
+        public string FoodDescription { get; set; }
 
-        public class Foods
-        {
-            public List<Food> food { get; set; }
-            public string max_results { get; set; }
-            public string page_number { get; set; }
-            public string total_results { get; set; }
-        }
+        [Newtonsoft.Json.JsonProperty("food_id")]
+        public string FoodId { get; set; }
 
-        public class FoodApiResponseRoot
-        {
-            public Foods foods { get; set; }
-        }
+        [Newtonsoft.Json.JsonProperty("food_name")]
+        public string FoodName { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("food_type")]
+        public string FoodType { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("food_url")]
+        public string FoodUrl { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("brand_name")]
+        public string? BrandName { get; set; }
+    }
+
+    public class Foods
+    {
+        [Newtonsoft.Json.JsonProperty("food")] public List<Food> Food { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("max_results")]
+        public string MaxResults { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("page_number")]
+        public string PageNumber { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("total_results")]
+        public string TotalResults { get; set; }
+    }
+
+    public class FoodApiResponseRoot
+    {
+        [Newtonsoft.Json.JsonProperty("foods")]
+        public Foods Foods { get; set; }
     }
 }

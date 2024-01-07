@@ -1,4 +1,5 @@
-﻿using NutriApp.Server.ApiContract.Models;
+﻿using Microsoft.IdentityModel.Tokens;
+using NutriApp.Server.ApiContract.Models;
 using NutriApp.Server.DataAccess.Context;
 using NutriApp.Server.DataAccess.Entities.Dishes;
 using NutriApp.Server.Exceptions;
@@ -143,52 +144,60 @@ namespace NutriApp.Server.Repositories
             _appDbContext.SaveChanges();
         }
 
-        public Guid AddApiProduct(FoodByIdResult.FoodById product)
+        public Guid AddApiProduct(FoodById product)
         {
             var found = _appDbContext.ApiProductInfos
-                .FirstOrDefault(x => x.ApiId == product.food_id);
+                .FirstOrDefault(x => x.ApiId == product.FoodId);
 
             if (found is not null)
             {
                 return found.Id;
             }
 
-            var serving = product.servings.serving
-                .FirstOrDefault(x => (x.metric_serving_amount is not null));
+            var serving = product.Servings.Serving
+                .FirstOrDefault(x => (x.MetricServingAmount is not null));
 
-            if (serving is not null)
+            if (serving is null)
             {
-                serving = product.servings.serving
+                serving = product.Servings.Serving
                     .First();
             }
 
             var portion = 100;
-            if (serving?.metric_serving_amount is not null)
+            if (serving?.MetricServingAmount is not null)
             {
-                portion = (int)decimal.Parse(serving.metric_serving_amount
-                    .Replace(".", ",")
-                );
+                portion = GetValueFromApiParam(serving.MetricServingAmount);
             }
 
             var productApiUrl = new ApiProductInfo()
             {
                 Id = Guid.NewGuid(),
-                ApiId = product.food_id,
-                Name = product.food_name,
-                Brand = product.brand_name,
-                Description = serving?.serving_description,
-                Portion = serving?.metric_serving_amount,
-                Calories = GetValueFromApiParam(serving.calories),
-                Proteins = GetValueFromApiParam(serving.protein),
-                Carbohydrates = GetValueFromApiParam(serving.carbohydrate),
-                Fats = GetValueFromApiParam(serving.fat),
+                ApiUrl = product.FoodUrl,
+                ApiId = product.FoodId,
+                Name = product.FoodName,
+                Brand = product.BrandName,
+                Description = serving?.ServingDescription,
+                Portion = serving?.MetricServingAmount,
+                Calories = GetValueFromApiParam(serving?.Calories),
+                Proteins = GetValueFromApiParam(serving?.Protein),
+                Carbohydrates = GetValueFromApiParam(serving?.Carbohydrate),
+                Fats = GetValueFromApiParam(serving?.Fat),
                 GramsInPortion = portion,
             };
+
+            _appDbContext.ApiProductInfos.Add(productApiUrl);
+            _appDbContext.SaveChanges();
+
             return productApiUrl.Id;
         }
 
-        private int GetValueFromApiParam(string text)
+        private int GetValueFromApiParam(string? text)
         {
+            if (text.IsNullOrEmpty())
+            {
+                return 0;
+            }
+
             return (int)decimal.Parse(text.Replace(".", ","));
         }
     }

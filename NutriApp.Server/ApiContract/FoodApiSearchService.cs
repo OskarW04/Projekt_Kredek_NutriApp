@@ -1,11 +1,8 @@
-﻿using System.Net;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NutriApp.Server.ApiContract.Models;
 using NutriApp.Server.Exceptions;
 using RestSharp.Authenticators.OAuth2;
 using RestSharp;
-using static NutriApp.Server.ApiContract.Models.FoodApiPageResult;
-using static NutriApp.Server.ApiContract.Models.FoodByIdResult;
 
 namespace NutriApp.Server.ApiContract
 {
@@ -28,12 +25,14 @@ namespace NutriApp.Server.ApiContract
                 token = await _oAuthTokenManager.FetchAuthenticationToken();
             }
 
+            if (token is null)
+            {
+                throw new FoodDatabaseApiErrorException("Could not fetch external API OAuth");
+            }
+
             var options = new RestClientOptions(BaseSearchUrl)
             {
-                Authenticator = new OAuth2UriQueryParameterAuthenticator(token ??
-                                                                         throw new FoodDatabaseApiErrorException(
-                                                                             "Could not fetch external API OAuth"
-                                                                         ))
+                Authenticator = new OAuth2UriQueryParameterAuthenticator(token)
             };
 
             var client = new RestClient(options);
@@ -62,11 +61,11 @@ namespace NutriApp.Server.ApiContract
             {
                 return new Foods()
                 {
-                    food = []
+                    Food = []
                 };
             }
 
-            return deserializedContent.foods;
+            return deserializedContent.Foods;
         }
 
         public async Task<FoodById> FetchFoodByApiId(string apiId)
@@ -78,12 +77,14 @@ namespace NutriApp.Server.ApiContract
                 token = await _oAuthTokenManager.FetchAuthenticationToken();
             }
 
+            if (token is null)
+            {
+                throw new FoodDatabaseApiErrorException("Could not fetch external API OAuth");
+            }
+
             var options = new RestClientOptions(BaseSearchUrl)
             {
-                Authenticator = new OAuth2UriQueryParameterAuthenticator(token ??
-                                                                         throw new FoodDatabaseApiErrorException(
-                                                                             "Could not fetch external API OAuth"
-                                                                         ))
+                Authenticator = new OAuth2UriQueryParameterAuthenticator(token)
             };
 
             var client = new RestClient(options);
@@ -105,18 +106,18 @@ namespace NutriApp.Server.ApiContract
                 JsonConvert.DeserializeObject<FoodByIdResultRoot>(response.Content ??
                                                                   throw new FoodDatabaseApiErrorException(
                                                                       "Could not fetch food By Id"));
-            if (deserializedContent?.food is null)
+            if (deserializedContent?.Food is null)
             {
                 return new FoodById()
                 {
-                    servings = new Servings()
+                    Servings = new Servings()
                     {
-                        serving = []
+                        Serving = []
                     }
                 };
             }
 
-            return deserializedContent.food;
+            return deserializedContent.Food;
         }
     }
 }
