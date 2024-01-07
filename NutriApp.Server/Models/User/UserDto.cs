@@ -1,6 +1,4 @@
-﻿using NutriApp.Server.DataAccess.Entities.User;
-
-namespace NutriApp.Server.Models.User
+﻿namespace NutriApp.Server.Models.User
 {
     public class UserDto
     {

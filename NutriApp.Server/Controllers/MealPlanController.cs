@@ -28,6 +28,8 @@ namespace NutriApp.Server.Controllers
             return Ok(mealPlan);
         }
 
+        // todo: zrobic moliwosc zmiany wielkosci porcji aktualnego meala pod tym samym endpointem
+
         [HttpPut("{mealPlanId}")]
         public ActionResult AddMeal(
             [FromRoute] Guid mealPlanId,
@@ -36,6 +38,28 @@ namespace NutriApp.Server.Controllers
             [FromQuery] MealType mealType)
         {
             _mealPlanService.AddToMealPlan(mealPlanId, dishId, gramsOfPortion, mealType);
+            return Ok();
+        }
+
+        // todo
+
+        [HttpPut("update/{mealPlanId}")]
+        public ActionResult UpdateMealPlan(
+            [FromRoute] Guid mealPlanId,
+            [FromBody] UpdateMealPlanRequest updateMealPlanRequest)
+        {
+            _mealPlanService.UpdateMealPlan(mealPlanId, updateMealPlanRequest);
+            return Ok();
+        }
+
+        // todo
+
+        [HttpDelete("{mealPlanId}")]
+        public ActionResult RemoveMeal(
+            [FromRoute] Guid mealPlanId,
+            [FromQuery] MealType mealType)
+        {
+            _mealPlanService.RemoveMeal(mealPlanId, mealType);
             return Ok();
         }
     }

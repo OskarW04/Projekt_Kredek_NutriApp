@@ -29,6 +29,16 @@ namespace NutriApp.Server.Services
             _mealPlanRepository.AddToMealPlan(mealPlanId, dishId, gramsOfPortion, mealType, userId);
         }
 
+        public void UpdateMealPlan(Guid mealPlanId, UpdateMealPlanRequest updateMealPlanRequest)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveMeal(Guid mealPlanId, MealType mealType)
+        {
+            throw new NotImplementedException();
+        }
+
         private string VerifyUserClaims()
         {
             var userId = _userContextService.UserId;
