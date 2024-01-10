@@ -104,6 +104,7 @@ namespace NutriApp.Server.Repositories
         public void AddToMealPlan(Guid mealPlanId, Guid dishId, uint gramsOfPortion, MealType mealType, string userId)
         {
             var firstOrDefault = _dbContext.DailyMealPlans
+                .Include(dailyMealPlan => dailyMealPlan.Meals!)
                 .FirstOrDefault(mp => mp.Id == mealPlanId && mp.UserId == userId);
 
             if (firstOrDefault is null || firstOrDefault.UserId != userId)
@@ -119,16 +120,80 @@ namespace NutriApp.Server.Repositories
                 throw new ForbidException("User claims invalid");
             }
 
-            var meal = new Meal
-            {
-                Id = Guid.NewGuid(),
-                DailyMealPlanId = mealPlanId,
-                DishId = dishId,
-                MealType = mealType,
-                GramsOfPortion = (int)gramsOfPortion,
-            };
+            var mealFound = firstOrDefault.Meals!
+                .FirstOrDefault(m => m.MealType == mealType);
 
-            _dbContext.Meals.Add(meal);
+            if (gramsOfPortion == 0)
+            {
+                RemoveMeal(mealPlanId, mealType, userId);
+                return;
+            }
+
+            if (mealFound is null)
+            {
+                var meal = new Meal
+                {
+                    Id = Guid.NewGuid(),
+                    DailyMealPlanId = mealPlanId,
+                    DishId = dishId,
+                    MealType = mealType,
+                    GramsOfPortion = (int)gramsOfPortion,
+                };
+                _dbContext.Meals.Add(meal);
+            }
+            else
+            {
+                mealFound.DishId = dishId;
+                mealFound.GramsOfPortion = (int)gramsOfPortion;
+            }
+
+            _dbContext.SaveChanges();
+        }
+
+        public void RemoveMeal(Guid mealPlanId, MealType mealType, string userId)
+        {
+            var firstOrDefault = _dbContext.DailyMealPlans
+                .Include(mp => mp.Meals)
+                .FirstOrDefault(mp => mp.Id == mealPlanId);
+
+            if (firstOrDefault is null)
+            {
+                throw new ResourceNotFoundException($"Meal with id: {mealPlanId} not found");
+            }
+
+            if (firstOrDefault.UserId != userId)
+            {
+                throw new ForbidException("User claims invalid");
+            }
+
+            var meal = firstOrDefault.Meals!
+                .FirstOrDefault(m => m.MealType == mealType);
+
+            if (meal is not null)
+            {
+                _dbContext.Meals.Remove(meal);
+                _dbContext.SaveChanges();
+            }
+        }
+
+        public void UpdateMealPlan(Guid mealPlanId, UpdateMealPlanRequest updateMealPlanRequest, string userId)
+        {
+            var firstOrDefault = _dbContext.DailyMealPlans
+                .FirstOrDefault(mp => mp.Id == mealPlanId);
+
+            if (firstOrDefault is null)
+            {
+                throw new ResourceNotFoundException($"Meal with id: {mealPlanId} not found");
+            }
+
+            if (firstOrDefault.UserId != userId)
+            {
+                throw new ForbidException("User claims invalid");
+            }
+
+            firstOrDefault.Water = updateMealPlanRequest.Water;
+            firstOrDefault.Notes = updateMealPlanRequest.Notes;
+
             _dbContext.SaveChanges();
         }
 

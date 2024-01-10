@@ -31,12 +31,14 @@ namespace NutriApp.Server.Services
 
         public void UpdateMealPlan(Guid mealPlanId, UpdateMealPlanRequest updateMealPlanRequest)
         {
-            throw new NotImplementedException();
+            var userId = VerifyUserClaims();
+            _mealPlanRepository.UpdateMealPlan(mealPlanId, updateMealPlanRequest, userId);
         }
 
         public void RemoveMeal(Guid mealPlanId, MealType mealType)
         {
-            throw new NotImplementedException();
+            var userId = VerifyUserClaims();
+            _mealPlanRepository.RemoveMeal(mealPlanId, mealType, userId);
         }
 
         private string VerifyUserClaims()
