@@ -1,25 +1,24 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const AuthContext = createContext();
+const AuthProvider = () => {
+  const navigate = useNavigate();
 
-export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    // Sprawdź, czy token jest zapisany w local storage
+    const token = localStorage.getItem('token');
 
-  const login = () => {
-    setIsLoggedIn(true);
-  };
+    if (token) {
+      // Jeżeli token istnieje, przekieruj na stronę /main
+      navigate('/Main');
+    } else {
+      // Jeżeli token nie istnieje, przekieruj na stronę /login
+      navigate('/Home');
+    }
+  }, []); // Pusta tablica dependencies, aby sprawdzić token tylko raz przy montowaniu
 
-  const logout = () => {
-    setIsLoggedIn(false);
-  };
-
-  return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  // Placeholder - ten komponent nie musi renderować niczego na stronie
+  return null;
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export default AuthProvider;

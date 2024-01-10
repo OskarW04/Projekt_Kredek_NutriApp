@@ -10,7 +10,7 @@ export function Login() {
   const { register, control, handleSubmit } = form;
   const navigate = useNavigate();
 
-  const onSubmit = async ({repeatPassword,...data}) => {
+  const onSubmit = async (data) => {
     const json = JSON.stringify(data)
       try {
         
@@ -34,13 +34,11 @@ export function Login() {
               })
           } catch (error) {
               areDetails = false;
-              console.log('dupa')
               navigate('/Details')
               
           }
-        
+          window.alert('Zalogowano pomyślnie');
           if (areDetails) {
-              window.alert('Zalogowano pomyślnie');
               navigate('/Main')
           }
       }catch (error){

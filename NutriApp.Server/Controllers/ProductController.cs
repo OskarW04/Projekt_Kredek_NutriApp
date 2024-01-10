@@ -55,7 +55,7 @@ namespace NutriApp.Server.Controllers
 
         [HttpGet("apiProducts")]
         public async Task<ActionResult<PageResult<ApiProductDto>>> GetApiProducts(
-            [FromBody] SearchQuery searchQuery)
+            [FromQuery] SearchQuery searchQuery)
         {
             var result = await _productService.GetApiProducts(
                 searchQuery.PageNumber,
