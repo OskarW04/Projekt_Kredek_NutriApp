@@ -20,7 +20,7 @@ namespace NutriApp.Server.Controllers
 
         [HttpGet("userDishes")]
         public ActionResult<PageResult<DishDto>> GetUsersDishes(
-            [FromBody] PaginationParams paginationParams)
+            [FromQuery] PaginationParams paginationParams)
         {
             var dishes = _dishService.GetDishes(paginationParams);
             return Ok(dishes);

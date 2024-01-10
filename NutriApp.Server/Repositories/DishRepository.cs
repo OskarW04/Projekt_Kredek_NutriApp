@@ -21,12 +21,14 @@ namespace NutriApp.Server.Repositories
         public PageResult<DishDto> GetUsersDishes(string userId, int pageSize,
             int pageNumber)
         {
-            var dishes = _dbContext.Dishes
+            var baseQuery = _dbContext.Dishes
                 .Include(x => x.DishApiProducts)!
                 .ThenInclude(x => x.ApiProductInfo)
                 .Include(x => x.DishProducts)!
                 .ThenInclude(x => x.Product)
-                .Where(x => x.UserId == userId)
+                .Where(x => x.UserId == userId);
+
+            var dishes = baseQuery
                 .Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize)
                 .ToList();
@@ -76,7 +78,7 @@ namespace NutriApp.Server.Repositories
 
             return new PageResult<DishDto>(
                 results,
-                results.Count,
+                baseQuery.Count(),
                 pageSize,
                 pageNumber);
         }

@@ -88,7 +88,10 @@ builder.Services.AddScoped<IValidator<SearchQuery>, SearchQueryValidator>();
 builder.Services.AddScoped<IValidator<PaginationParams>, PaginationParamsValidator>();
 
 // food database api
-builder.Services.AddSingleton<AuthenticationKeys>();
+var foodApiAuthKeys = new AuthenticationKeys();
+builder.Configuration.GetSection("FoodApiSettings")
+    .Bind(foodApiAuthKeys);
+builder.Services.AddSingleton(foodApiAuthKeys);
 builder.Services.AddSingleton<OAuthTokenManager>();
 builder.Services.AddScoped<FoodApiSearchService>();
 

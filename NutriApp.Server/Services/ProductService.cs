@@ -56,6 +56,9 @@ namespace NutriApp.Server.Services
             VerifyUserClaims();
             var result = await _foodApiSearchService.FetchFoodSearch(search, pageNumber, pageSize);
 
+            var isResultCount = int.TryParse(result.TotalResults, out var parsedResultCount);
+            var totalItemsCount = isResultCount ? parsedResultCount : result.Food.Count;
+
             return new PageResult<ApiProductDto>(
                 result.Food.Select(x =>
                 {
@@ -80,7 +83,7 @@ namespace NutriApp.Server.Services
                             GetValueFromApiProductDescription(x.FoodDescription, "Fat: ", "g"))
                     };
                 }),
-                result.Food.Count,
+                totalItemsCount,
                 pageSize,
                 pageNumber
             );

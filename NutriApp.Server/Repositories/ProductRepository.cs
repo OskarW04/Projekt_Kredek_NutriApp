@@ -90,8 +90,10 @@ namespace NutriApp.Server.Repositories
 
         public PageResult<ProductDto> GetUsersProducts(string userId, int pageSize, int pageNumber)
         {
-            var products = _appDbContext.Products
-                .Where(x => x.UserId == userId)
+            var baseQuery = _appDbContext.Products
+                .Where(x => x.UserId == userId);
+
+            var products = baseQuery
                 .Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize)
                 .ToList();
@@ -112,7 +114,7 @@ namespace NutriApp.Server.Repositories
 
             return new PageResult<ProductDto>(
                 results,
-                results.Count,
+                baseQuery.Count(),
                 pageSize,
                 pageNumber);
         }
