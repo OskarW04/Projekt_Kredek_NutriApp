@@ -4,7 +4,7 @@ import Login from './Components/Login.jsx'
 import Register from './Components/Register.jsx';
 import Home from './Components/Home.jsx';
 import UserDetails from './Components/UserDetails.jsx';
-import Main from './Components/Main.jsx'
+import Search from './Components/Search.jsx'
 import AuthProvider from './Components/AuthProvider.jsx'
 import PrivateRoute from './Components/PrivateRoute.jsx';
 
@@ -18,7 +18,7 @@ function App() {
             <Route path="/Register" element={<Register/>} />
             <Route exact path='/' element={<PrivateRoute/>}>
                 <Route exact path="/Details" element={<UserDetails/>}/>
-                <Route exact path='/Main' element={<Main/>}/>
+                <Route exact path='/Search' element={<Search/>}/>
             </Route>
         </Routes>
     );

@@ -31,7 +31,7 @@ export function UserDetails() {
                  params: { 'email': localStorage.getItem('email') }
                 
             })
-            navigate('/main')
+            navigate('/Search')
             
         } catch (error) {
             window.alert(error)

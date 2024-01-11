@@ -1,5 +1,4 @@
 ﻿#root {
-    max-width: 1280px;
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
@@ -11,12 +10,15 @@ label {
     margin-bottom: 5px;
 }
 
-input[type="password"],
-input[type="text"],
-input[type="email"],
-input[type="number"],
-input[type="date"],
-select {
+button.prevPage,
+button.nextPage{
+    margin-top: 50px;
+}
+
+input.searchInput{
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: block;
     width: 400px;
     padding: 6px 12px;
@@ -25,8 +27,23 @@ select {
     background-image: none;
     border: 1px solid #ccc;
     border-radius: 4px;
-    
+    align-items: center;
 }
+
+  input,
+  select {
+    display: block;
+    width: 400px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    align-items: center;
+  }
+
+
 select {
     width: 427px;
 }
@@ -39,4 +56,27 @@ select {
 
 .form-control {
     margin-bottom: 20px;
+}
+
+.product {
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    text-align: center;
+
+}
+ul{
+    list-style: none;
+}
+
+
+img.gif{
+    width:50px;
+    height:50px;
+    margin-top: 15px;
+
+}
+
+p.pages{
+    padding-top: 40px;
+    margin-bottom: -40px;
 }

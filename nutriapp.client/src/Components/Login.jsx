@@ -39,7 +39,7 @@ export function Login() {
           }
           window.alert('Zalogowano pomyślnie');
           if (areDetails) {
-              navigate('/Main')
+              navigate('/Search')
           }
       }catch (error){
         window.alert('Błąd logowania');

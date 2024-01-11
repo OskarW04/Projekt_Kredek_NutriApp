@@ -1,13 +1,18 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios"
+import "../App.css"
 
-export function Main() {
+export function Search() {
     const [searchItem, setSearchItem] = useState('')
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize] = useState(5);
+    const [allPages, setAllPages] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [loadingError, setLoadingError] = useState(null);
     
     const fetchdata = async () => {
+        setIsLoading(true)
         const token = localStorage.getItem('token')
         try {
             const response = await axios.get("https://localhost:7130/api/Product/apiProducts", {
@@ -21,8 +26,13 @@ export function Main() {
                         },                          
            })
            setSearchResults(response.data.items.map((item) => ({ name: item.name, description: item.description, brand: item.brand })));
+           setAllPages(response.data.totalPages)
         } catch(error){
             console.error(error)
+            setLoadingError("Wystąpił błąd podczas ładowania danych")
+        }
+        finally{
+            setIsLoading(false)
         }
     };
     useEffect(() => {
@@ -54,34 +64,46 @@ export function Main() {
     return (
             <div>
                 <input
+                    className="searchInput"
                     type="text"
                     placeholder="Wpisz szukane produkty..."
                     value={searchItem}
                     onChange={handleInputChange}
                 />
-                <button onClick={handlePrevPage} disabled={pageNumber === 1}>
+                <div>
+                {searchItem !== "" && (<p className="pages">{pageNumber}/{allPages}</p>)}
+                <button className="prevPage" onClick={handlePrevPage} disabled={pageNumber === 1}>
                     Poprzednia strona
                 </button>
-                <button onClick={handleNextPage}>Następna strona</button>
-                <ul>
-                    {Array.isArray(searchResults) ? (
-                    searchResults.map((product, index) => (
-                        <>
-                        <li key={index + product.name}>{product.name}</li>
-                        <ul>
-                            <li key={index + product.brand}>Brand: {product.brand}</li>
-                            <li key={index + product.description}>{product.description}</li>
-                        </ul>
+                <button className="nextPage" onClick={handleNextPage}>Następna strona</button>
+                </div>
+                {loadingError && (<div>{loadingError}</div>)}
 
-                        </>
-                    ))
-                    ) : (
-                    <li>Nie znaleziono produktów</li>
-                    )}
-                </ul>
-                <p>{pageNumber}</p>
+                {isLoading ? 
+                (<div><img className="gif" src="/loading.gif" alt="Ikona ładowania" /></div>):
+                <ul className="product-list">
+                {Array.isArray(searchResults) ? (
+                searchResults.map((product, index) => (
+                    <>
+                    <div className="product">
+                    <li key={index + product.name}><strong>{product.name}</strong></li>
+                    <ul>
+                        {product.brand !== null && (<li key={index + product.brand}>Brand: {product.brand}</li>)}
+                        <li key={index + product.description}>{product.description}</li>
+                    </ul>
+                    <button name="add" >Dodaj</button>
+                    </div>
+                    </>
+                ))
+                ) : (
+                <li>Nie znaleziono produktów</li>
+                )}
+            </ul>
+            }
+                
+                
             </div>
     )
 }
 
-export default Main
+export default Search
