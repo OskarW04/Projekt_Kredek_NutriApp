@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios"
 
-
 export function Main() {
     const [searchItem, setSearchItem] = useState('')
     const [pageNumber, setPageNumber] = useState(1);
@@ -16,25 +15,21 @@ export function Main() {
                             'Authorization': `Bearer ${token}`
                         },
                 params: {
-                        'searchPhrase': searchItem,
+                        'searchPhrase': searchItem.substring(0, searchItem.length-1),
                         'pageNumber': pageNumber,
                         'pageSize': pageSize,
                         },                          
            })
-           console.log(response)
-           setSearchResults(response.data.items.map(item => item.name));
+           setSearchResults(response.data.items.map((item) => ({ name: item.name, description: item.description, brand: item.brand })));
         } catch(error){
             console.error(error)
         }
     };
-
-
     useEffect(() => {
         
-        if(searchItem.length >= 2)
+        if(searchItem.length >= 3)
         {
             fetchdata()
-            setSearchResults([]);
         }
         else{
             setSearchResults([]);
@@ -43,7 +38,7 @@ export function Main() {
 
     const handleInputChange = (event) => {
         setSearchItem(event.target.value);
-        setPageNumber(1); // Zresetuj numer strony przy zmianie frazy
+        setPageNumber(1);
       };
     
       const handleNextPage = () => {
@@ -70,8 +65,15 @@ export function Main() {
                 <button onClick={handleNextPage}>Następna strona</button>
                 <ul>
                     {Array.isArray(searchResults) ? (
-                    searchResults.map((product) => (
-                        <li>{product}</li>
+                    searchResults.map((product, index) => (
+                        <>
+                        <li key={index + product.name}>{product.name}</li>
+                        <ul>
+                            <li key={index + product.brand}>Brand: {product.brand}</li>
+                            <li key={index + product.description}>{product.description}</li>
+                        </ul>
+
+                        </>
                     ))
                     ) : (
                     <li>Nie znaleziono produktów</li>
@@ -83,4 +85,3 @@ export function Main() {
 }
 
 export default Main
-
