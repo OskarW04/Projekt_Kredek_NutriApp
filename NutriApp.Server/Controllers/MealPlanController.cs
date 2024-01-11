@@ -41,8 +41,6 @@ namespace NutriApp.Server.Controllers
             return Ok();
         }
 
-        // todo
-
         [HttpPut("update/{mealPlanId}")]
         public ActionResult UpdateMealPlan(
             [FromRoute] Guid mealPlanId,
@@ -51,8 +49,6 @@ namespace NutriApp.Server.Controllers
             _mealPlanService.UpdateMealPlan(mealPlanId, updateMealPlanRequest);
             return Ok();
         }
-
-        // todo
 
         [HttpDelete("{mealPlanId}")]
         public ActionResult RemoveMeal(

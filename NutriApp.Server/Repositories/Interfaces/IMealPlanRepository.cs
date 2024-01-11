@@ -7,5 +7,7 @@ namespace NutriApp.Server.Repositories.Interfaces
     {
         MealPlanDto? GetByDate(DateTime date, string userId);
         void AddToMealPlan(Guid mealPlanId, Guid dishId, uint gramsOfPortion, MealType mealType, string userId);
+        void RemoveMeal(Guid mealPlanId, MealType mealType, string userId);
+        void UpdateMealPlan(Guid mealPlanId, UpdateMealPlanRequest updateMealPlanRequest, string userId);
     }
 }

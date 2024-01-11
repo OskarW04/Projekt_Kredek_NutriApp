@@ -19,7 +19,7 @@ namespace NutriApp.Server.Controllers
         }
 
         [HttpGet("userProducts")]
-        public ActionResult<PageResult<ProductDto>> GetUsersProducts([FromBody] PaginationParams paginationParams)
+        public ActionResult<PageResult<ProductDto>> GetUsersProducts([FromQuery] PaginationParams paginationParams)
         {
             var products = _productService.GetProducts(paginationParams);
             return Ok(products);
