@@ -10,7 +10,7 @@ const AuthProvider = () => {
 
     if (token) {
       // Jeżeli token istnieje, przekieruj na stronę /main
-      navigate('/Search');
+      navigate('/MealPlan');
     } else {
       // Jeżeli token nie istnieje, przekieruj na stronę /login
       navigate('/Home');
