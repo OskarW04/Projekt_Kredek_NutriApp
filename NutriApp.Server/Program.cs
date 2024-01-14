@@ -58,6 +58,7 @@ builder.Services.AddCors(opt =>
         corsPolicyBuilder
             .AllowAnyMethod()
             .AllowAnyHeader()
+            .WithExposedHeaders("Location")
             .WithOrigins(
                 builder.Configuration["AllowedOrigins"] ??
                 throw new InvalidOperationException(

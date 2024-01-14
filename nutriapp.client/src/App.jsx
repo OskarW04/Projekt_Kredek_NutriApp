@@ -10,6 +10,8 @@ import Search from "./Components/Search.jsx";
 import MealPlan from "./Components/MealPlan.jsx";
 import AuthProvider from "./Components/AuthProvider.jsx";
 import PrivateRoute from "./Components/PrivateRoute.jsx";
+import AddDish from "./Components/AddDish.jsx"
+import CreateDish from "./Components/CreateDish.jsx";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route exact path="/Details/Get" element={<UserDetailsGet />} />
         <Route exact path="/Search" element={<Search />} />
         <Route exact path="/MealPlan" element={<MealPlan />} />
+        <Route exact path="/AddDish" element={<AddDish/>} />
+        <Route exact path ="/CreateDish/:location" element={<CreateDish/>} />
       </Route>
     </Routes>
   );

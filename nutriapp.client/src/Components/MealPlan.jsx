@@ -1,17 +1,41 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 
 export function MealPlan(){
+    const navigate = useNavigate();
     const Todaydate = new Date();
-    const [dateSelect, setDateSelect] = useState(Todaydate)
-    const [pickedMealDate, setPickedMealDate] = useState()
+    const [dateSelect, setDateSelect] = useState(Todaydate);
+    const [pickedMealDate, setPickedMealDate] = useState();
     const [isPopupOpen, setPopupOpen] = useState(false);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [dish, setDish] = useState([]);
 
     const handleDateChange = date => {
         setDateSelect(date);
       };
+
+      const getDish = async () => {
+        const token = localStorage.getItem('token');
+        try{
+        const Dish = await axios.get("https://localhost:7130/api/Dish/userDishes", {
+          headers:{
+                      'Authorization': `Bearer ${token}`
+                  },
+          params: {
+                  'pageNumber': pageNumber,
+                  'pageSize': 5,
+                  },                          
+     })
+        setDish(Dish.items)
+        console.log(Dish.items)
+        }
+        catch(error){
+          console.log(error);
+        }
+      }
 
       useEffect(() => { // Pobieranie danych
         const fetchData = async () => {
@@ -33,18 +57,23 @@ export function MealPlan(){
       }, [dateSelect]);
 
       useEffect(() => {
-        console.log(pickedMealDate);
       }, [pickedMealDate]);
 
 
 
       const handleOpenPopup = () => {
+        getDish();
+        console.log(localStorage.getItem('token'))
         setPopupOpen(true);
       };
     
     const handleClosePopup = () => {
         setPopupOpen(false);
       };
+
+    const handleAddDish =() => {
+        navigate("/AddDish")
+    }
     
     
     const PopupModal = ({ isOpen, onClose, content }) => {
@@ -79,6 +108,29 @@ export function MealPlan(){
         onClose={handleClosePopup}
         content={<div>
             <h1>Lista posiłków:</h1>
+            <ul className="product-list">
+            {Array.isArray(dish) ? (
+                dish.map((product, index) => (
+                    <>
+                    <div className="product">
+                    <li key={index + product.name}><strong>{product.name}</strong></li>
+                    <ul>
+                        
+                    </ul>
+                    <button name="add" >Dodaj</button>
+                    </div>
+                    </>
+                ))
+                ) : (
+                <>
+                <li>Nie znaleziono posiłków</li>
+                <button onClick={handleAddDish}>Stwórz posiłek</button>
+                </>
+                )}
+            </ul>
+            
+
+
         </div>}
       />
         </>
