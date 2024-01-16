@@ -156,6 +156,8 @@ export function MealPlan(){
               <>
               <div className="product">
                 <li><strong>{meal.dish.name}</strong><button onClick={() => handleDeleteMeal(meal.id, meal.mealType)}>Usuń</button></li>
+                <li>{meal.mealType}</li>
+                <li></li>
               </div>
               </>
             ))
@@ -179,6 +181,7 @@ export function MealPlan(){
                     <>
                     <div className="product">
                     <li key={index + product.name}><strong>{product.name}</strong></li>
+                    <li></li>
                     <ul>
                         
                     </ul>
