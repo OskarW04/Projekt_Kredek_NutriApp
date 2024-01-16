@@ -34,7 +34,7 @@ export const UserDetailsUpdate = () => {
       return value;
     });
 
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     sendRequest(json, token);
     navigate("/Details/Get");
   };
@@ -201,7 +201,7 @@ async function sendRequest(json, token) {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      params: { email: localStorage.getItem("email") },
+      params: { email: sessionStorage.getItem("email") },
     });
     return updateDetails;
   } catch (error) {

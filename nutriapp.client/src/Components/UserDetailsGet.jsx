@@ -25,7 +25,7 @@ async function sendRequest(token) {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      params: { email: localStorage.getItem("email") },
+      params: { email: sessionStorage.getItem("email") },
     });
 
     return getDetails.data;
@@ -45,7 +45,7 @@ export const UserDetailsGet = () => {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    sendRequest(localStorage.getItem("token")).then((x) => setDetails(x));
+    sendRequest(sessionStorage.getItem("token")).then((x) => setDetails(x));
     const rowsInit = [
       createData("Email", details.email),
       createData("Name", details.name),

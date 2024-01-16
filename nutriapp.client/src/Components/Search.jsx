@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios"
 import "../App.css"
+import { useNavigate, useParams } from "react-router-dom";
 
 export function Search() {
     const [searchItem, setSearchItem] = useState('')
@@ -10,10 +11,13 @@ export function Search() {
     const [searchResults, setSearchResults] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [loadingError, setLoadingError] = useState(null);
-    
+    const navigate = useNavigate();
+    const {adress} = useParams();
+    const AddUrl = decodeURIComponent(adress);
+
     const fetchdata = async () => {
         setIsLoading(true)
-        const token = localStorage.getItem('token')
+        const token = sessionStorage.getItem('token')
         try {
             const response = await axios.get("https://localhost:7130/api/Product/apiProducts", {
                 headers:{
@@ -25,7 +29,7 @@ export function Search() {
                         'pageSize': pageSize,
                         },                          
            })
-           setSearchResults(response.data.items.map((item) => ({ name: item.name, description: item.description, brand: item.brand })));
+           setSearchResults(response.data.items.map((item) => ({apiId: item.apiId, gramsInPortion: item.gramsInPortion , name: item.name, description: item.description, brand: item.brand })));
            setAllPages(response.data.totalPages)
         } catch(error){
             console.error(error)
@@ -61,6 +65,23 @@ export function Search() {
         fetchdata();
       };
 
+      const handleAdd = async(product) => {
+        console.log(product.apiId + "  " + product.gramsInPortion)
+        try{
+            const dishId = AddUrl.substring(10);
+            const token = sessionStorage.getItem('token');
+            const response = await axios.put(`https://localhost:7130${AddUrl}/addProduct?productId=${product.apiId}&grams=${product.gramsInPortion}`, null, {
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                },
+            })
+            navigate(`/CreateDish/${encodeURIComponent(adress)}`)
+        }catch(error)
+        {
+            console.error(error);
+        }
+      }
+
     return (
             <div>
                 <input
@@ -75,7 +96,7 @@ export function Search() {
                 <button className="prevPage" onClick={handlePrevPage} disabled={pageNumber === 1}>
                     Poprzednia strona
                 </button>
-                <button className="nextPage" onClick={handleNextPage}>Następna strona</button>
+                <button className="nextPage" onClick={handleNextPage} disabled={pageNumber === allPages}>Następna strona</button>
                 </div>
                 {loadingError && (<div>{loadingError}</div>)}
 
@@ -91,7 +112,7 @@ export function Search() {
                         {product.brand !== null && (<li key={index + product.brand}>Brand: {product.brand}</li>)}
                         <li key={index + product.description}>{product.description}</li>
                     </ul>
-                    <button name="add" >Dodaj</button>
+                    <button name="add" onClick={() => handleAdd(product)}>Dodaj</button>
                     </div>
                     </>
                 ))

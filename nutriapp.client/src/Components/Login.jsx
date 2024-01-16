@@ -23,8 +23,8 @@ export function Login() {
 
 
           const token = response.data.accessToken
-          localStorage.setItem('token', token);
-          localStorage.setItem('email', data.email);
+          sessionStorage.setItem('token', token);
+          sessionStorage.setItem('email', data.email);
 
           var areDetails = true;
           try {

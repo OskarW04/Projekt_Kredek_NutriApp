@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 export function AddDish(){
@@ -8,9 +8,11 @@ export function AddDish(){
     const form = useForm();
     const { register, control, handleSubmit } = form;
 
+    const mealId = useParams();
+    console.log(mealId.mealId)
     const onSubmit = async(data) => {
         const json = JSON.stringify(data);
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         try{
             const response = await axios.post("https://localhost:7130/api/Dish", json, {
                 headers:{
@@ -36,7 +38,7 @@ export function AddDish(){
                     <input type="text" id="name" {...register("name")} />
 
                     <label htmlFor="description">Opis</label>
-                    <input type="text" id="description" {...register("description")} />
+                    <input type="text" id="description" placeholder="(opcjonalne)" {...register("description")} />
 
                     <button>Submit</button>
                 </form>

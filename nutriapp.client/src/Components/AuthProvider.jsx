@@ -6,7 +6,7 @@ const AuthProvider = () => {
 
   useEffect(() => {
     // Sprawdź, czy token jest zapisany w local storage
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     if (token) {
       // Jeżeli token istnieje, przekieruj na stronę /main

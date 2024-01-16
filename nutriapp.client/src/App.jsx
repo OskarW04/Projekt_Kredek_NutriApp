@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./Components/Login.jsx";
 import Register from "./Components/Register.jsx";
@@ -14,6 +14,7 @@ import AddDish from "./Components/AddDish.jsx"
 import CreateDish from "./Components/CreateDish.jsx";
 
 function App() {
+
   return (
     <Routes>
       <Route path="/Home" element={<Home />} />
@@ -24,7 +25,7 @@ function App() {
         <Route exact path="/Details" element={<UserDetails />} />
         <Route exact path="/Details/Update" element={<UserDetailsUpdate />} />
         <Route exact path="/Details/Get" element={<UserDetailsGet />} />
-        <Route exact path="/Search" element={<Search />} />
+        <Route exact path="/Search/:adress" element={<Search />} />
         <Route exact path="/MealPlan" element={<MealPlan />} />
         <Route exact path="/AddDish" element={<AddDish/>} />
         <Route exact path ="/CreateDish/:location" element={<CreateDish/>} />

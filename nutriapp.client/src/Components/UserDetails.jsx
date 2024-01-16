@@ -22,13 +22,13 @@ export function UserDetails() {
               return value;
         }) 
         
-        const token = localStorage.getItem('token')
+        const token = sessionStorage.getItem('token')
         try {
             const postdetails = await axios.post('https://localhost:7130/api/UserDetails', json, {
                  headers: { 'Authorization': `Bearer ${token}`,
                             'Accept': 'application/json',
                             'Content-Type': 'application/json' },
-                 params: { 'email': localStorage.getItem('email') }
+                 params: { 'email': sessionStorage.getItem('email') }
                 
             })
             navigate('/Search')
