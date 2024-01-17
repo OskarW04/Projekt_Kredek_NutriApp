@@ -41,7 +41,7 @@ export function CreateDish() {
     }
 
     const handleAddNew = () => {
-        
+        navigate('/AddProduct')
     }
 
 

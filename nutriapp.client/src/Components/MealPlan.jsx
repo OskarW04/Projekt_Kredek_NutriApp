@@ -107,13 +107,16 @@ export function MealPlan(){
         }
       }
 
-      const handleDeleteMeal = async() => {
+      const handleDeleteMeal = async(mealType) => {
         try{
-          const del = await axios.delete(`https://localhost:7130/api/MealPlan/${mealId}`, {
+          const del = await axios.delete(`https://localhost:7130/api/MealPlan/${mealId}?mealType=${mealType}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             },
           })
+          window.alert("Usunięto");
+          window.location.reload();
+
         }catch(error){
           console.error(error)
         }
@@ -127,6 +130,7 @@ export function MealPlan(){
                   'Authorization': `Bearer ${token}`
                   }
               })
+              window.location.reload();
         }
         catch(error)
         {
@@ -155,18 +159,17 @@ export function MealPlan(){
             pickedMealDate.map((meal,index) => (
               <>
               <div className="product">
-                <li><strong>{meal.dish.name}</strong><button onClick={() => handleDeleteMeal(meal.id, meal.mealType)}>Usuń</button></li>
+                <li><strong>{meal.dish.name}</strong><button onClick={() => handleDeleteMeal(meal.mealType)}>Usuń</button></li>
                 <li>{meal.mealType}</li>
                 <li></li>
               </div>
               </>
             ))
           ) : (
-            <p>Brak posiłków</p>
+            <p className="mealP">Brak posiłków</p>
           )}
         </ul>
         </div>
-        <button onClick={handleDeleteMeal}>Usuń</button>
         <button onClick={handleOpenPopup}>Dodaj posiłek</button>
         </div>
         
@@ -174,28 +177,28 @@ export function MealPlan(){
         isOpen={isPopupOpen}
         onClose={handleClosePopup}
         content={<div>
-            <h1>Lista posiłków:</h1>
+            <h1 className="dishInput"  >Lista posiłków:</h1>
             <ul className="product-list">
             {Array.isArray(dish) ? (
                 dish.map((product, index) => (
                     <>
                     <div className="product">
-                    <li key={index + product.name}><strong>{product.name}</strong></li>
+                    <li className="dishInput"  key={index + product.name}><strong>{product.name}</strong></li>
                     <li></li>
                     <ul>
                         
                     </ul>
-                    <button onClick={() => handleDeleteDish(product.id)}>Usuń</button>
-                    <button>Aktualizuj</button>
+                    <button className="dishInput" onClick={() => handleDeleteDish(product.id)}>Usuń</button>
+                    <button className="dishInput"  >Aktualizuj</button>
 
 
 
                     <form onSubmit={() => handleSubmit(onSave)()}>
                     <input type="hidden" {...register('Id')} value={product.id} />
-                    <label htmlFor="grams">Ilość gram</label>
-                    <input type="number" id="grams" {...register("grams")} />
+                    <label className="dishInput"  htmlFor="grams">Ilość gram</label>
+                    <input className="dishInput" type="number" id="grams" {...register("grams")} />
 
-                    <label htmlFor="MealType">Typ posiłku</label>
+                    <label className="dishInput" htmlFor="MealType">Typ posiłku</label>
                     <Controller
                         name="MealType"
                         control={control}
@@ -207,23 +210,23 @@ export function MealPlan(){
                         }}
                         render={({ field }) => (
                         <>
-                            <select {...field}>
+                            <select className="dishInput"  {...field}>
                             <option value="" disabled>
                                 Wybierz opcję
                             </option>
-                            <option value="1">Śniadanie</option>
-                            <option value="2">Drugie śniadanie</option>
-                            <option value="3">Lunch</option>
-                            <option value="4">Obiad</option>
-                            <option value="5">Przekąska</option>
-                            <option value="6">Kolacja</option>
+                            <option value="Breakfast">Śniadanie</option>
+                            <option value="SecondBreakfast">Drugie śniadanie</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Dinner">Obiad</option>
+                            <option value="Snack">Przekąska</option>
+                            <option value="Supper">Kolacja</option>
                             </select>
                             <p className="error">{errors.MealType?.message}</p>
                         </>
                         )}
                         />
 
-                    <button>Dodaj</button>
+                    <button className="dishInputAdd">Dodaj</button>
                 </form>
                     </div>
                     </>
@@ -233,7 +236,7 @@ export function MealPlan(){
                 <li>Nie znaleziono posiłków</li>
                 </>
                 )}
-                <button onClick={handleAddDish}>Stwórz posiłek</button>
+                <button className="dishInputCreate" onClick={handleAddDish}>Stwórz posiłek</button>
             </ul>
             
 
