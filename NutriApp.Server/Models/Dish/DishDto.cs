@@ -6,7 +6,7 @@ namespace NutriApp.Server.Models.Dish
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = default!;
-        public string Description { get; set; } = default!;
+        public string? Description { get; set; } = default!;
         public int GramsTotal { get; set; }
         public int Calories { get; set; }
         public int Proteins { get; set; }

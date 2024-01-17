@@ -11,7 +11,7 @@ namespace NutriApp.Server.DataAccess.Entities.Dishes
         [Key] public Guid Id { get; set; }
         [MaxLength(450)] [ForeignKey("User")] public string UserId { get; set; } = default!;
         [MaxLength(256)] public string Name { get; set; } = default!;
-        [MaxLength(512)] public string Description { get; set; } = default!;
+        [MaxLength(512)] public string? Description { get; set; } = default!;
         public int GramsTotal { get; set; }
         public int Calories { get; set; }
         public int Proteins { get; set; }

@@ -11,6 +11,7 @@ namespace NutriApp.Server.Controllers
     public class MealPlanController : ControllerBase
     {
         // TODO: Moze dodac mozliwosc dodawania samych produktow do meals -> nowa tabela MealProducts oraz MealApiProducts
+        // Todo: Mozliwosc dodawania wiekszej ilosci dan do jednego posilku
 
         private readonly IMealPlanService _mealPlanService;
 
@@ -27,14 +28,12 @@ namespace NutriApp.Server.Controllers
             return Ok(mealPlan);
         }
 
-        // todo: zrobic moliwosc zmiany wielkosci porcji aktualnego meala pod tym samym endpointem
-
         [HttpPut("{mealPlanId}")]
         public ActionResult AddMeal(
             [FromRoute] Guid mealPlanId,
             [FromQuery] Guid dishId,
             [FromQuery] uint gramsOfPortion,
-            [FromQuery] String mealType)
+            [FromQuery] string mealType)
         {
             _mealPlanService.AddToMealPlan(mealPlanId, dishId, gramsOfPortion, mealType);
             return Ok();
@@ -52,7 +51,7 @@ namespace NutriApp.Server.Controllers
         [HttpDelete("{mealPlanId}")]
         public ActionResult RemoveMeal(
             [FromRoute] Guid mealPlanId,
-            [FromQuery] String mealType)
+            [FromQuery] string mealType)
         {
             _mealPlanService.RemoveMeal(mealPlanId, mealType);
             return Ok();

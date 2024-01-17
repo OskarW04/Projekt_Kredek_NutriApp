@@ -19,7 +19,7 @@ namespace NutriApp.Server.Repositories
             _dbContext = dbContext;
         }
 
-        public MealPlanDto? GetByDate(DateTime date, string userId)
+        public MealPlanDto GetByDate(DateTime date, string userId)
         {
             var mealPlan = _dbContext.DailyMealPlans
                 .Include(mp => mp.Meals)!
@@ -62,12 +62,18 @@ namespace NutriApp.Server.Repositories
                     MealType = m.MealType.ToString(),
                     Dish = new DishDto()
                     {
-                        Id = m.Dish.Id,
+                        Id = m.Dish!.Id,
                         Name = m.Dish.Name,
-                        DishProducts = m.Dish.DishProducts.Select(dp => new ProductDto()
+                        Description = m.Dish.Description,
+                        Calories = m.Dish.Calories,
+                        Carbohydrates = m.Dish.Carbohydrates,
+                        Proteins = m.Dish.Proteins,
+                        Fats = m.Dish.Fats,
+                        GramsTotal = m.Dish.GramsTotal,
+                        DishProducts = m.Dish.DishProducts!.Select(dp => new ProductDto()
                         {
                             Id = dp.Id,
-                            Name = dp.Product.Name,
+                            Name = dp.Product!.Name,
                             Brand = dp.Product.Brand,
                             Calories = dp.Product.Calories,
                             Carbohydrates = dp.Product.Carbohydrates,
@@ -77,9 +83,9 @@ namespace NutriApp.Server.Repositories
                             Fats = dp.Product.Fats,
                             Amount = dp.Amount,
                         }).ToList(),
-                        DishApiProducts = m.Dish.DishApiProducts.Select(dap => new ApiProductDto()
+                        DishApiProducts = m.Dish.DishApiProducts!.Select(dap => new ApiProductDto()
                         {
-                            ApiId = dap.ApiProductInfo.ApiId,
+                            ApiId = dap.ApiProductInfo!.ApiId,
                             ApiUrl = dap.ApiProductInfo.ApiUrl,
                             Name = dap.ApiProductInfo.Name,
                             Brand = dap.ApiProductInfo.Brand,
