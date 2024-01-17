@@ -6,7 +6,7 @@ namespace NutriApp.Server.DataAccess.Entities.Dishes
     public class DishProducts
     {
         [Key] public Guid Id { get; set; }
-        [ForeignKey("Dish")] public Guid DishId { get; set; }
+        [ForeignKey("Dish")] public Guid? DishId { get; set; }
         [ForeignKey("Product")] public Guid ProductId { get; set; }
         public int Amount { get; set; } = 100;
 

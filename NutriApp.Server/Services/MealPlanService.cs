@@ -33,7 +33,7 @@ namespace NutriApp.Server.Services
             return _mealPlanRepository.GetByDate(date, userId);
         }
 
-        public void AddToMealPlan(Guid mealPlanId, Guid dishId, uint gramsOfPortion, String mealType)
+        public void AddToMealPlan(Guid mealPlanId, Guid dishId, uint gramsOfPortion, string mealType)
         {
             var userId = VerifyUserClaims();
 
@@ -52,7 +52,7 @@ namespace NutriApp.Server.Services
             _mealPlanRepository.UpdateMealPlan(mealPlanId, updateMealPlanRequest, userId);
         }
 
-        public void RemoveMeal(Guid mealPlanId, String mealType)
+        public void RemoveMeal(Guid mealPlanId, string mealType)
         {
             var userId = VerifyUserClaims();
 

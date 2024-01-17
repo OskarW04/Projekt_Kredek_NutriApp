@@ -62,13 +62,13 @@ namespace NutriApp.Server.DataAccess.Context
                 .HasMany(x => x.DishProducts)
                 .WithOne(x => x.Dish)
                 .HasForeignKey(x => x.DishId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder.Entity<Dish>()
                 .HasMany(x => x.DishApiProducts)
                 .WithOne(x => x.Dish)
                 .HasForeignKey(x => x.DishId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Product>()
                 .HasMany(x => x.DishProducts)
