@@ -8,6 +8,16 @@ namespace NutriApp.Server.Services
 {
     public class MealPlanService : IMealPlanService
     {
+        private static readonly Dictionary<string, MealType> MealTypes = new()
+        {
+            { "breakfast", MealType.Breakfast },
+            { "secondbreakfast", MealType.SecondBreakfast },
+            { "lunch", MealType.Lunch },
+            { "dinner", MealType.Dinner },
+            { "snack", MealType.Snack },
+            { "supper", MealType.Supper }
+        };
+
         private readonly IMealPlanRepository _mealPlanRepository;
         private readonly IUserContextService _userContextService;
 
@@ -23,10 +33,17 @@ namespace NutriApp.Server.Services
             return _mealPlanRepository.GetByDate(date, userId);
         }
 
-        public void AddToMealPlan(Guid mealPlanId, Guid dishId, uint gramsOfPortion, MealType mealType)
+        public void AddToMealPlan(Guid mealPlanId, Guid dishId, uint gramsOfPortion, String mealType)
         {
             var userId = VerifyUserClaims();
-            _mealPlanRepository.AddToMealPlan(mealPlanId, dishId, gramsOfPortion, mealType, userId);
+
+            var check = MealTypes.TryGetValue(mealType.ToLower(), out var type);
+            if (!check)
+            {
+                throw new IncorrectInputTypeException("Meal type invalid");
+            }
+
+            _mealPlanRepository.AddToMealPlan(mealPlanId, dishId, gramsOfPortion, type, userId);
         }
 
         public void UpdateMealPlan(Guid mealPlanId, UpdateMealPlanRequest updateMealPlanRequest)
@@ -35,10 +52,17 @@ namespace NutriApp.Server.Services
             _mealPlanRepository.UpdateMealPlan(mealPlanId, updateMealPlanRequest, userId);
         }
 
-        public void RemoveMeal(Guid mealPlanId, MealType mealType)
+        public void RemoveMeal(Guid mealPlanId, String mealType)
         {
             var userId = VerifyUserClaims();
-            _mealPlanRepository.RemoveMeal(mealPlanId, mealType, userId);
+
+            var check = MealTypes.TryGetValue(mealType.ToLower(), out var type);
+            if (!check)
+            {
+                throw new IncorrectInputTypeException("Meal type invalid");
+            }
+
+            _mealPlanRepository.RemoveMeal(mealPlanId, type, userId);
         }
 
         private string VerifyUserClaims()

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NutriApp.Server.DataAccess.Entities.Meals;
 using NutriApp.Server.Models.MealPlan;
 using NutriApp.Server.Services.Interfaces;
 
@@ -35,7 +34,7 @@ namespace NutriApp.Server.Controllers
             [FromRoute] Guid mealPlanId,
             [FromQuery] Guid dishId,
             [FromQuery] uint gramsOfPortion,
-            [FromQuery] MealType mealType)
+            [FromQuery] String mealType)
         {
             _mealPlanService.AddToMealPlan(mealPlanId, dishId, gramsOfPortion, mealType);
             return Ok();
@@ -53,7 +52,7 @@ namespace NutriApp.Server.Controllers
         [HttpDelete("{mealPlanId}")]
         public ActionResult RemoveMeal(
             [FromRoute] Guid mealPlanId,
-            [FromQuery] MealType mealType)
+            [FromQuery] String mealType)
         {
             _mealPlanService.RemoveMeal(mealPlanId, mealType);
             return Ok();

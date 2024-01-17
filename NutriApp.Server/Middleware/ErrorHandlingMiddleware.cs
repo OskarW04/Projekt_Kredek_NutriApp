@@ -42,6 +42,11 @@ namespace NutriApp.Server.Middleware
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsJsonAsync(foodDatabaseApiError.Message);
             }
+            catch (IncorrectInputTypeException incorrectInputType)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsJsonAsync(incorrectInputType.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
