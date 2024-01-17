@@ -12,6 +12,7 @@ import AuthProvider from "./Components/AuthProvider.jsx";
 import PrivateRoute from "./Components/PrivateRoute.jsx";
 import AddDish from "./Components/AddDish.jsx"
 import CreateDish from "./Components/CreateDish.jsx";
+import AddDish from "./Components/AddDish.jsx";
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
         <Route exact path="/MealPlan" element={<MealPlan />} />
         <Route exact path="/AddDish" element={<AddDish/>} />
         <Route exact path ="/CreateDish/:location" element={<CreateDish/>} />
+        <Route exact path = "/AddDish" element={<AddDish/>}/>
       </Route>
     </Routes>
   );

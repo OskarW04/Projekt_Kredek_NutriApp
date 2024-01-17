@@ -15,6 +15,32 @@ button.nextPage{
     margin-top: 50px;
 }
 
+label.dishInput{
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+}
+li.dishInput{
+    font-size: 35px;
+}
+button.dishInputAdd{
+    margin-bottom: 7px;
+}
+button.dishInputCreate{
+    margin-right: 40px;
+}
+button.dishInput{
+    font-size: 15px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+input.dishInput,
+select.dishInput{
+    margin: auto;
+    width: auto;
+}
+
 input.searchInput{
     position: fixed;
     left: 50%;
@@ -112,4 +138,10 @@ p.pages{
     cursor: pointer;
     font-size: 20px;
     color: #000;
+  }
+
+  p.mealP{
+    margin-right: 40px;
+    font-weight: 200;
+    font-size: 20px;
   }
