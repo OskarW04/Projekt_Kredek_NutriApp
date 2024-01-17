@@ -54,6 +54,12 @@ namespace NutriApp.Server.DataAccess.Context
                 .HasConversion<string>();
 
             builder.Entity<Dish>()
+                .HasMany(x => x.Meals)
+                .WithOne(x => x.Dish)
+                .HasForeignKey(x => x.DishId)
+                .OnDelete(DeleteBehavior.ClientCascade);
+
+            builder.Entity<Dish>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.Dishes)
                 .HasForeignKey(x => x.UserId);

@@ -164,6 +164,7 @@ namespace NutriApp.Server.Repositories
         public void DeleteDish(string userId, Guid dishId)
         {
             var dish = _dbContext.Dishes
+                .Include(x => x.DishProducts)
                 .FirstOrDefault(x => x.Id == dishId);
 
             if (dish is null)
@@ -176,6 +177,13 @@ namespace NutriApp.Server.Repositories
                 throw new ForbidException("User claims invalid");
             }
 
+            var meals = _dbContext.Meals.Where(x => x.DishId == dish.Id);
+            if (meals.Any())
+            {
+                _dbContext.Meals.RemoveRange(meals);
+            }
+
+            if (dish.DishProducts != null) _dbContext.DishProducts.RemoveRange(dish.DishProducts);
             _dbContext.Dishes.Remove(dish);
             _dbContext.SaveChanges();
         }
