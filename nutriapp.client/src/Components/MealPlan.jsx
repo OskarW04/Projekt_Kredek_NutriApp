@@ -122,6 +122,10 @@ export function MealPlan(){
         }
       }
 
+      const handleUpdateDish = (DishID) => {
+        navigate(`/CreateDish/${encodeURIComponent(DishID)}`)
+      }
+
 
       const onSave = async(data) => {
         try{
@@ -189,7 +193,7 @@ export function MealPlan(){
                         
                     </ul>
                     <button className="dishInput" onClick={() => handleDeleteDish(product.id)}>Usuń</button>
-                    <button className="dishInput"  >Aktualizuj</button>
+                    <button className="dishInput" onClick={() => handleUpdateDish(product.id)}>Aktualizuj</button>
 
 
 

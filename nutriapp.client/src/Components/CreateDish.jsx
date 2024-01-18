@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
-import { useForm, Controller } from "react-hook-form";
 
 export function CreateDish() {
-    const form = useForm();
-    const { register, control, handleSubmit, formState } = form;
-    const {errors} = formState;
     const navigate = useNavigate();
     const {location} = useParams();
-    const adress = decodeURIComponent(location);
-    const Id = adress.substring(10);
+    let adress = decodeURIComponent(location);
+    const Id = adress;
     const token = sessionStorage.getItem('token');
     const[products, setProducts] = useState([]);
 
@@ -18,7 +14,7 @@ export function CreateDish() {
     useEffect(() => {
         const getProducts = async() =>{
                 try{
-                const response = await axios.get(`https://localhost:7130${adress}`, {
+                const response = await axios.get(`https://localhost:7130/api/Dish/${adress}`, {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     },
@@ -27,7 +23,10 @@ export function CreateDish() {
                     }
                 })
                 console.log(response)
-                setProducts(response.data.dishApiProducts.map((dish) => ({name: dish.name})))
+                const allProducts = response.data.dishProducts.concat(response.data.dishApiProducts)
+                console.log(allProducts)
+                setProducts(allProducts.map((dish) => ({name: dish.name, id: dish.id || dish.apiId})))
+                console.log(products)
             }catch(error)
             {
                 console.error(error);
@@ -41,7 +40,7 @@ export function CreateDish() {
     }
 
     const handleAddNew = () => {
-        navigate('/AddProduct')
+        navigate(`/AddProduct/${encodeURIComponent(adress)}`)
     }
 
 
@@ -52,9 +51,9 @@ export function CreateDish() {
             <ul>
             {Array.isArray(products) ? (
                 products.map((product, index) => (
-                <>
+                <div key={index}>
                     <li>{product.name}</li>
-                </>
+                </div>
                 ))
             ) : (
                 <li>Brak produktów</li>

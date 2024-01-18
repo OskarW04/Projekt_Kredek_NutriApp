@@ -4,7 +4,7 @@ namespace NutriApp.Server.Models.Validators
 {
     public class PaginationParamsValidator : AbstractValidator<PaginationParams>
     {
-        private readonly int[] _allowedPageSizes = [5, 10, 15, 30];
+        private readonly int[] _allowedPageSizes = [3, 5, 10, 15, 30];
 
         public PaginationParamsValidator()
         {

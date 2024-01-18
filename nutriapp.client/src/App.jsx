@@ -30,7 +30,7 @@ function App() {
         <Route exact path="/MealPlan" element={<MealPlan />} />
         <Route exact path="/AddDish" element={<AddDish/>} />
         <Route exact path ="/CreateDish/:location" element={<CreateDish/>} />
-        <Route exact path = "/AddProduct" element={<AddProduct/>}/>
+        <Route exact path = "/AddProduct/:adress" element={<AddProduct/>}/>
       </Route>
     </Routes>
   );

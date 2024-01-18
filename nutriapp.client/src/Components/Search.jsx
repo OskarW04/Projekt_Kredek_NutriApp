@@ -66,11 +66,10 @@ export function Search() {
       };
 
       const handleAdd = async(product) => {
-        console.log(product.apiId + "  " + product.gramsInPortion)
+        console.log(AddUrl)
         try{
-            const dishId = AddUrl.substring(10);
             const token = sessionStorage.getItem('token');
-            const response = await axios.put(`https://localhost:7130${AddUrl}/addProduct?productId=${product.apiId}&grams=${product.gramsInPortion}`, null, {
+            const response = await axios.put(`https://localhost:7130/api/Dish/${AddUrl}/addProduct?productId=${product.apiId}&grams=${product.gramsInPortion}`, null, {
                 headers:{
                     'Authorization': `Bearer ${token}`
                 },
@@ -96,7 +95,7 @@ export function Search() {
                 <button className="prevPage" onClick={handlePrevPage} disabled={pageNumber === 1}>
                     Poprzednia strona
                 </button>
-                <button className="nextPage" onClick={handleNextPage} disabled={pageNumber === allPages}>Następna strona</button>
+                <button className="nextPage" onClick={() => handleNextPage()} disabled={pageNumber === allPages}>Następna strona</button>
                 </div>
                 {loadingError && (<div>{loadingError}</div>)}
 

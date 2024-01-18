@@ -7,8 +7,8 @@ export function AddDish(){
     const navigate = useNavigate();
     const form = useForm();
     const { register, control, handleSubmit } = form;
-
     const mealId = useParams();
+
     console.log(mealId.mealId)
     const onSubmit = async(data) => {
         const json = JSON.stringify(data);
@@ -21,7 +21,8 @@ export function AddDish(){
                     'Content-Type': 'application/json'
                     }
             })
-            const location = response.headers["location"]
+            let location = response.headers["location"]
+            location = location.substring(10);
             navigate(`/CreateDish/${encodeURIComponent(location)}`)
         }
         catch(error){

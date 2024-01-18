@@ -145,3 +145,43 @@ p.pages{
     font-weight: 200;
     font-size: 20px;
   }
+
+  form.addProductForm{
+    margin-left: 50px;
+  }
+  button.addProductButton{
+    margin-right: 50px;
+  }
+  .wrapper{
+    width: screen;
+    overflow: hidden; 
+  }
+  .productCreate{
+    width: 500px;
+    float: left;
+    
+
+  }
+  .productCreate2{
+    overflow: hidden;
+  }
+
+  .userProduct{
+    position: relative;
+    font-size: 20px;
+    background-color: #ccc;
+    margin-bottom: 10px;
+  }
+
+  .productButtons{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+    transform: scale(0.85);
+  }
+
+ 

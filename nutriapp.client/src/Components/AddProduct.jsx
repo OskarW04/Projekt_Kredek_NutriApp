@@ -1,16 +1,112 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form"
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from "axios";
+
 
 export function AddProduct() {
 
+    const form = useForm();
+    const { register, handleSubmit, formState } = form;
+    const {errors} = formState;
+    const token = sessionStorage.getItem('token');
+    const [pageNumber, setPageNumber] = useState(1);
+    const [userProducts, setUserProducts] = useState([]);
+    const [pages, setPages] = useState();
+    const {adress} = useParams();
+    const dishId = decodeURIComponent(adress);
+    const navigate = useNavigate();
+    const onSubmit = async(data) => {
 
-    onSubmit
+        const json = JSON.stringify(data, (key, value) => {
+            if (!isNaN(value) && value !== '') {
+                return parseInt(value, 10); 
+              }
+              return value;
+        }) 
 
+        try{
+        const saveProduct = await axios.post("https://localhost:7130/api/Product", json, {
+            headers:{
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        window.location.reload();
+        }
+        catch(error)
+        {
+            console.error(error)
+        }
+        
+    }
+    
+    useEffect(() => {
+        const getProducts = async() =>{
+            try{
+            const response = await axios.get(`https://localhost:7130/api/Product/userProducts?PageNumber=${pageNumber}&PageSize=3`, {
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            console.log(response.data)
+            console.log(pageNumber)
+            setPages(response.data.totalPages)
+            setUserProducts(response.data.items.map((item) => ({id: item.id, name: item.name, brand: item.brand, calories: item.calories, carbohydrates: item.carbohydrates,
+                                                     fats: item.fats, gramsInPortion: item.gramsInPortion, ignredients: item.ingredients, proteins: item.proteins})))
+            }catch(error)
+            {
+                console.error(error);
+            }
+        }
+        getProducts();
+    }, [pageNumber, token])
+
+    const handleNextPage = () => {
+        setPageNumber(pageNumber+1);
+    }
+    
+
+    const handlePrevPage = () => {
+        setPageNumber(pageNumber-1);
+    }
+
+    const handleDeleteProduct = async(productId) => {
+        try{
+            const response = axios.delete(`https://localhost:7130/api/Product/${productId}`, {
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            window.location.reload();
+        }
+        catch(error)
+        {
+            console.error(error);
+        }
+    }
+
+    const handleAddProduct = async(productId, grams) => {
+        try{
+            const response = await axios.put(`https://localhost:7130/api/Dish/${dishId}/addProduct?productId=${productId}&grams=${grams}`,null,{
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            navigate(`/CreateDish/${encodeURIComponent(adress)}`)
+        }
+        catch(error)
+        {
+            console.error(error);
+        }
+    }
 
     return(
-        <div>
+        <div className="wrapper">
+        <div className="productCreate">
         <h1>Stwórz własny produkt</h1>
-        <form onSubmit={handleSubmit(onSubmit) }>
+        <form className="addProductForm" onSubmit={handleSubmit(onSubmit) }>
 
                 <div className="form-control">
                     <label htmlFor="name">Nazwa</label>
@@ -115,7 +211,34 @@ export function AddProduct() {
                     })} />
                     <p className="error">{errors.gramsInPortion?.message}</p>
                 </div>
+                <button className="addProductButton">Submit</button>
             </form>
+        </div>
+        <div className="productCreate2">
+            <h1>Lista twoich produktów:</h1>
+            <ul>
+            {(userProducts.length !== 0) ? (
+                userProducts.map((item) => (
+                    <div className="userProduct" key = {item.id}>
+                        <li><strong>{item.name}</strong></li>
+                        <li><i>Marka: {item.brand}</i></li>
+                        <li>Calories: {item.calories}</li>
+                        <li><small>Proteins: {item.proteins}, Carbs: {item.carbohydrates}, Fats: {item.fats}</small></li>
+                        <li>{item.gramsInPortion} grams in portion</li>
+                        <div className="productButtons">
+                        <button onClick={() => handleAddProduct(item.id, item.gramsInPortion)}>Dodaj</button>
+                        <button onClick={() => handleDeleteProduct(item.id)}>Usuń</button>
+                        </div>
+                    </div>
+                ))
+            ): (
+                <h3>Brak dodanych produktów</h3>
+            )}
+            </ul>
+            <button onClick={handlePrevPage} disabled={pageNumber === 1}>Poprzednia strona</button>
+            <button onClick={handleNextPage} disabled={pageNumber === pages}>Następna strona</button>
+            <p>{pageNumber}/{pages}</p>
+        </div>
         </div>
     )
 
