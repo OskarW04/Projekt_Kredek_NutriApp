@@ -23,9 +23,6 @@ label.dishInput{
 li.dishInput{
     font-size: 35px;
 }
-button.dishInputAdd{
-    margin-bottom: 7px;
-}
 button.dishInputCreate{
     margin-right: 40px;
 }
@@ -35,10 +32,31 @@ button.dishInput{
     margin-left: 5px;
 }
 
-input.dishInput,
-select.dishInput{
-    margin: auto;
-    width: auto;
+.dishInputGrams{
+  margin-top: 10px;
+  width: 190px;
+  height: 10px;
+  bottom: 0;
+}
+
+.dishInputType{
+  margin-top: 10px;
+  width: 216px;
+  height: 30px;
+  color: grey;
+}
+
+.dishInputAdd{
+  margin-bottom: 20px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+}
+.dishInputForm{
+    margin-left: 10px;
+    width: 20px;
+    flex-direction: column;
 }
 
 input.searchInput{
@@ -85,10 +103,12 @@ select {
 }
 
 .product {
+    position: relative;
     border: 1px solid #ccc;
     margin-bottom: 20px;
     text-align: center;
-
+    margin-right: 37px;
+    overflow: hidden;
 }
 ul{
     list-style: none;
@@ -184,4 +204,56 @@ p.pages{
     transform: scale(0.85);
   }
 
+  .dishProducts{
+    position: relative;
+    font-size: 20px;
+    background-color: #ccc;
+    margin-bottom: 10px;
+    margin-right: 35px;
+  }
+  .dishButton{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+    transform: scale(0.78);
+  }
+
+  .meals{
+    margin-left: 20px;
+  }
+  .dishName{
+    text-align: left;
+    margin-top: 20px;
+    font-size: 25px;
+    max-width: 200px;
+    text-align: center;
+    min-height: 75px;
+  }
+  
+  .mealButtons{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: scale(0.9);
+  }
+  .dishButton1{
+    width: 111px;
+  }
  
+  .errorDish{
+    color: red;
+    font-size: 12px;
+    text-align: left;
+    width: 150px;
+  }
+
+  .dishDescription{
+    margin-right: 120px;
+  }

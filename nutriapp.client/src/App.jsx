@@ -15,7 +15,6 @@ import CreateDish from "./Components/CreateDish.jsx";
 import AddProduct from "./Components/AddProduct.jsx";
 
 function App() {
-
   return (
     <Routes>
       <Route path="/Home" element={<Home />} />

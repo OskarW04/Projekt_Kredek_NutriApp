@@ -22,11 +22,9 @@ export function CreateDish() {
                         "id": Id
                     }
                 })
-                console.log(response)
                 const allProducts = response.data.dishProducts.concat(response.data.dishApiProducts)
-                console.log(allProducts)
-                setProducts(allProducts.map((dish) => ({name: dish.name, id: dish.id || dish.apiId})))
-                console.log(products)
+                setProducts(allProducts.map((dish) => ({name: dish.name, id: dish.id || dish.apiId, brand: dish.brand, calories: dish.calories, carbohydrates: dish.carbohydrates,
+                    fats: dish.fats, proteins: dish.proteins, gramsInPortion: dish.gramsInPortion})))
             }catch(error)
             {
                 console.error(error);
@@ -35,6 +33,19 @@ export function CreateDish() {
         getProducts();
     },[])
     
+    const handleDeleteProduct = async(productId) => {
+        try{
+            await axios.delete(`https://localhost:7130/api/Dish/${Id}/removeProduct?productId=${productId}`, {
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            window.location.reload();
+        }catch(error){
+            console.error(error)
+        }
+    }
+
     const handleAddFromDB = () => {
         navigate(`/Search/${encodeURIComponent(adress)}`)
     }
@@ -44,15 +55,20 @@ export function CreateDish() {
     }
 
 
-
+    console.log(products)
     return(
         <div>
             <h1>Produkty:</h1>
             <ul>
             {Array.isArray(products) ? (
                 products.map((product, index) => (
-                <div key={index}>
-                    <li>{product.name}</li>
+                <div className="dishProducts" key={index}>
+                    <li><strong>{product.name}</strong></li>
+                    <li><i>Marka: {product.brand !== null ? (product.brand) : ("Brak")}</i></li>
+                    <li>Calories: {product.calories}</li>
+                    <li><small>Proteins: {product.proteins}, Carbs: {product.carbohydrates}, Fats: {product.fats}</small></li>
+                    <li>Portion: {product.gramsInPortion} g</li>
+                    <button className="dishButton" onClick={() => handleDeleteProduct(product.id)}>Usuń</button>
                 </div>
                 ))
             ) : (
@@ -64,7 +80,6 @@ export function CreateDish() {
             <button onClick={handleAddNew}>Dodaj własny</button>
             <button onClick={() => navigate("/MealPlan")}>Wróć</button>
         </div>
-
     )
 }
 

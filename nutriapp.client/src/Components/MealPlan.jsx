@@ -36,6 +36,7 @@ export function MealPlan(){
                   'pageSize': 5,
                   },                          
      })
+        console.log(Dish.data.items)
         setDish(Dish.data.items)
         }
         catch(error){
@@ -134,7 +135,7 @@ export function MealPlan(){
                   'Authorization': `Bearer ${token}`
                   }
               })
-              window.location.reload();
+             
         }
         catch(error)
         {
@@ -147,107 +148,110 @@ export function MealPlan(){
 
       console.log(pickedMealDate)
     return(
-        <>
         <div>
-        <h4>Wybierz datę: </h4>
-        <DatePicker
-            selected={dateSelect}
-            onChange={handleDateChange}
-            dateFormat="dd.MM.yyyy"
-        />
+          <div>
+          <h2>Wybierz datę:</h2>
+          <DatePicker
+              selected={dateSelect}
+              onChange={handleDateChange}
+              dateFormat="dd.MM.yyyy"
+              customInput={<input style={{ width: '400px',textAlign: 'center' }} />}
+              shouldCloseOnSelect={false}
+              calendarStartDay={1}
+          />
 
-        <h1>Dzisiejszy jadłospis:</h1>
-        <div>
-        <ul className="product-list">
-          {(pickedMealDate.length !== 0) ? (
-            pickedMealDate.map((meal,index) => (
-              <>
-              <div className="product">
-                <li><strong>{meal.dish.name}</strong><button onClick={() => handleDeleteMeal(meal.mealType)}>Usuń</button></li>
-                <li>{meal.mealType}</li>
-                <li></li>
-              </div>
-              </>
-            ))
-          ) : (
-            <p className="mealP">Brak posiłków</p>
-          )}
-        </ul>
-        </div>
-        <button onClick={handleOpenPopup}>Dodaj posiłek</button>
-        </div>
-        
-        <PopupModal
-        isOpen={isPopupOpen}
-        onClose={handleClosePopup}
-        content={<div>
-            <h1 className="dishInput"  >Lista posiłków:</h1>
-            <ul className="product-list">
-            {Array.isArray(dish) ? (
-                dish.map((product, index) => (
-                    <>
-                    <div className="product">
-                    <li className="dishInput"  key={index + product.name}><strong>{product.name}</strong></li>
-                    <li></li>
-                    <ul>
-                        
-                    </ul>
-                    <button className="dishInput" onClick={() => handleDeleteDish(product.id)}>Usuń</button>
-                    <button className="dishInput" onClick={() => handleUpdateDish(product.id)}>Aktualizuj</button>
-
-
-
-                    <form onSubmit={() => handleSubmit(onSave)()}>
-                    <input type="hidden" {...register('Id')} value={product.id} />
-                    <label className="dishInput"  htmlFor="grams">Ilość gram</label>
-                    <input className="dishInput" type="number" id="grams" {...register("grams")} />
-
-                    <label className="dishInput" htmlFor="MealType">Typ posiłku</label>
-                    <Controller
-                        name="MealType"
-                        control={control}
-                        defaultValue=""
-                        rules={{
-                            required: {
-                                value:true,
-                                message:"Pole jest wymagane"},
-                        }}
-                        render={({ field }) => (
-                        <>
-                            <select className="dishInput"  {...field}>
-                            <option value="" disabled>
-                                Wybierz opcję
-                            </option>
-                            <option value="Breakfast">Śniadanie</option>
-                            <option value="SecondBreakfast">Drugie śniadanie</option>
-                            <option value="Lunch">Lunch</option>
-                            <option value="Dinner">Obiad</option>
-                            <option value="Snack">Przekąska</option>
-                            <option value="Supper">Kolacja</option>
-                            </select>
-                            <p className="error">{errors.MealType?.message}</p>
-                        </>
-                        )}
-                        />
-
-                    <button className="dishInputAdd">Dodaj</button>
-                </form>
-                    </div>
-                    </>
-                ))
-                ) : (
+          <h1>Dzisiejszy jadłospis:</h1>
+          <div>
+          <ul className="product-list">
+            {(pickedMealDate.length !== 0) ? (
+              pickedMealDate.map((meal,index) => (
                 <>
-                <li>Nie znaleziono posiłków</li>
+                <div className="product">
+                  <li><strong>{meal.dish.name}</strong><button onClick={() => handleDeleteMeal(meal.mealType)}>Usuń</button></li>
+                  <li>{meal.mealType}</li>
+                  <li></li>
+                </div>
                 </>
-                )}
-                <button className="dishInputCreate" onClick={handleAddDish}>Stwórz posiłek</button>
-            </ul>
-            
-
-
-        </div>}
-      />
-        </>
+              ))
+            ) : (
+              <p className="mealP">Brak posiłków</p>
+            )}
+          </ul>
+          </div>
+          <button onClick={handleOpenPopup}>Dodaj posiłek</button>
+          </div>
+          
+          <PopupModal
+          isOpen={isPopupOpen}
+          onClose={handleClosePopup}
+          content={
+              <div>
+              <h1 className="dishInput"  >Lista posiłków:</h1>
+              <ul className="product-list">
+              {Array.isArray(dish) ? (
+                  dish.map((product) => (
+                      <div className="product" key={product.id}>
+                      <li className="dishName"><strong>{product.name}</strong></li>
+                      <div className="mealButtons">
+                        <button className="dishButton1" onClick={() => handleDeleteDish(product.id)}>Usuń</button>
+                        <button className="dishButton2" onClick={() => handleUpdateDish(product.id)}>Aktualizuj</button>
+                      </div>
+                      <div className="dishDescription">
+                        <li>Kalorie: {product.calories}</li>
+                        <li><small>Proteins: {product.proteins}, Carbs: {product.carbohydrates}, Fats: {product.fats}</small></li>
+                        <li>Opis: <i>{product.description}</i></li>
+                      </div>
+                      <form key={product.id} onSubmit={() => handleSubmit(onSave)()}>
+                        <input type="hidden" {...register('Id')} value={product.id} />
+                        <div className="dishInputForm">
+                        <input placeholder="Ilość gram"className="dishInputGrams" type="number" id={`grams_${product.id}`} {...register(`grams_${product.id}`,  {
+                          required:{
+                            value: true,
+                            message: "Pole jest wymagane"
+                          }
+                        })} />
+                        <p className="errorDish">{errors[`grams_${product.id}`]?.message}</p>
+                        <Controller
+                            name={`MealType_${product.id}`}
+                            control={control}
+                            defaultValue=""
+                            rules={{
+                                required: {
+                                    value:true,
+                                    message:"Pole jest wymagane"},
+                            }}
+                            render={({ field }) => (
+                            <>
+                                <select className="dishInputType"  {...field}>
+                                <option value="" disabled>
+                                    Wybierz opcję
+                                </option>
+                                <option value="Breakfast">Śniadanie</option>
+                                <option value="SecondBreakfast">Drugie śniadanie</option>
+                                <option value="Lunch">Lunch</option>
+                                <option value="Dinner">Obiad</option>
+                                <option value="Snack">Przekąska</option>
+                                <option value="Supper">Kolacja</option>
+                                </select>
+                                <p className="errorDish">{errors[`MealType_${product.id}`]?.message}</p>
+                            </>
+                            )}
+                            />
+                          <button className="dishInputAdd">Dodaj</button>
+                        </div>
+                      </form>
+                    </div>
+                  ))
+                  ) : (
+                  <>
+                  <li>Nie znaleziono posiłków</li>
+                  </>
+                  )}
+                  <button className="dishInputCreate" onClick={handleAddDish}>Stwórz posiłek</button>
+              </ul>
+            </div>}
+        />
+        </div>
     )
 }
 

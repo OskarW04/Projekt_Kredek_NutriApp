@@ -96,6 +96,7 @@ namespace NutriApp.Server.Services
             if (!result)
             {
                 _dishRepository.RemoveApiProduct(userId, dishId, productId);
+                return;
             }
 
             _dishRepository.RemoveUserProduct(userId, dishId, parsedId);

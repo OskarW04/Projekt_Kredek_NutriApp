@@ -105,11 +105,11 @@ export function Search() {
                 {Array.isArray(searchResults) ? (
                 searchResults.map((product, index) => (
                     <>
-                    <div className="product">
-                    <li key={index + product.name}><strong>{product.name}</strong></li>
+                    <div key={product.id} className="product">
+                    <li ><strong>{product.name}</strong></li>
                     <ul>
-                        {product.brand !== null && (<li key={index + product.brand}>Brand: {product.brand}</li>)}
-                        <li key={index + product.description}>{product.description}</li>
+                        {product.brand !== null && (<li>Brand: {product.brand}</li>)}
+                        <li>{product.description}</li>
                     </ul>
                     <button name="add" onClick={() => handleAdd(product)}>Dodaj</button>
                     </div>
