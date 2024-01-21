@@ -27,10 +27,13 @@ builder.Services.AddSwaggerGen();
 
 // app db context
 builder.Services.AddDbContext<AppDbContext>(
-    opt => opt.UseSqlServer(
-        builder.Configuration.GetConnectionString("AppDbConnection")
-    )
-);
+    opt =>
+    {
+        opt.UseSqlServer(
+            builder.Configuration.GetConnectionString("AppDbConnection"),
+            sqlOptions => { sqlOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), Enumerable.Empty<int>()); }
+        );
+    });
 
 builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<AppDbContext>()
