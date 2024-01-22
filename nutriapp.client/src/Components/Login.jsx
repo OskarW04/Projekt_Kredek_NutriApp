@@ -1,11 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import "../App.css";
 
 export function Login() {
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const form = useForm();
   const { register, control, handleSubmit } = form;
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ export function Login() {
     const json = JSON.stringify(data)
       try {
         
-        const response = await axios.post('https://localhost:7130/login', json, {
+        const response = await axios.post(`${apiUrl}/login`, json, {
           headers:{
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -28,7 +30,7 @@ export function Login() {
 
           var areDetails = true;
           try {
-              const details = await axios.get('https://localhost:7130/api/UserDetails', {
+              const details = await axios.get(`${apiUrl}/api/UserDetails`, {
                   headers: { 'Authorization': `Bearer ${token}` },
                   params: { 'email': data.email }
               })
@@ -61,7 +63,6 @@ export function Login() {
           Nie masz konta? <Link to="/Register">Zarejestruj się</Link>{" "}
         </p>
       </form>
-      <DevTool control={control} />
     </div>
   );
 }

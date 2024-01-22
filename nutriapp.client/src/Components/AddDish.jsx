@@ -4,17 +4,20 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 export function AddDish(){
+
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     const navigate = useNavigate();
     const form = useForm();
     const { register, control, handleSubmit } = form;
     const mealId = useParams();
 
-    console.log(mealId.mealId)
+
     const onSubmit = async(data) => {
         const json = JSON.stringify(data);
         const token = sessionStorage.getItem('token');
         try{
-            const response = await axios.post("https://localhost:7130/api/Dish", json, {
+            const response = await axios.post(`${apiUrl}/api/Dish`, json, {
                 headers:{
                     'Authorization': `Bearer ${token}`,
                     'Accept': 'application/json',

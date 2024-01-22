@@ -96,7 +96,7 @@ export const UserDetailsGet = () => {
         <Button
           variant="contained"
           onClick={() => {
-            navigate("/Home");
+            navigate("/MealPlan");
           }}
         >
           Back

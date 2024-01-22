@@ -4,6 +4,9 @@ import "../App.css"
 import { useNavigate, useParams } from "react-router-dom";
 
 export function Search() {
+
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     const [searchItem, setSearchItem] = useState('')
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize] = useState(5);
@@ -19,7 +22,7 @@ export function Search() {
         setIsLoading(true)
         const token = sessionStorage.getItem('token')
         try {
-            const response = await axios.get("https://localhost:7130/api/Product/apiProducts", {
+            const response = await axios.get(`${apiUrl}/api/Product/apiProducts`, {
                 headers:{
                             'Authorization': `Bearer ${token}`
                         },
@@ -66,10 +69,9 @@ export function Search() {
       };
 
       const handleAdd = async(product) => {
-        console.log(AddUrl)
         try{
             const token = sessionStorage.getItem('token');
-            const response = await axios.put(`https://localhost:7130/api/Dish/${AddUrl}/addProduct?productId=${product.apiId}&grams=${product.gramsInPortion}`, null, {
+            const response = await axios.put(`${apiUrl}/api/Dish/${AddUrl}/addProduct?productId=${product.apiId}&grams=${product.gramsInPortion}`, null, {
                 headers:{
                     'Authorization': `Bearer ${token}`
                 },
@@ -102,8 +104,8 @@ export function Search() {
                 {isLoading ? 
                 (<div><img className="gif" src="/loading.gif" alt="Ikona ładowania" /></div>):
                 <ul className="product-list">
-                {Array.isArray(searchResults) ? (
-                searchResults.map((product, index) => (
+                {(searchResults.length !== 0) ? (
+                searchResults.map((product) => (
                     <>
                     <div key={product.id} className="product">
                     <li ><strong>{product.name}</strong></li>

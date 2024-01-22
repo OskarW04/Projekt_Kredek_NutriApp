@@ -140,6 +140,7 @@ p.pages{
   }
   
   .popup-modal.open {
+    overflow: auto;
     display: block;
   }
   
@@ -150,7 +151,22 @@ p.pages{
     max-width: 400px;
     margin: 0 auto;
   }
-  
+  span.nextPage{
+    position: absolute;
+    display: flex;
+    bottom: 70px;
+    left: 250px;
+    font-size: 40px;
+    cursor: pointer;
+  }
+  span.prevPage{
+    position: absolute;
+    display: flex;
+    bottom: 70px;
+    left: 160px;
+    font-size: 40px;
+    cursor: pointer;
+  }
   .close-btn {
     position: absolute;
     top: 10px;
@@ -257,3 +273,63 @@ p.pages{
   .dishDescription{
     margin-right: 120px;
   }
+
+  h2.mealType{
+    font-size: 35px;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  .mealName{
+    font-size: 30px;
+    border-bottom: #ccc solid;
+  }
+
+  .nutritionMeal{
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .nutritionMeal li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+
+  .nutritionMeal li:first-child{
+    margin-top: 10px;
+    font-size: larger;
+    font-weight: 500;
+  }
+
+  
+  .mealButtonadd{
+    display:inline-flex; 
+  }
+
+  .productMeal{
+    position: relative;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    text-align: center;
+    margin-right: 37px;
+    overflow: hidden;
+    min-height: 150px;
+  }
+  
+  .showNutritions{
+    margin-bottom: 10px;
+  }
+
+  .showNutritions h3{
+    margin-bottom: 10px;
+  }
+
+  .goToDetails{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    transform: scale(1.3);
+  }
+

@@ -9,6 +9,10 @@ import axios from 'axios'
 
 
 export function UserDetails() {
+
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+
     const form = useForm();
     const { register, control, handleSubmit, formState } = form;
     const {errors} = formState;
@@ -24,7 +28,7 @@ export function UserDetails() {
         
         const token = sessionStorage.getItem('token')
         try {
-            const postdetails = await axios.post('https://localhost:7130/api/UserDetails', json, {
+            const postdetails = await axios.post(`${apiUrl}/api/UserDetails`, json, {
                  headers: { 'Authorization': `Bearer ${token}`,
                             'Accept': 'application/json',
                             'Content-Type': 'application/json' },

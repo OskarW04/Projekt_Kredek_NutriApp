@@ -6,6 +6,8 @@ import axios from "axios";
 
 export function AddProduct() {
 
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     const form = useForm();
     const { register, handleSubmit, formState } = form;
     const {errors} = formState;
@@ -26,7 +28,7 @@ export function AddProduct() {
         }) 
 
         try{
-        const saveProduct = await axios.post("https://localhost:7130/api/Product", json, {
+        const saveProduct = await axios.post(`${apiUrl}/api/Product`, json, {
             headers:{
                 'Authorization': `Bearer ${token}`,
                 'Accept': 'application/json',
@@ -45,13 +47,11 @@ export function AddProduct() {
     useEffect(() => {
         const getProducts = async() =>{
             try{
-            const response = await axios.get(`https://localhost:7130/api/Product/userProducts?PageNumber=${pageNumber}&PageSize=3`, {
+            const response = await axios.get(`${apiUrl}/api/Product/userProducts?PageNumber=${pageNumber}&PageSize=3`, {
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
             })
-            console.log(response.data)
-            console.log(pageNumber)
             setPages(response.data.totalPages)
             setUserProducts(response.data.items.map((item) => ({id: item.id, name: item.name, brand: item.brand, calories: item.calories, carbohydrates: item.carbohydrates,
                                                      fats: item.fats, gramsInPortion: item.gramsInPortion, ignredients: item.ingredients, proteins: item.proteins})))
@@ -74,7 +74,7 @@ export function AddProduct() {
 
     const handleDeleteProduct = async(productId) => {
         try{
-            const response = axios.delete(`https://localhost:7130/api/Product/${productId}`, {
+            const response = axios.delete(`${apiUrl}/api/Product/${productId}`, {
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
@@ -89,7 +89,7 @@ export function AddProduct() {
 
     const handleAddProduct = async(productId, grams) => {
         try{
-            const response = await axios.put(`https://localhost:7130/api/Dish/${dishId}/addProduct?productId=${productId}&grams=${grams}`,null,{
+            const response = await axios.put(`${apiUrl}/api/Dish/${dishId}/addProduct?productId=${productId}&grams=${grams}`,null,{
                 headers:{
                     'Authorization': `Bearer ${token}`,
                 }

@@ -15,7 +15,7 @@ import CreateDish from "./Components/CreateDish.jsx";
 import AddProduct from "./Components/AddProduct.jsx";
 
 function App() {
-  return (
+    return (
     <Routes>
       <Route path="/Home" element={<Home />} />
       <Route path="/" element={<AuthProvider />} />

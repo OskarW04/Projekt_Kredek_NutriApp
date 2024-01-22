@@ -3,6 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
 
 export function CreateDish() {
+
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     const navigate = useNavigate();
     const {location} = useParams();
     let adress = decodeURIComponent(location);
@@ -14,7 +17,7 @@ export function CreateDish() {
     useEffect(() => {
         const getProducts = async() =>{
                 try{
-                const response = await axios.get(`https://localhost:7130/api/Dish/${adress}`, {
+                const response = await axios.get(`${apiUrl}/api/Dish/${adress}`, {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     },
@@ -35,7 +38,7 @@ export function CreateDish() {
     
     const handleDeleteProduct = async(productId) => {
         try{
-            await axios.delete(`https://localhost:7130/api/Dish/${Id}/removeProduct?productId=${productId}`, {
+            await axios.delete(`${apiUrl}/api/Dish/${Id}/removeProduct?productId=${productId}`, {
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
@@ -55,7 +58,6 @@ export function CreateDish() {
     }
 
 
-    console.log(products)
     return(
         <div>
             <h1>Produkty:</h1>

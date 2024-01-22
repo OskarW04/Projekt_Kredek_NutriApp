@@ -1,10 +1,12 @@
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import { DevTool } from "@hookform/devtools";
 import  axios  from "axios"
 
-const Register = ({onRegister}) => {
+const Register = () => {
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const form = useForm();
   const navigate = useNavigate();
   const { register, control, handleSubmit, watch, formState } = form;
@@ -14,9 +16,8 @@ const Register = ({onRegister}) => {
 
     const onSubmit = async ({repeatPassword,...data}) => {
       const json = JSON.stringify(data)
-      console.log(json);
         try{
-          const response = await axios.post('https://localhost:7130/register', json, {
+          const response = await axios.post(`${apiUrl}/register`, json, {
             headers:{
               'Accept': 'application/json',
               'Content-Type': 'application/json'
@@ -89,7 +90,6 @@ const Register = ({onRegister}) => {
           Masz juz konto? <Link to="/Login">Zaloguj się</Link>
         </p>
       </form>
-      <DevTool control={control}/>
     </div>
   );
 }
