@@ -67,9 +67,9 @@ export function CreateDish() {
                 <div className="dishProducts" key={index}>
                     <li><strong>{product.name}</strong></li>
                     <li><i>Marka: {product.brand !== null ? (product.brand) : ("Brak")}</i></li>
-                    <li>Calories: {product.calories}</li>
-                    <li><small>Proteins: {product.proteins}, Carbs: {product.carbohydrates}, Fats: {product.fats}</small></li>
-                    <li>Portion: {product.gramsInPortion} g</li>
+                    <li>Kalorie: {product.calories}</li>
+                    <li><small>Białka: {product.proteins}, Węglowodany: {product.carbohydrates}, Tłuszcze: {product.fats}</small></li>
+                    <li>Porcja: {product.gramsInPortion} g</li>
                     <button className="dishButton" onClick={() => handleDeleteProduct(product.id)}>Usuń</button>
                 </div>
                 ))

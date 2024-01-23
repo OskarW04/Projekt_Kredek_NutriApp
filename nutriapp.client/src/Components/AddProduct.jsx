@@ -222,8 +222,8 @@ export function AddProduct() {
                     <div className="userProduct" key = {item.id}>
                         <li><strong>{item.name}</strong></li>
                         <li><i>Marka: {item.brand}</i></li>
-                        <li>Calories: {item.calories}</li>
-                        <li><small>Proteins: {item.proteins}, Carbs: {item.carbohydrates}, Fats: {item.fats}</small></li>
+                        <li>Kalorie: {item.calories}</li>
+                        <li><small>Białka: {item.proteins}, Węglowodany: {item.carbohydrates}, Tłuszcze: {item.fats}</small></li>
                         <li>{item.gramsInPortion} grams in portion</li>
                         <div className="productButtons">
                         <button onClick={() => handleAddProduct(item.id, item.gramsInPortion)}>Dodaj</button>

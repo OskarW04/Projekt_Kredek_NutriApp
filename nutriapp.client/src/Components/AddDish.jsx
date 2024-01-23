@@ -44,7 +44,7 @@ export function AddDish(){
                     <label htmlFor="description">Opis</label>
                     <input type="text" id="description" placeholder="(opcjonalne)" {...register("description")} />
 
-                    <button>Submit</button>
+                    <button>Potwierdź</button>
                 </form>
       </div>
     )

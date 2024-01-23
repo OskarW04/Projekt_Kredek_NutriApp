@@ -58,7 +58,7 @@ export function Login() {
         <label htmlFor="password">Hasło</label>
         <input type="password" id="password" {...register("password")} />
 
-        <button>Submit</button>
+        <button>Zaloguj</button>
         <p>
           Nie masz konta? <Link to="/Register">Zarejestruj się</Link>{" "}
         </p>

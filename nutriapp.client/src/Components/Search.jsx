@@ -110,7 +110,7 @@ export function Search() {
                     <div key={product.id} className="product">
                     <li ><strong>{product.name}</strong></li>
                     <ul>
-                        {product.brand !== null && (<li>Brand: {product.brand}</li>)}
+                        {product.brand !== null && (<li>Marka: {product.brand}</li>)}
                         <li>{product.description}</li>
                     </ul>
                     <button name="add" onClick={() => handleAdd(product)}>Dodaj</button>

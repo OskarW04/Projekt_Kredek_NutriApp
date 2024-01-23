@@ -85,7 +85,7 @@ const Register = () => {
         <p className="error">{errors.repeatPassword?.message}</p>
         </div>
       
-        <button>Submit</button>
+        <button>Zarejestruj</button>
         <p>
           Masz juz konto? <Link to="/Login">Zaloguj się</Link>
         </p>
