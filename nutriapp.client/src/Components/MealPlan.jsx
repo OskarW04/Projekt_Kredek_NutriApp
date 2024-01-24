@@ -18,7 +18,7 @@ const DishForm = ({ product, onDelete, onUpdate, onSave}) => {
       </div>
       <div className="dishDescription">
         <li>Kalorie: {product.calories}</li>
-        <li><small>Proteins: {product.proteins}, Carbs: {product.carbohydrates}, Fats: {product.fats}</small></li>
+        <li><small>Białka: {product.proteins} Węgle: {product.carbohydrates} Tłuszcze: {product.fats}</small></li>
         <li>Opis: <i>{product.description}</i></li>
       </div>
       <form key={product.id} onSubmit={handleSubmit(onSave)}>
@@ -218,9 +218,15 @@ export function MealPlan() {
       console.error(error)
     }
   }
+
+  const handleLogOut = () => {
+    sessionStorage.clear();
+    window.location.reload();
+  }
   return (
     <div>
       <button onClick={() => navigate("/Details/Get")} className="goToDetails">User Details</button>
+      <button onClick={() => handleLogOut()} className="logout">Wyloguj</button>
       <div>
         <h2>Wybierz datę:</h2>
         <DatePicker

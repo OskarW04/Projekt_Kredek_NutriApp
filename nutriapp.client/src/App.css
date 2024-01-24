@@ -333,3 +333,9 @@ p.pages{
     transform: scale(1.3);
   }
 
+  .logout{
+    position: absolute;
+    left: 1%;
+    top: 1%;
+  }
+
