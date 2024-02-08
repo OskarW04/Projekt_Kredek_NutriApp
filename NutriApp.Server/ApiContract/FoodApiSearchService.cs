@@ -25,7 +25,7 @@ namespace NutriApp.Server.ApiContract
                 token = await _oAuthTokenManager.FetchAuthenticationToken();
             }
 
-            if (token is null)
+            if (string.IsNullOrEmpty(token))
             {
                 throw new FoodDatabaseApiErrorException("Could not fetch external API OAuth");
             }
@@ -50,7 +50,7 @@ namespace NutriApp.Server.ApiContract
 
             if (response.Content != null && (!response.IsSuccessful || response.Content.Contains("error")))
             {
-                throw new FoodDatabaseApiErrorException("Could not fetch foods");
+                throw new FoodDatabaseApiErrorException($"Could not fetch foods: {response.Content}");
             }
 
             var deserializedContent =

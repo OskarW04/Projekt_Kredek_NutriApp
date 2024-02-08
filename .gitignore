@@ -2,3 +2,5 @@
 NutriApp.Server/bin
 .vs
 nutriapp.client/obj
+NutriApp.Server/Properties/ServiceDependencies
+NutriApp.Server/Properties/PublishProfiles

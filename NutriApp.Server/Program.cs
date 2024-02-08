@@ -99,6 +99,7 @@ builder.Services.AddSingleton(foodApiAuthKeys);
 builder.Services.AddSingleton<OAuthTokenManager>();
 builder.Services.AddScoped<FoodApiSearchService>();
 
+builder.Services.AddApplicationInsightsTelemetry();
 
 var app = builder.Build();
 

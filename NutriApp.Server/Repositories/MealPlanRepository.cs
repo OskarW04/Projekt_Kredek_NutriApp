@@ -100,10 +100,14 @@ namespace NutriApp.Server.Repositories
                         }).ToList(),
                     },
                 }).ToList(),
-                CaloriesTotal = mealPlan.Meals.Sum(m => m.Dish.Calories),
-                CarbohydratesTotal = mealPlan.Meals.Sum(m => m.Dish.Carbohydrates),
-                ProteinsTotal = mealPlan.Meals.Sum(m => m.Dish.Proteins),
-                FatsTotal = mealPlan.Meals.Sum(m => m.Dish.Fats),
+                CaloriesTotal = mealPlan.Meals
+                    .Sum(m => m.Dish.Calories * (m.GramsOfPortion / m.Dish.GramsTotal)),
+                CarbohydratesTotal = mealPlan.Meals
+                    .Sum(m => m.Dish.Carbohydrates * (m.GramsOfPortion / m.Dish.GramsTotal)),
+                ProteinsTotal = mealPlan.Meals
+                    .Sum(m => m.Dish.Proteins * (m.GramsOfPortion / m.Dish.GramsTotal)),
+                FatsTotal = mealPlan.Meals
+                    .Sum(m => m.Dish.Fats * (m.GramsOfPortion / m.Dish.GramsTotal)),
             };
         }
 
