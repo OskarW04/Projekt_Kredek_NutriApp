@@ -46,4 +46,35 @@ cd .\NutriApp.Server\bin\Release\net8.0\publish
 ```
 - __UWAGA 1: Należy upewnić się, że podany URL znajduje się w sekcji AllowedOrigins w ```NutriApp.Server/appsettings.json``` w celu poprawnej konfiguracji polityki CORS.__
 - __UWAGA 2: Należy upewnoć się, że w zmiennych środowiskowych ```nutriapp.client/.env``` znajduje się poprawny URL na jakim wystawione jest REST API.__
+## Prezentacja aplikacji
+- W celu używania aplikacji nalezy zarejestrować konto.
+<br/>
 
+![Register](./assets/register.png)
+- Po pierwszym uruchomieniu należy podać informacje użytkownika.
+<br/>
+
+![Details](./assets/details.png)
+- Po wykonaniu akcji, użytkownik może w pełni korzystać z aplikacji.
+<br/>
+
+- Użytkownik posiada możliwość dodawania posiłków do dziennego jadłospisu.
+<br/>
+
+![AddMeal](./assets/addMeal.png)
+- Posiłki można komponować z dowolnej ilości produktów.
+<br/>
+
+![Meal](./assets/products.png)
+- Istnieje możliwość dodawania własnych produktów.
+<br/>
+
+![Product](./assets/userProduct.png)
+- Można również dodawać produkty z API FatSecret.
+<br/>
+
+![FatSecret](./assets/fatSecret.png)
+- Do jadłospisu można dodawać po 7 posiłków, każdy składający się z jednego dania. Aplikacja oblicza aktualne spożycie kalorii oraz makroskładników.
+<br/>
+
+![MealPlan](./assets/mealPlan.png)
