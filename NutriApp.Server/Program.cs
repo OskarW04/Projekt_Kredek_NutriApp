@@ -58,16 +58,18 @@ builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("FrontEndClient", corsPolicyBuilder =>
     {
+        var origins = builder.Configuration
+            .GetSection("AllowedOrigins")
+            .GetChildren()
+            .Select(x => x.Value)
+            .Where(x => x is not null)
+            .ToArray();
+
         corsPolicyBuilder
             .AllowAnyMethod()
             .AllowAnyHeader()
             .WithExposedHeaders("Location")
-            .WithOrigins(
-                builder.Configuration["AllowedOrigins"] ??
-                throw new InvalidOperationException(
-                    "Allowed Origins in appsettings.json not found"
-                )
-            );
+            .WithOrigins(origins!);
     });
 });
 
