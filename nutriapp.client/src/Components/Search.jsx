@@ -41,6 +41,7 @@ export function Search() {
         }))
       );
       setAllPages(response.data.totalPages);
+      setLoadingError(null);
     } catch (error) {
       console.error(error);
       setLoadingError("Wystąpił błąd podczas ładowania danych");

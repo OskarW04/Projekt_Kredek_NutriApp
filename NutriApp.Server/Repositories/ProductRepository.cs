@@ -1,5 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using NutriApp.Server.ApiContract.Models;
+﻿using NutriApp.Server.ApiContract.Models;
 using NutriApp.Server.DataAccess.Context;
 using NutriApp.Server.DataAccess.Entities.Dishes;
 using NutriApp.Server.Exceptions;
@@ -157,18 +156,24 @@ namespace NutriApp.Server.Repositories
             }
 
             var serving = product.Servings.Serving
-                .FirstOrDefault(x => (x.MetricServingAmount is not null));
-
+                .FirstOrDefault(x => x.MetricServingAmount is not null);
             if (serving is null)
             {
                 serving = product.Servings.Serving
                     .First();
             }
 
-            var portion = 100;
-            if (serving?.MetricServingAmount is not null)
+            int portion;
+            var proteins = GetValueFromApiParam(serving.Protein);
+            var carbohydrates = GetValueFromApiParam(serving.Carbohydrate);
+            var fats = GetValueFromApiParam(serving.Fat);
+            if (serving.MetricServingAmount is not null)
             {
                 portion = GetValueFromApiParam(serving.MetricServingAmount);
+            }
+            else
+            {
+                portion = proteins + carbohydrates + fats;
             }
 
             var productApiUrl = new ApiProductInfo()
@@ -178,12 +183,12 @@ namespace NutriApp.Server.Repositories
                 ApiId = product.FoodId,
                 Name = product.FoodName,
                 Brand = product.BrandName,
-                Description = serving?.ServingDescription,
-                Portion = serving?.MetricServingAmount,
-                Calories = GetValueFromApiParam(serving?.Calories),
-                Proteins = GetValueFromApiParam(serving?.Protein),
-                Carbohydrates = GetValueFromApiParam(serving?.Carbohydrate),
-                Fats = GetValueFromApiParam(serving?.Fat),
+                Description = serving.ServingDescription,
+                Portion = serving.MetricServingAmount,
+                Calories = GetValueFromApiParam(serving.Calories),
+                Proteins = proteins,
+                Carbohydrates = carbohydrates,
+                Fats = fats,
                 GramsInPortion = portion,
             };
 
@@ -193,14 +198,16 @@ namespace NutriApp.Server.Repositories
             return productApiUrl.Id;
         }
 
-        private int GetValueFromApiParam(string? text)
+        private static int GetValueFromApiParam(string? text)
         {
-            if (text.IsNullOrEmpty())
+            var success = decimal.TryParse(text, System.Globalization.NumberStyles.AllowDecimalPoint,
+                System.Globalization.CultureInfo.InvariantCulture, out var result);
+            if (!success)
             {
                 return 0;
             }
 
-            return (int)decimal.Parse(text.Replace(".", ","));
+            return (int)result;
         }
     }
 }

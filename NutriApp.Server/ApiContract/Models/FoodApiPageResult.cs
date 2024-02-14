@@ -23,7 +23,7 @@
 
     public class Foods
     {
-        [Newtonsoft.Json.JsonProperty("food")] public List<Food> Food { get; set; }
+        [Newtonsoft.Json.JsonProperty("food")] public List<Food>? Food { get; set; }
 
         [Newtonsoft.Json.JsonProperty("max_results")]
         public string MaxResults { get; set; }

@@ -56,6 +56,11 @@ namespace NutriApp.Server.Services
             VerifyUserClaims();
             var result = await _foodApiSearchService.FetchFoodSearch(search, pageNumber, pageSize);
 
+            if (result.Food is null || result.Food.Count == 0)
+            {
+                return new PageResult<ApiProductDto>(new List<ApiProductDto>(), 0, pageSize, pageNumber);
+            }
+
             var isResultCount = int.TryParse(result.TotalResults, out var parsedResultCount);
             var totalItemsCount = isResultCount ? parsedResultCount : result.Food.Count;
 
@@ -73,14 +78,10 @@ namespace NutriApp.Server.Services
                         Brand = x.BrandName,
                         Description = x.FoodDescription,
                         Portion = portionInfo,
-                        Calories = (int)decimal.Parse(
-                            GetValueFromApiProductDescription(x.FoodDescription, "Calories: ", "kcal")),
-                        Proteins = (int)decimal.Parse(
-                            GetValueFromApiProductDescription(x.FoodDescription, "Protein: ", "g")),
-                        Carbohydrates = (int)decimal.Parse(
-                            GetValueFromApiProductDescription(x.FoodDescription, "Carbs: ", "g")),
-                        Fats = (int)decimal.Parse(
-                            GetValueFromApiProductDescription(x.FoodDescription, "Fat: ", "g"))
+                        Calories = GetValueFromApiProductDescription(x.FoodDescription, "Calories: ", "kcal"),
+                        Proteins = GetValueFromApiProductDescription(x.FoodDescription, "Protein: ", "g"),
+                        Carbohydrates = GetValueFromApiProductDescription(x.FoodDescription, "Carbs: ", "g"),
+                        Fats = GetValueFromApiProductDescription(x.FoodDescription, "Fat: ", "g")
                     };
                 }),
                 totalItemsCount,
@@ -100,12 +101,21 @@ namespace NutriApp.Server.Services
             return userId;
         }
 
-        private string GetValueFromApiProductDescription(string text, string firstSeparator, string secondSeparator)
+        private static int GetValueFromApiProductDescription(string text, string firstSeparator, string secondSeparator)
         {
-            return text.Split([firstSeparator], StringSplitOptions.None)[1]
+            var stringValue = text.Split([firstSeparator], StringSplitOptions.None)[1]
                 .Split(secondSeparator)[0]
-                .Trim()
-                .Replace(".", ",");
+                .Trim();
+
+            var success = decimal.TryParse(stringValue, System.Globalization.NumberStyles.AllowDecimalPoint,
+                System.Globalization.CultureInfo.InvariantCulture, out var result);
+
+            if (!success)
+            {
+                return 0;
+            }
+
+            return (int)result;
         }
     }
 }

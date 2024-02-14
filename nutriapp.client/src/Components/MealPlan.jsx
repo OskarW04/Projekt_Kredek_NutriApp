@@ -300,12 +300,19 @@ export function MealPlan() {
                       </li>
                       <li>
                         <span>
-                          Weglowodany: {meal.dish.carbohydrates} Tłuszcze:{" "}
+                          Węglowodany: {meal.dish.carbohydrates} Tłuszcze:{" "}
                           {meal.dish.fats} Białko: {meal.dish.proteins}
                         </span>
                       </li>
                     </div>
-                    <li>Opis: {meal.dish.description}</li>
+                    <li>Porcja: {`${meal.gramsOfPortion} g`}</li>
+                    <li>
+                      Opis:{" "}
+                      {meal.dish.description.trim() === null ||
+                      meal.dish.description.trim() === ""
+                        ? "Brak opisu"
+                        : meal.dish.description}
+                    </li>
                   </div>
                 </div>
               ))
