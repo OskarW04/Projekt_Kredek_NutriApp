@@ -1,18 +1,17 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthProvider = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem("token");
     if (token) {
-      navigate('/MealPlan');
+      navigate("/MealPlan");
     } else {
-      navigate('/Home');
+      navigate("/Home");
     }
-  }, []); 
-
+  }, []);
 
   return null;
 };

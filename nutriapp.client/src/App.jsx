@@ -15,7 +15,7 @@ import CreateDish from "./Components/CreateDish.jsx";
 import AddProduct from "./Components/AddProduct.jsx";
 
 function App() {
-    return (
+  return (
     <Routes>
       <Route path="/Home" element={<Home />} />
       <Route path="/" element={<AuthProvider />} />
@@ -27,9 +27,9 @@ function App() {
         <Route exact path="/Details/Get" element={<UserDetailsGet />} />
         <Route exact path="/Search/:adress" element={<Search />} />
         <Route exact path="/MealPlan" element={<MealPlan />} />
-        <Route exact path="/AddDish" element={<AddDish/>} />
-        <Route exact path ="/CreateDish/:location" element={<CreateDish/>} />
-        <Route exact path = "/AddProduct/:adress" element={<AddProduct/>}/>
+        <Route exact path="/AddDish" element={<AddDish />} />
+        <Route exact path="/CreateDish/:location" element={<CreateDish />} />
+        <Route exact path="/AddProduct/:adress" element={<AddProduct />} />
       </Route>
     </Routes>
   );

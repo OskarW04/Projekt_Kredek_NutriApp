@@ -1,341 +1,332 @@
 ﻿#root {
-    margin: 0 auto;
-    padding: 2rem;
-    text-align: center;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
 
 label {
-    font-weight: bold;
-    display: flex;
-    margin-bottom: 5px;
+  font-weight: bold;
+  display: flex;
+  margin-bottom: 5px;
 }
 
 button.prevPage,
-button.nextPage{
-    margin-top: 50px;
+button.nextPage {
+  margin-top: 50px;
 }
 
-label.dishInput{
-    display: block;
-    text-align: center;
-    margin-top: 10px;
+label.dishInput {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
 }
-li.dishInput{
-    font-size: 35px;
+li.dishInput {
+  font-size: 35px;
 }
-button.dishInputCreate{
-    margin-right: 40px;
+button.dishInputCreate {
+  margin-right: 40px;
 }
-button.dishInput{
-    font-size: 15px;
-    margin-right: 5px;
-    margin-left: 5px;
+button.dishInput {
+  font-size: 15px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
-.dishInputGrams{
+.dishInputGrams {
   margin-top: 10px;
   width: 190px;
   height: 10px;
   bottom: 0;
 }
 
-.dishInputType{
+.dishInputType {
   margin-top: 10px;
   width: 216px;
   height: 30px;
   color: grey;
 }
 
-.dishInputAdd{
+.dishInputAdd {
   margin-bottom: 20px;
   position: absolute;
   bottom: 0;
   right: 0;
-
 }
-.dishInputForm{
-    margin-left: 10px;
-    width: 20px;
-    flex-direction: column;
-}
-
-input.searchInput{
-    position: fixed;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: block;
-    width: 400px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    background-image: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    align-items: center;
+.dishInputForm {
+  margin-left: 10px;
+  width: 20px;
+  flex-direction: column;
 }
 
-  input,
-  select {
-    display: block;
-    width: 400px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    background-image: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    align-items: center;
-  }
+input.searchInput {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 400px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  align-items: center;
+}
 
+input,
+select {
+  display: block;
+  width: 400px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  align-items: center;
+}
 
 select {
-    width: 427px;
+  width: 427px;
 }
 
 .error {
-    color: red;
-    font-size: 12px;
-    text-align: left;
+  color: red;
+  font-size: 12px;
+  text-align: left;
 }
 
 .form-control {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .product {
-    position: relative;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    text-align: center;
-    margin-right: 37px;
-    overflow: hidden;
+  position: relative;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  text-align: center;
+  margin-right: 37px;
+  overflow: hidden;
 }
-ul{
-    list-style: none;
-}
-
-
-img.gif{
-    width:50px;
-    height:50px;
-    margin-top: 15px;
-
+ul {
+  list-style: none;
 }
 
-p.pages{
-    padding-top: 40px;
-    margin-bottom: -40px;
+img.gif {
+  width: 50px;
+  height: 50px;
+  margin-top: 15px;
+}
+
+p.pages {
+  padding-top: 40px;
+  margin-bottom: -40px;
 }
 
 .popup-modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 100vw;
-    height: 100vh;
-    z-index: 1000;
-  }
-  
-  .popup-modal.open {
-    overflow: auto;
-    display: block;
-  }
-  
-  .modal-content {
-    position: relative;
-    background-color: #fff;
-    padding: 20px;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  span.nextPage{
-    position: absolute;
-    display: flex;
-    bottom: 70px;
-    left: 250px;
-    font-size: 40px;
-    cursor: pointer;
-  }
-  span.prevPage{
-    position: absolute;
-    display: flex;
-    bottom: 70px;
-    left: 160px;
-    font-size: 40px;
-    cursor: pointer;
-  }
-  .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 20px;
-    color: #000;
-  }
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+}
 
-  p.mealP{
-    margin-right: 40px;
-    font-weight: 200;
-    font-size: 20px;
-  }
+.popup-modal.open {
+  overflow: auto;
+  display: block;
+}
 
-  form.addProductForm{
-    margin-left: 50px;
-  }
-  button.addProductButton{
-    margin-right: 50px;
-  }
-  .wrapper{
-    width: screen;
-    overflow: hidden; 
-  }
-  .productCreate{
-    width: 500px;
-    float: left;
-    
+.modal-content {
+  position: relative;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+span.nextPage {
+  position: absolute;
+  display: flex;
+  bottom: 70px;
+  left: 250px;
+  font-size: 40px;
+  cursor: pointer;
+}
+span.prevPage {
+  position: absolute;
+  display: flex;
+  bottom: 70px;
+  left: 160px;
+  font-size: 40px;
+  cursor: pointer;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #000;
+}
 
-  }
-  .productCreate2{
-    overflow: hidden;
-  }
+p.mealP {
+  margin-right: 40px;
+  font-weight: 200;
+  font-size: 20px;
+}
 
-  .userProduct{
-    position: relative;
-    font-size: 20px;
-    background-color: #ccc;
-    margin-bottom: 10px;
-  }
+form.addProductForm {
+  margin-left: 50px;
+}
+button.addProductButton {
+  margin-right: 50px;
+}
+.wrapper {
+  width: screen;
+  overflow: hidden;
+}
+.productCreate {
+  width: 500px;
+  float: left;
+}
+.productCreate2 {
+  overflow: hidden;
+}
 
-  .productButtons{
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 5px;
-    transform: scale(0.85);
-  }
+.userProduct {
+  position: relative;
+  font-size: 20px;
+  background-color: #ccc;
+  margin-bottom: 10px;
+}
 
-  .dishProducts{
-    position: relative;
-    font-size: 20px;
-    background-color: #ccc;
-    margin-bottom: 10px;
-    margin-right: 35px;
-  }
-  .dishButton{
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 5px;
-    transform: scale(0.78);
-  }
+.productButtons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+  transform: scale(0.85);
+}
 
-  .meals{
-    margin-left: 20px;
-  }
-  .dishName{
-    text-align: left;
-    margin-top: 20px;
-    font-size: 25px;
-    max-width: 200px;
-    text-align: center;
-    min-height: 75px;
-  }
-  
-  .mealButtons{
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transform: scale(0.9);
-  }
-  .dishButton1{
-    width: 111px;
-  }
- 
-  .errorDish{
-    color: red;
-    font-size: 12px;
-    text-align: left;
-    width: 150px;
-  }
+.dishProducts {
+  position: relative;
+  font-size: 20px;
+  background-color: #ccc;
+  margin-bottom: 10px;
+  margin-right: 35px;
+}
+.dishButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+  transform: scale(0.78);
+}
 
-  .dishDescription{
-    margin-right: 120px;
-  }
+.meals {
+  margin-left: 20px;
+}
+.dishName {
+  text-align: left;
+  margin-top: 20px;
+  font-size: 25px;
+  max-width: 200px;
+  text-align: center;
+  min-height: 75px;
+}
 
-  h2.mealType{
-    font-size: 35px;
-    margin-bottom: 20px;
-    display: inline-block;
-  }
+.mealButtons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.9);
+}
+.dishButton1 {
+  width: 111px;
+}
 
-  .mealName{
-    font-size: 30px;
-    border-bottom: #ccc solid;
-  }
+.errorDish {
+  color: red;
+  font-size: 12px;
+  text-align: left;
+  width: 150px;
+}
 
-  .nutritionMeal{
-    list-style-type: none;
-    padding: 0;
-  }
+.dishDescription {
+  margin-right: 120px;
+}
 
-  .nutritionMeal li {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+h2.mealType {
+  font-size: 35px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
 
-  }
+.mealName {
+  font-size: 30px;
+  border-bottom: #ccc solid;
+}
 
-  .nutritionMeal li:first-child{
-    margin-top: 10px;
-    font-size: larger;
-    font-weight: 500;
-  }
+.nutritionMeal {
+  list-style-type: none;
+  padding: 0;
+}
 
-  
-  .mealButtonadd{
-    display:inline-flex; 
-  }
+.nutritionMeal li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .productMeal{
-    position: relative;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    text-align: center;
-    margin-right: 37px;
-    overflow: hidden;
-    min-height: 150px;
-  }
-  
-  .showNutritions{
-    margin-bottom: 10px;
-  }
+.nutritionMeal li:first-child {
+  margin-top: 10px;
+  font-size: larger;
+  font-weight: 500;
+}
 
-  .showNutritions h3{
-    margin-bottom: 10px;
-  }
+.mealButtonadd {
+  display: inline-flex;
+}
 
-  .goToDetails{
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    transform: scale(1.3);
-  }
+.productMeal {
+  position: relative;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  text-align: center;
+  margin-right: 37px;
+  overflow: hidden;
+  min-height: 150px;
+}
 
-  .logout{
-    position: absolute;
-    left: 1%;
-    top: 1%;
-  }
+.showNutritions {
+  margin-bottom: 10px;
+}
 
+.showNutritions h3 {
+  margin-bottom: 10px;
+}
+
+.goToDetails {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  transform: scale(1.3);
+}
+
+.logout {
+  position: absolute;
+  left: 1%;
+  top: 1%;
+}

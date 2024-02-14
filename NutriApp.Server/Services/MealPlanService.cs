@@ -27,7 +27,7 @@ namespace NutriApp.Server.Services
             _userContextService = userContextService;
         }
 
-        public MealPlanDto? GetMealPlan(DateTime date)
+        public MealPlanDto GetMealPlan(DateTime date)
         {
             var userId = VerifyUserClaims();
             return _mealPlanRepository.GetByDate(date, userId);

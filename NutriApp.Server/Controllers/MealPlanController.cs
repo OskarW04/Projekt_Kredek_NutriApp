@@ -11,7 +11,7 @@ namespace NutriApp.Server.Controllers
     public class MealPlanController : ControllerBase
     {
         // TODO: Moze dodac mozliwosc dodawania samych produktow do meals -> nowa tabela MealProducts oraz MealApiProducts
-        // Todo: Mozliwosc dodawania wiekszej ilosci dan do jednego posilku
+        // TODO: Mozliwosc dodawania wiekszej ilosci dan do jednego posilku
 
         private readonly IMealPlanService _mealPlanService;
 

@@ -331,10 +331,10 @@ namespace NutriApp.Server.Repositories
             if (firstOrDefault != null)
             {
                 dish.GramsTotal -= firstOrDefault.Amount;
-                dish.Calories -= (int)(product.Calories * firstOrDefault.Amount / product.GramsInPortion);
-                dish.Proteins -= (int)(product.Proteins * firstOrDefault.Amount / product.GramsInPortion);
-                dish.Carbohydrates -= (int)(product.Carbohydrates * firstOrDefault.Amount / product.GramsInPortion);
-                dish.Fats -= (int)(product.Fats * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Calories -= product.Calories * firstOrDefault.Amount / product.GramsInPortion;
+                dish.Proteins -= product.Proteins * firstOrDefault.Amount / product.GramsInPortion;
+                dish.Carbohydrates -= product.Carbohydrates * firstOrDefault.Amount / product.GramsInPortion;
+                dish.Fats -= product.Fats * firstOrDefault.Amount / product.GramsInPortion;
 
                 _dbContext.DishProducts.Remove(firstOrDefault);
                 _dbContext.SaveChanges();
@@ -372,10 +372,10 @@ namespace NutriApp.Server.Repositories
             if (firstOrDefault != null)
             {
                 dish.GramsTotal -= firstOrDefault.Amount;
-                dish.Calories -= (int)(product.Calories * firstOrDefault.Amount / product.GramsInPortion);
-                dish.Proteins -= (int)(product.Proteins * firstOrDefault.Amount / product.GramsInPortion);
-                dish.Carbohydrates -= (int)(product.Carbohydrates * firstOrDefault.Amount / product.GramsInPortion);
-                dish.Fats -= (int)(product.Fats * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Calories -= product.Calories * firstOrDefault.Amount / product.GramsInPortion;
+                dish.Proteins -= product.Proteins * firstOrDefault.Amount / product.GramsInPortion;
+                dish.Carbohydrates -= product.Carbohydrates * firstOrDefault.Amount / product.GramsInPortion;
+                dish.Fats -= product.Fats * firstOrDefault.Amount / product.GramsInPortion;
 
                 _dbContext.DishApiProducts.Remove(firstOrDefault);
                 _dbContext.SaveChanges();
@@ -413,10 +413,10 @@ namespace NutriApp.Server.Repositories
             if (firstOrDefault is not null)
             {
                 dish.GramsTotal -= firstOrDefault.Amount;
-                dish.Calories -= (int)(product.Calories * firstOrDefault.Amount / product.GramsInPortion);
-                dish.Proteins -= (int)(product.Proteins * firstOrDefault.Amount / product.GramsInPortion);
-                dish.Carbohydrates -= (int)(product.Carbohydrates * firstOrDefault.Amount / product.GramsInPortion);
-                dish.Fats -= (int)(product.Fats * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Calories -= product.Calories * firstOrDefault.Amount / product.GramsInPortion;
+                dish.Proteins -= product.Proteins * firstOrDefault.Amount / product.GramsInPortion;
+                dish.Carbohydrates -= product.Carbohydrates * firstOrDefault.Amount / product.GramsInPortion;
+                dish.Fats -= product.Fats * firstOrDefault.Amount / product.GramsInPortion;
 
                 firstOrDefault.Amount = (int)grams;
 
@@ -461,10 +461,10 @@ namespace NutriApp.Server.Repositories
             if (firstOrDefault is not null)
             {
                 dish.GramsTotal -= firstOrDefault.Amount;
-                dish.Calories -= (int)(product.Calories * firstOrDefault.Amount / product.GramsInPortion);
-                dish.Proteins -= (int)(product.Proteins * firstOrDefault.Amount / product.GramsInPortion);
-                dish.Carbohydrates -= (int)(product.Carbohydrates * firstOrDefault.Amount / product.GramsInPortion);
-                dish.Fats -= (int)(product.Fats * firstOrDefault.Amount / product.GramsInPortion);
+                dish.Calories -= product.Calories * firstOrDefault.Amount / product.GramsInPortion;
+                dish.Proteins -= product.Proteins * firstOrDefault.Amount / product.GramsInPortion;
+                dish.Carbohydrates -= product.Carbohydrates * firstOrDefault.Amount / product.GramsInPortion;
+                dish.Fats -= product.Fats * firstOrDefault.Amount / product.GramsInPortion;
 
                 firstOrDefault.Amount = (int)grams;
 
