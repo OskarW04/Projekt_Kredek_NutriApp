@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Login from "./Components/Login.jsx";
-import Register from "./Components/Register.jsx";
-import Home from "./Components/Home.jsx";
-import UserDetails from "./Components/UserDetails.jsx";
-import { UserDetailsUpdate } from "./Components/UserDetailsUpdate.jsx";
-import { UserDetailsGet } from "./Components/UserDetailsGet.jsx";
-import Search from "./Components/Search.jsx";
-import MealPlan from "./Components/MealPlan.jsx";
-import AuthProvider from "./Components/AuthProvider.jsx";
-import PrivateRoute from "./Components/PrivateRoute.jsx";
-import AddDish from "./Components/AddDish.jsx";
-import CreateDish from "./Components/CreateDish.jsx";
-import AddProduct from "./Components/AddProduct.jsx";
+import AuthProvider from "./components/Auth/AuthProvider.jsx";
+import PrivateRoute from "./components/Auth/PrivateRoute.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
+import Home from "./pages/Home.jsx";
+import UserDetails from "./pages/UserDetails.jsx";
+import UserDetailsUpdate from "./pages/UserDetailsUpdate.jsx";
+import UserDetailsGet from "./pages/UserDetailsGet.jsx";
+import Search from "./pages/Search.jsx";
+import MealPlan from "./pages/MealPlan.jsx";
+import AddDish from "./pages/AddDish.jsx";
+import CreateDish from "./pages/CreateDish.jsx";
+import AddProduct from "./pages/AddProduct.jsx";
 
 function App() {
   return (

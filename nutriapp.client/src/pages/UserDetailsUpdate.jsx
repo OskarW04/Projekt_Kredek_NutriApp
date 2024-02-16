@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm, useController, Controller } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { Link, useNavigate } from "react-router-dom";
@@ -209,3 +208,5 @@ async function sendRequest(json, token) {
     return [];
   }
 }
+
+export default UserDetailsUpdate;

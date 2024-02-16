@@ -2,87 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
-import { useForm, Controller } from "react-hook-form";
+import DishForm from "../components/DishForm/DishForm";
+import BottomBar from "../components/BottomBar/BottomBar";
 import "react-datepicker/dist/react-datepicker.css";
-
-const DishForm = ({ product, onDelete, onUpdate, onSave }) => {
-  const form = useForm();
-  const { register, control, handleSubmit, formState } = form;
-  const { errors } = formState;
-  return (
-    <div className="product" key={product.id}>
-      <li className="dishName">
-        <strong>{product.name}</strong>
-      </li>
-      <div className="mealButtons">
-        <button className="dishButton1" onClick={() => onDelete(product.id)}>
-          Usuń
-        </button>
-        <button className="dishButton2" onClick={() => onUpdate(product.id)}>
-          Aktualizuj
-        </button>
-      </div>
-      <div className="dishDescription">
-        <li>Kalorie: {product.calories}</li>
-        <li>
-          <small>
-            Białka: {product.proteins} Węgle: {product.carbohydrates} Tłuszcze:{" "}
-            {product.fats}
-          </small>
-        </li>
-        <li>
-          Opis: <i>{product.description}</i>
-        </li>
-      </div>
-      <form key={product.id} onSubmit={handleSubmit(onSave)}>
-        <input type="hidden" {...register("Id")} value={product.id} />
-        <div className="dishInputForm">
-          <input
-            placeholder="Ilość gram"
-            className="dishInputGrams"
-            type="number"
-            id={"grams"}
-            {...register("grams", {
-              required: {
-                value: true,
-                message: "Pole jest wymagane",
-              },
-            })}
-          />
-          <p className="errorDish">{errors["grams"]?.message}</p>
-          <Controller
-            name={"MealType"}
-            control={control}
-            defaultValue=""
-            rules={{
-              required: {
-                value: true,
-                message: "Pole jest wymagane",
-              },
-            }}
-            render={({ field }) => (
-              <>
-                <select className="dishInputType" {...field}>
-                  <option value="" disabled>
-                    Wybierz opcję
-                  </option>
-                  <option value="Breakfast">Śniadanie</option>
-                  <option value="SecondBreakfast">Drugie śniadanie</option>
-                  <option value="Lunch">Lunch</option>
-                  <option value="Dinner">Obiad</option>
-                  <option value="Snack">Przekąska</option>
-                  <option value="Supper">Kolacja</option>
-                </select>
-                <p className="errorDish">{errors["MealType"]?.message}</p>
-              </>
-            )}
-          />
-          <button className="dishInputAdd">Dodaj</button>
-        </div>
-      </form>
-    </div>
-  );
-};
 
 export function MealPlan() {
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -252,13 +174,23 @@ export function MealPlan() {
     window.location.reload();
   };
   return (
-    <div>
-      <button onClick={() => navigate("/Details/Get")} className="goToDetails">
-        User Details
-      </button>
-      <button onClick={() => handleLogOut()} className="logout">
-        Wyloguj
-      </button>
+    <div
+      style={{
+        position: "relative",
+        minHeight: "100%",
+      }}
+    >
+      <div className="mainPageButtons">
+        <button onClick={() => handleLogOut()} className="logout">
+          Wyloguj
+        </button>
+        <button
+          onClick={() => navigate("/Details/Get")}
+          className="goToDetails"
+        >
+          User Details
+        </button>
+      </div>
       <div>
         <h2>Wybierz datę:</h2>
         <DatePicker
@@ -273,63 +205,77 @@ export function MealPlan() {
         />
 
         <h1>Dzisiejszy jadłospis:</h1>
-        <div>
-          <ul className="product-list">
-            {pickedMealDate.length !== 0 ? (
-              pickedMealDate.map((meal) => (
-                <div
-                  key={mealId + meal.mealType}
-                  style={{ position: "relative" }}
-                >
-                  <h2 className="mealType">
-                    <strong>{meal.mealType}</strong>
-                  </h2>
-                  <button
-                    className="mealButtonadd"
-                    onClick={() => handleDeleteMeal(meal.mealType)}
-                  >
-                    Usuń
-                  </button>
-                  <div key={meal.id} className="productMeal">
-                    <li className="mealName">
-                      <strong>{meal.dish.name}</strong>
-                    </li>
-                    <div className="nutritionMeal">
-                      <li>
-                        <span>Kalorie: {meal.dish.calories}</span>
-                      </li>
-                      <li>
-                        <span>
-                          Węglowodany: {meal.dish.carbohydrates} Tłuszcze:{" "}
-                          {meal.dish.fats} Białko: {meal.dish.proteins}
-                        </span>
-                      </li>
+        <div
+          style={{
+            paddingBottom: "100px",
+          }}
+        >
+          <div>
+            <button
+              style={{ margin: "0.2rem", width: "50%" }}
+              onClick={handleOpenPopup}
+            >
+              Dodaj posiłek
+            </button>
+
+            <div>
+              <ul className="product-list">
+                {pickedMealDate.length !== 0 ? (
+                  pickedMealDate.map((meal) => (
+                    <div
+                      key={mealId + meal.mealType}
+                      style={{ position: "relative" }}
+                    >
+                      <h2 className="mealType">
+                        <strong>{meal.mealType}</strong>
+                      </h2>
+                      <button
+                        className="mealButtonadd"
+                        onClick={() => handleDeleteMeal(meal.mealType)}
+                      >
+                        Usuń
+                      </button>
+                      <div key={meal.id} className="productMeal">
+                        <li className="mealName">
+                          <strong>{meal.dish.name}</strong>
+                        </li>
+                        <div className="nutritionMeal">
+                          <li>
+                            <span>Kalorie: {meal.dish.calories}</span>
+                          </li>
+                          <li>
+                            <span>
+                              Węglowodany: {meal.dish.carbohydrates} Tłuszcze:{" "}
+                              {meal.dish.fats} Białko: {meal.dish.proteins}
+                            </span>
+                          </li>
+                        </div>
+                        <li>Porcja: {`${meal.gramsOfPortion} g`}</li>
+                        <li>
+                          Opis:{" "}
+                          {meal.dish.description.trim() === null ||
+                          meal.dish.description.trim() === ""
+                            ? "Brak opisu"
+                            : meal.dish.description}
+                        </li>
+                      </div>
                     </div>
-                    <li>Porcja: {`${meal.gramsOfPortion} g`}</li>
-                    <li>
-                      Opis:{" "}
-                      {meal.dish.description.trim() === null ||
-                      meal.dish.description.trim() === ""
-                        ? "Brak opisu"
-                        : meal.dish.description}
-                    </li>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="mealP">Brak posiłków</p>
-            )}
-          </ul>
+                  ))
+                ) : (
+                  <p className="mealP">Brak posiłków</p>
+                )}
+              </ul>
+            </div>
+          </div>
           <div className="showNutritions">
-            <h3>Łączna kaloryka:</h3>
-            <span>Kalorie: {nutriTotal[0]}</span> <br />
-            <span>
-              Węglowodany: {nutriTotal[1]} Tłuszcze: {nutriTotal[2]} Białko:{" "}
-              {nutriTotal[3]}
-            </span>
+            <BottomBar
+              calories={nutriTotal[0]}
+              carbohydrates={nutriTotal[1]}
+              fats={nutriTotal[2]}
+              proteins={nutriTotal[3]}
+            />
           </div>
         </div>
-        <button onClick={handleOpenPopup}>Dodaj posiłek</button>
       </div>
 
       <PopupModal

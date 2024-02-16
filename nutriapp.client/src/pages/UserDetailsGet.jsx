@@ -67,13 +67,13 @@ export const UserDetailsGet = () => {
   ]);
 
   return (
-    <>
+    <div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>User Details</TableCell>
-              <TableCell align="right">Values</TableCell>
+              <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -110,6 +110,8 @@ export const UserDetailsGet = () => {
           Update Details
         </Button>
       </Stack>
-    </>
+    </div>
   );
 };
+
+export default UserDetailsGet;

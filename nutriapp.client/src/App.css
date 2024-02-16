@@ -2,6 +2,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  max-width: 100%;
 }
 
 label {
@@ -311,17 +312,16 @@ h2.mealType {
 }
 
 .showNutritions {
-  margin-bottom: 10px;
-}
-
-.showNutritions h3 {
-  margin-bottom: 10px;
+  width: 100%;
+  height: 9%;
+  left: 0;
+  bottom: 0;
 }
 
 .goToDetails {
   position: absolute;
-  right: 20px;
-  top: 20px;
+  right: 1%;
+  top: 1%;
   transform: scale(1.3);
 }
 
@@ -329,4 +329,14 @@ h2.mealType {
   position: absolute;
   left: 1%;
   top: 1%;
+}
+
+.mainPageButtons {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100vw - 2.5rem);
+  display: flex;
+  justify-content: space-between;
+  padding: 1px;
 }

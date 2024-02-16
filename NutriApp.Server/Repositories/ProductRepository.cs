@@ -189,7 +189,7 @@ namespace NutriApp.Server.Repositories
                 Proteins = proteins,
                 Carbohydrates = carbohydrates,
                 Fats = fats,
-                GramsInPortion = portion,
+                GramsInPortion = portion != 0 ? portion : 1,
             };
 
             _appDbContext.ApiProductInfos.Add(productApiUrl);
